@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  m_author: MyString
+  m_text: MyText
+  m_moment: 2015-06-23 02:14:49
+  m_origin: MyString
+  m_details: MyText
+  m_rating: 1
+  campaign_id: 1
+  category_id: 1
+  sentiment_id: 1
+
+two:
+  m_author: MyString
+  m_text: MyText
+  m_moment: 2015-06-23 02:14:49
+  m_origin: MyString
+  m_details: MyText
+  m_rating: 1
+  campaign_id: 1
+  category_id: 1
+  sentiment_id: 1

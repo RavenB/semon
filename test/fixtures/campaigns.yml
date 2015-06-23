@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  c_name: MyString
+  c_description: MyString
+  c_start: 2015-06-23 02:22:47
+  c_end: 2015-06-23 02:22:47
+  c_status: 1
+
+two:
+  c_name: MyString
+  c_description: MyString
+  c_start: 2015-06-23 02:22:47
+  c_end: 2015-06-23 02:22:47
+  c_status: 1

@@ -19,7 +19,7 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
+gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -38,5 +38,33 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  # gem 'sqlite3'
+  gem 'byebug' # https://github.com/deivid-rodriguez/byebug
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
+
+
+gem 'mysql2'
+gem 'httparty'
+gem 'coffee-script-source', '1.8.0'
+gem 'ancestry'
+gem 'annotate' # https://github.com/ctran/annotate_models
+
+######### SOCIAL MEDIA GEMS #########
+
+# Twitter
+gem 'twitter' # https://github.com/sferik/twitter
+# gem 'tweetstream' # https://github.com/tweetstream/tweetstream
+
+# Facebook
+# gem 'fb_graph2' # https://github.com/nov/fb_graph2
+
+# Instagram
+# gem 'instagram' # https://github.com/Instagram/instagram-ruby-gem
+
+# Google+
+# gem 'google_plus' # https://github.com/seejohnrun/google_plus
+
+# YouTube
+# gem 'youtube_it' # https://github.com/kylejginavan/youtube_it
