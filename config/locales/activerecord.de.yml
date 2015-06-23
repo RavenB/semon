@@ -1,0 +1,16 @@
+de:
+  activerecord:
+    models:
+      campaign:
+        one: "Kampagne"
+        other: "Kampagnen"
+    attributes:
+      campaign:
+        c_name: "Name der Kampagne"
+        c_description: "Beschreibung der Kampagne"
+        c_start: "Beginn der Kampagne"
+        c_end: "Ende der Kampagne"
+        c_status: "Status der Kampagne"
+        last_accessed: "Zuletzt abgerufen"
+        created_at: "Erstellt am"
+        updated_at: "Aktualisiert am"

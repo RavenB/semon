@@ -1,3 +1,11 @@
+GIT
+  remote: ssh://git@git.ikusei.de:7999/AK/admin_ikusei_frontend.git
+  revision: 8bfa38321916b2e914b39c801e74daa041b8c319
+  specs:
+    admin_ikusei_frontend (0.1.0)
+      bootstrap-sass (~> 3.3.4.1)
+      haml
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -34,12 +42,18 @@ GEM
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (5.2.1)
+      execjs
+      json
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.4.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     buftok (0.2.0)
     builder (3.2.2)
     byebug (5.0.0)
@@ -59,6 +73,8 @@ GEM
     execjs (2.5.2)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    haml (4.0.6)
+      tilt
     hike (1.2.3)
     http (0.6.4)
       http_parser.rb (~> 0.6.0)
@@ -155,6 +171,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  admin_ikusei_frontend!
   ancestry
   annotate
   better_errors

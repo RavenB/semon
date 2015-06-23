@@ -51,6 +51,12 @@ gem 'coffee-script-source', '1.8.0'
 gem 'ancestry'
 gem 'annotate' # https://github.com/ctran/annotate_models
 
+
+######### LAYOUT #########
+
+gem 'admin_ikusei_frontend', git: 'ssh://git@git.ikusei.de:7999/AK/admin_ikusei_frontend.git'
+
+
 ######### SOCIAL MEDIA GEMS #########
 
 # Twitter
