@@ -38,15 +38,18 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  # gem 'sqlite3'
   gem 'byebug' # https://github.com/deivid-rodriguez/byebug
   gem 'better_errors'
   gem 'binding_of_caller'
 end
 
 
+gem 'mysql2'
 gem 'httparty'
 gem 'coffee-script-source', '1.8.0'
+gem 'ancestry'
+gem 'annotate' # https://github.com/ctran/annotate_models
 
 ######### SOCIAL MEDIA GEMS #########
 
