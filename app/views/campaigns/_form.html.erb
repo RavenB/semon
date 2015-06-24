@@ -32,7 +32,8 @@
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <%= f.text_field :c_start, class: "form-control pull-right datepicker", placeholder: "Kampagnenbeginn" %>
+            <%= f.text_field :c_start, class: "form-control pull-right datepicker",
+                             placeholder: "Kampagnenbeginn" %>
           </div>
         </div>
         <div class="form-group">
@@ -41,13 +42,14 @@
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <%= f.text_field :c_end, class: "form-control pull-right datepicker", placeholder: "Kampagnenende" %>
+            <%= f.text_field :c_end, class: "form-control pull-right datepicker",
+                             placeholder: "Kampagnenende" %>
           </div>
         </div>
       </div>
       <div class="box-footer">
         <%= f.submit "Speichern", class: "btn btn-success" %>
-        <%= link_to "Zurück", root_path, class: "btn btn-default" %>
+        <%= link_to "Zurück", dashboard_path(@campaign.id), class: "btn btn-default" %>
       </div>
     <% end %>
   </div>
@@ -56,7 +58,10 @@
 <% content_for :page_script do %>
   <script type="text/javascript">
     $(function () {
-      $('.datepicker').datepicker({ language: 'de' });
+      $('.datepicker').datepicker({
+        language: 'de',
+        orientation: 'bottom auto'
+      });
     });
   </script>
 <% end %>

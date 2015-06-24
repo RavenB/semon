@@ -16,5 +16,6 @@
 class Campaign < ActiveRecord::Base
   has_many :tags
 
+  validates :c_name, uniqueness: true
   validates :c_name, :c_start, :c_end, presence: true
 end

@@ -9,24 +9,6 @@
 </section>
 
 <section class="content">
-  <% if flash.present? %>
-    <div class="row">
-      <div class="col-md-12">
-        <p>
-          <% flash.each do |type, msg| %>
-            <div class="alert-<%= type == 'alert' ? 'danger' : 'success' %> alert alert-dismissable">
-              <i class="fa-<%= type == 'alert' ? 'ban' : 'check' %> fa"></i>
-              <button aria-hidden="true" class="close" data-dismiss="alert" type="button">x</button>
-              <p>
-                <%= msg %>
-              </p>
-            </div>
-          <% end %>
-        </p>
-      </div>
-    </div>
-  <% end %>
-
   <div class="row margin-bottom">
     <div class="col-md-12">
       <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
@@ -34,9 +16,10 @@
   </div>
 
   <div class="row">
+    <%# create a box element for every campaign containing its name and date range %>
     <% @campaigns.each do |campaign| %>
       <div class="col-lg-3 col-xs-6">
-        <a href="#" title="<%= campaign.c_name %>">
+        <%= link_to dashboard_path(campaign.id), title: campaign.c_name do %>
           <div class="small-box <%= campaign.c_status == 1 ? 'bg-light-blue' : 'bg-gray' %>">
             <div class="inner">
               <h3><%= campaign.c_name %></h3>
@@ -47,29 +30,17 @@
             </div>
             <div class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></div>
           </div>
-        </a>
+        <% end %>
       </div>
     <% end %>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+  <%# show create button under the campaigns list if there are a few more of them %>
+  <% if @campaigns.count > 12 %>
+    <div class="row">
+      <div class="col-md-12">
+        <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+      </div>
     </div>
-  </div>
-</section>
-
-
-<ol>
-  <% @campaigns.each do |campaign| %>
-    <li>
-      <%= campaign.c_name %>
-      <%= campaign.c_description %>
-      <%= campaign.c_start %>
-      <%= campaign.c_end %>
-      <%= campaign.c_status %>
-      <%= link_to 'Bearbeiten', edit_campaign_path(campaign), class: "btn btn-xs btn-default" %>
-      <%= link_to 'Löschen', campaign, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-default" %>
-    </li>
   <% end %>
-</ol>
+</section>

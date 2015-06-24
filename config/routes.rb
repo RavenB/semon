@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :campaigns
   resources :tags
 
+  get '/campaigns/:id/dashboard' => 'campaigns#dashboard'
+
   get '/twitter-test' => 'twitter#index'
 
   # Example of regular route:

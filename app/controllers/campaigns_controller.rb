@@ -1,5 +1,8 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:edit, :update, :destroy]
+  before_action :set_campaign, only: [:dashboard, :edit, :update, :destroy]
+
+  def dashboard
+  end
 
   # GET /campaigns
   # GET /campaigns.json
@@ -23,7 +26,7 @@ class CampaignsController < ApplicationController
 
     respond_to do |format|
       if @campaign.save
-        format.html { redirect_to root_path }
+        format.html { redirect_to view_context.dashboard_path(@campaign.id) }
         format.json { render "index", status: :created, location: @campaign }
       else
         format.html { render "new" }
@@ -37,7 +40,7 @@ class CampaignsController < ApplicationController
   def update
     respond_to do |format|
       if @campaign.update(campaign_params)
-        format.html { redirect_to root_path }
+        format.html { redirect_to view_context.dashboard_path(@campaign.id) }
         format.json { head :no_content }
       else
         format.html { render "edit" }
