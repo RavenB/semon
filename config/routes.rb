@@ -6,9 +6,12 @@ Rails.application.routes.draw do
   root 'campaigns#index'
 
   resources :campaigns
+  get '/campaigns/:id/dashboard' => 'campaigns#dashboard'
+
+  get '/campaigns/:id/tags' => 'tags#index'
+
   resources :tags
 
-  get '/campaigns/:id/dashboard' => 'campaigns#dashboard'
 
   get '/twitter-test' => 'twitter#index'
 

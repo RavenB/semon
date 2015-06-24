@@ -1,4 +1,5 @@
 class TagsController < ApplicationController
+  before_action :set_campaign, only: [:index]
   before_action :set_tag, only: [:edit, :update, :destroy]
 
   # GET /tags
@@ -60,6 +61,10 @@ class TagsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tag
       @tag = Tag.find(params[:id])
+    end
+
+    def set_campaign
+      @campaign = Campaign.find(params[:id])
     end
 
     # Using a private method to encapsulate the permissible parameters is just a good pattern
