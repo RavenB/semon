@@ -1,6 +1,6 @@
 <li class="list-group-item node-tree node-added" style="display: none;">
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-md-7 col-sm-12">
       <%= form_for(@new_tag, remote: true, html: { id: "new_tag_child", role: "form" }) do |f| %>
         <div class="input-group">
           <%= f.hidden_field :campaign_id, value: @campaign_id %>
@@ -15,15 +15,31 @@
       <% end %>
     </div>
 
-    <% unless @current_tag.has_children? %>
-      <div class="col-sm-4">
+    <div class="col-md-5 col-sm-12">
+      <% unless @current_tag.root? %>
+        <%= form_for(@current_tag, method: :put, remote: true, html: { role: "form" }) do |f| %>
+          <%= f.hidden_field :id, value: @current_tag.id %>
+          <%= f.hidden_field :campaign_id, value: @campaign_id %>
+          <% if @current_tag.t_connection.present? %>
+            <% submit_value = nil %>
+            <% submit_text = "von #{@current_tag.parent.t_name} lösen" %>
+          <% else %>
+            <% submit_value = @current_tag.parent.id.to_s %>
+            <% submit_text = "mit #{@current_tag.parent.t_name} verknüpfen" %>
+          <% end %>
+          <%= f.hidden_field :t_connection, value: submit_value %>
+          <%= f.submit submit_text, class: "btn btn-default pull-left" %>
+        <% end %>
+      <% end %>
+
+      <% unless @current_tag.has_children? %>
         <%= form_for(@current_tag, method: :delete, remote: true, html: { role: "form" }) do |f| %>
           <%= f.hidden_field :id, value: @current_tag.id %>
           <%= f.hidden_field :campaign_id, value: @campaign_id %>
           <%= f.submit "Stichwort löschen", class: "btn btn-danger pull-right",
                        onclick: "return confirm('#{@current_tag.t_name} wirklich entfernen?');" %>
         <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </li>

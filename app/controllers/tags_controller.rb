@@ -13,10 +13,15 @@ class TagsController < ApplicationController
   def create
     @tag = Tag.create(tag_params)
     @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    flash[:success] = "Erfolgreich aktualisiert!"
   end
 
+  # PATCH/PUT /tags/1
+  # PATCH/PUT /tags/1.json
   def update
-    @task.update_attributes(tag_params)
+    @tag.update_attributes(tag_params)
+    @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    flash[:success] = "Erfolgreich aktualisiert!"
   end
 
   # DELETE /tags/1
@@ -24,6 +29,7 @@ class TagsController < ApplicationController
   def destroy
     @tag.destroy
     @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    flash[:success] = "Erfolgreich aktualisiert!"
   end
 
   # returns the html template in views/tags/templates

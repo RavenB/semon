@@ -26,15 +26,12 @@
               </span>
             </div>
           <% end %>
-
-          <%# https://github.com/jonmiles/bootstrap-treeview %>
-          <%# https://jonmiles.github.io/bootstrap-treeview %>
-          <%# http://www.jqueryscript.net/layout/Nice-Tree-View-Plugin-with-jQuery-Bootstrap-3-Easy-Tree.html %>
-
         </div>
+
+        <div id="flash-msg" class="box-body" style="display: none;"></div>
+
         <div class="box-body">
-          <div id="tree"></div>
-          <div id="todo"></div>
+          <div id="tag-tree"></div>
         </div>
       </div>
     </div>
@@ -43,7 +40,8 @@
 
 <% content_for :page_script do %>
   <script type="text/javascript">
+    var treeSelector = '#tag-tree';
     var treeData = JSON.parse('<%=j @tags_json %>');
-    createTreeview('#tree', treeData);
+    createTreeview(treeSelector, treeData);
   </script>
 <% end %>

@@ -31,7 +31,7 @@ function tagEditListItem(treeSelector, node) {
       ancestry: tag_ancestry
     },
     complete: function (data) {
-      $('#tree').find('li[data-nodeid="' + node.nodeId + '"]').after(data.responseText);
+      $(treeSelector).find('li[data-nodeid="' + node.nodeId + '"]').after(data.responseText);
       $('.node-added').slideDown('fast');
       $('.node-added').click(function (e) {
         // bootstrap-treeview has special listener on list items what causes the form
@@ -52,4 +52,14 @@ function getParentAncestry(treeSelector, node) {
   }
 
   return ancestry;
+}
+
+function showFlashMsg(html) {
+  var $flashMsg = $('#flash-msg');
+  $flashMsg.html(html);
+  $flashMsg.slideDown('fast');
+  setTimeout(function hideFlashMsg() {
+    $flashMsg.slideUp('fast');
+    $flashMsg.find('button').click();
+  }, 3000);
 }

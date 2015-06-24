@@ -1,9 +1,10 @@
 <% if @tag.errors.present? %>
   alert('ERROR');
 <% else %>
+  var treeSelector = '#tag-tree';
   $('#tag_t_name').val('');
-  $('#tree').data('treeview').remove();
-
+  $(treeSelector).data('treeview').remove();
   var treeData = JSON.parse('<%=j @tags_json %>');
-  createTreeview('#tree', treeData);
+  createTreeview(treeSelector, treeData);
+  showFlashMsg('<%=j render partial: "tags/templates/update_success_flash_alert", locals: { msg: flash[:success] } %>');
 <% end %>

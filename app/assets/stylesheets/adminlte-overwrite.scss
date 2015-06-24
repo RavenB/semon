@@ -14,3 +14,7 @@ body { background-color: #ecf0f5; }
 .datepicker table tr td.active {
   border-top: none;
 }
+
+#flash-msg .alert h4 {
+  margin-bottom: 0;
+}

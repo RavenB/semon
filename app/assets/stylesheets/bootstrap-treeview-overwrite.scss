@@ -3,8 +3,8 @@
 .node-added {
   background-color: #f5f5f5;
 
-  .col-sm-8 {
-    @media(max-width: 767px) {
+  .col-md-7.col-sm-12 {
+    @media(max-width: 991px) {
       margin-bottom: 10px;
     }
   }
