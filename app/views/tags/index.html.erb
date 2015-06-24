@@ -17,19 +17,33 @@
           <h3 class="box-title">Verwalte die Stichworte für Deine Kampagne:</h3>
         </div>
         <div class="box-body">
-          <div class="input-group">
-            <input type="text" class="form-control">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-success">Go!</button>
-            </span>
-          </div>
+          <%= form_for(@tag, remote: true, html: { role: "form" }) do |f| %>
+            <div class="input-group">
+              <%= f.hidden_field :campaign_id, value: @campaign.id %>
+              <%= f.text_field :t_name, class: "form-control", placeholder: "Stichwort" %>
+              <span class="input-group-btn">
+                <%= f.submit "Hinzufügen", class: "btn btn-success" %>
+              </span>
+            </div>
+          <% end %>
 
           <%# https://github.com/jonmiles/bootstrap-treeview %>
           <%# https://jonmiles.github.io/bootstrap-treeview %>
           <%# http://www.jqueryscript.net/layout/Nice-Tree-View-Plugin-with-jQuery-Bootstrap-3-Easy-Tree.html %>
 
         </div>
+        <div class="box-body">
+          <div id="tree"></div>
+          <div id="todo"></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<% content_for :page_script do %>
+  <script type="text/javascript">
+    var treeData = JSON.parse('<%=j @tags_json %>');
+    createTreeview('#tree', treeData);
+  </script>
+<% end %>

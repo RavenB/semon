@@ -1,59 +1,39 @@
 class TagsController < ApplicationController
   before_action :set_campaign, only: [:index]
   before_action :set_tag, only: [:edit, :update, :destroy]
+  respond_to :js
 
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.all
-  end
-
-  # GET /tags/new
-  def new
     @tag = Tag.new
+    @tags_json = view_context.treeview_json(campaign_tags(params[:id]))
   end
 
-  # GET /tags/1/edit
-  def edit
-  end
-
-  # POST /tags
-  # POST /tags.json
   def create
-    @tag = Tag.new(tag_params)
-
-    respond_to do |format|
-      if @tag.save
-        format.html { redirect_to root_path }
-        format.json { render "index", status: :created, location: @tag }
-      else
-        format.html { render "new" }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
-    end
+    @tag = Tag.create(tag_params)
+    @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
   end
 
-  # PATCH/PUT /tags/1
-  # PATCH/PUT /tags/1.json
   def update
-    respond_to do |format|
-      if @tag.update(tag_params)
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      else
-        format.html { render "edit" }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
-    end
+    @task.update_attributes(tag_params)
   end
 
   # DELETE /tags/1
   # DELETE /tags/1.json
   def destroy
     @tag.destroy
+    @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+  end
+
+  # returns the html template in views/tags/templates
+  def tag_edit_list_item
+    @new_tag = Tag.new
+    @campaign_id = params[:campaign_id]
+    @current_tag = Tag.find_by_id(params[:current_tag_id])
+    @tag_ancestry = params[:ancestry]
     respond_to do |format|
-      format.html { redirect_to root_path }
-      format.json { head :no_content }
+      format.html { render "tags/templates/tag_edit_list_item", layout: false }
     end
   end
 
@@ -65,6 +45,10 @@ class TagsController < ApplicationController
 
     def set_campaign
       @campaign = Campaign.find(params[:id])
+    end
+
+    def campaign_tags(campaign_id)
+      Tag.where(campaign_id: campaign_id)
     end
 
     # Using a private method to encapsulate the permissible parameters is just a good pattern

@@ -10,17 +10,18 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- * require_tree .
  *= require datepicker3
  *= require_self
  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "bootstrap-treeview";
 @import "AdminLTE/AdminLTE";
 @import "AdminLTE/skins/skin-black";
 
 @import "variables";
-@import "adminlte-overwrite";
 @import "additional-classes";
+@import "bootstrap-treeview-overwrite";
+@import "adminlte-overwrite";
 @import "validations";

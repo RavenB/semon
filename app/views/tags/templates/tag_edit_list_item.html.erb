@@ -1,0 +1,29 @@
+<li class="list-group-item node-tree node-added" style="display: none;">
+  <div class="row">
+    <div class="col-sm-8">
+      <%= form_for(@new_tag, remote: true, html: { id: "new_tag_child", role: "form" }) do |f| %>
+        <div class="input-group">
+          <%= f.hidden_field :campaign_id, value: @campaign_id %>
+          <%= f.hidden_field :current_tag_id, value: @current_tag.id %>
+          <%= f.hidden_field :ancestry, value: @tag_ancestry %>
+          <%= f.text_field :t_name, class: "form-control",
+                           placeholder: "weiteres Stichwort unter #{@current_tag.t_name}" %>
+          <span class="input-group-btn">
+            <%= f.submit "Hinzufügen", class: "btn btn-success" %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+
+    <% unless @current_tag.has_children? %>
+      <div class="col-sm-4">
+        <%= form_for(@current_tag, method: :delete, remote: true, html: { role: "form" }) do |f| %>
+          <%= f.hidden_field :id, value: @current_tag.id %>
+          <%= f.hidden_field :campaign_id, value: @campaign_id %>
+          <%= f.submit "Stichwort löschen", class: "btn btn-danger pull-right",
+                       onclick: "return confirm('#{@current_tag.t_name} wirklich entfernen?');" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</li>

@@ -1,0 +1,8 @@
+<% if @tag.errors.present? %>
+  alert('ERROR');
+<% else %>
+  $('#tree').data('treeview').remove();
+
+  var treeData = JSON.parse('<%=j @tags_json %>');
+  createTreeview('#tree', treeData);
+<% end %>
