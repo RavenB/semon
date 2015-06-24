@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623014933) do
+ActiveRecord::Schema.define(version: 20150623131025) do
 
   create_table "campaigns", force: true do |t|
     t.string   "c_name",                    null: false
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20150623014933) do
     t.integer  "c_status",      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_accessed"
   end
 
   add_index "campaigns", ["c_name"], name: "index_campaigns_on_c_name", unique: true, using: :btree

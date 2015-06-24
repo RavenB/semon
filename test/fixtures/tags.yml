@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: tags
+#
+#  id           :integer          not null, primary key
+#  t_name       :string(255)      not null
+#  ancestry     :string(255)
+#  t_count      :integer          default(0), not null
+#  t_connection :string(255)
+#  campaign_id  :integer          not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:

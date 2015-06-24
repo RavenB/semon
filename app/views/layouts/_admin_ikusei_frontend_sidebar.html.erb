@@ -1,0 +1,66 @@
+<aside class="main-sidebar">
+  <%# sidebar %>
+  <section class="sidebar" style="height: auto;">
+    <%# sidebar menu %>
+    <ul class="sidebar-menu">
+      <li class="header">NAVIGATION</li>
+      <li>
+        <a href="/">
+          <i class="fa fa-th"></i> <span>Alle Kampagnen</span>
+          <small class="label pull-right bg-green">7</small>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-files-o"></i>
+          <span>Goals</span>
+          <span class="label label-primary pull-right">2</span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="#"><i class="fa fa-circle-o"></i> First</a></li>
+          <li><a href="#"><i class="fa fa-circle-o"></i> Second</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-smile-o"></i> <span>Customers</span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-plus-square"></i>
+          <span>Extra</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="#"><i class="fa fa-angle-double-right"></i> Something</a></li>
+          <li><a href="#"><i class="fa fa-angle-double-right"></i> Something else</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" target="_blank">
+          <i class="fa fa-question-circle"></i> <span>Support</span>
+        </a>
+      </li>
+      <% if is_campaign? %>
+        <li class="header">KAMPAGNENOPTIONEN</li>
+        <li class="active">
+          <%= link_to dashboard_path(@campaign.id) do %>
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to edit_campaign_path(@campaign) do %>
+            <i class="fa fa-pencil"></i> <span>Kampagne bearbeiten</span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to @campaign, method: :delete,
+                      data: { confirm: "#{@campaign.c_name} wirklich entfernen?" } do %>
+            <i class="fa fa-close text-red"></i> <span>Kampagne löschen</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+</aside>

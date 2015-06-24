@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Semon</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <%= render "layouts/admin_ikusei_frontend_head_meta" %>
 </head>
-<body>
+<body class="skin-black sidebar-mini fixed">
+    <%= render "layouts/admin_ikusei_frontend_headerbar" %>
 
-  <%= yield %>
+    <%# left side column %>
+    <%= render "layouts/admin_ikusei_frontend_sidebar" %>
 
-</body>
+    <%# page content %>
+    <div class="content-wrapper">
+      <%= yield %>
+    </div>
+
+    <%= render "layouts/admin_ikusei_frontend_controlbar" %>
+
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= yield :page_script %>
+  </body>
 </html>

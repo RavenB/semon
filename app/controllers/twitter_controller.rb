@@ -1,4 +1,4 @@
-class WelcomeController < ApplicationController
+class TwitterController < ApplicationController
   def index
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = Rails.application.secrets.twitter["consumer_key"]

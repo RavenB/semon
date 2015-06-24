@@ -13,10 +13,14 @@
 #
 
 class Tag < ActiveRecord::Base
+  attr_accessible :t_name, :ancestry, :t_count, :t_connection, :campaign_id
+
   has_many :messages, through: :message_tags
   has_many :message_tags
 
   belongs_to :campaign
 
   has_ancestry orphan_strategy: :restrict
+
+  validates :t_name, :campaign_id, presence: true
 end

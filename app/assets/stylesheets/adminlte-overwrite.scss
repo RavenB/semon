@@ -1,0 +1,14 @@
+.small-box {
+  &.bg-gray {
+    color: #f9f9f9;
+  }
+
+  h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.datepicker table tr td.active {
+  border-top: none;
+}

@@ -1,0 +1,46 @@
+<section class="content-header">
+  <h1>
+    Alle Kampagnen
+    <small>Übersicht</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li class="active"><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row margin-bottom">
+    <div class="col-md-12">
+      <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <%# create a box element for every campaign containing its name and date range %>
+    <% @campaigns.each do |campaign| %>
+      <div class="col-lg-3 col-xs-6">
+        <%= link_to dashboard_path(campaign.id), title: campaign.c_name do %>
+          <div class="small-box <%= campaign.c_status == 1 ? 'bg-light-blue' : 'bg-gray' %>">
+            <div class="inner">
+              <h3><%= campaign.c_name %></h3>
+              <p><%= campaign.c_start.strftime("%d.%m.%Y") %> - <%= campaign.c_end.strftime("%d.%m.%Y") %></p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <div class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# show create button under the campaigns list if there are a few more of them %>
+  <% if @campaigns.count > 12 %>
+    <div class="row">
+      <div class="col-md-12">
+        <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+      </div>
+    </div>
+  <% end %>
+</section>
