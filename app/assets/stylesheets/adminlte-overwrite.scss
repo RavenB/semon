@@ -1,3 +1,5 @@
+body { background-color: #ecf0f5; }
+
 .small-box {
   &.bg-gray {
     color: #f9f9f9;
@@ -11,4 +13,8 @@
 
 .datepicker table tr td.active {
   border-top: none;
+}
+
+#flash-msg .alert h4 {
+  margin-bottom: 0;
 }

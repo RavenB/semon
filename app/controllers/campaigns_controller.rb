@@ -20,42 +20,42 @@ class CampaignsController < ApplicationController
   end
 
   # POST /campaigns
-  # POST /campaigns.json
   def create
     @campaign = Campaign.new(campaign_params)
-
     respond_to do |format|
       if @campaign.save
         format.html { redirect_to view_context.dashboard_path(@campaign.id) }
-        format.json { render "index", status: :created, location: @campaign }
       else
         format.html { render "new" }
-        format.json { render json: @campaign.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /campaigns/1
-  # PATCH/PUT /campaigns/1.json
   def update
-    respond_to do |format|
-      if @campaign.update(campaign_params)
-        format.html { redirect_to view_context.dashboard_path(@campaign.id) }
-        format.json { head :no_content }
-      else
-        format.html { render "edit" }
-        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+    if campaign_params[:c_status].present?
+      # on updating the campaign status from the left navigation just reload the page
+      # because you can do it from every view with the navigation option
+      @campaign.update_attributes(campaign_params)
+      respond_to do |format|
+        format.html { redirect_to :back } # refresh current view
+      end
+    else
+      respond_to do |format|
+        if @campaign.update(campaign_params)
+          format.html { redirect_to view_context.dashboard_path(@campaign.id) }
+        else
+          format.html { render "edit" }
+        end
       end
     end
   end
 
   # DELETE /campaigns/1
-  # DELETE /campaigns/1.json
   def destroy
     @campaign.destroy
     respond_to do |format|
       format.html { redirect_to root_path }
-      format.json { head :no_content }
     end
   end
 
@@ -69,6 +69,7 @@ class CampaignsController < ApplicationController
     # since you'll be able to reuse the same permit list between create and update. Also, you
     # can specialize this method with per-user checking of permissible attributes.
     def campaign_params
-      params.require(:campaign).permit(:c_name, :c_description, :c_start, :c_end, :c_status, :last_accessed)
+      params.require(:campaign).permit(:c_name, :c_description, :c_start, :c_end, :c_status,
+                                       :last_accessed)
     end
 end

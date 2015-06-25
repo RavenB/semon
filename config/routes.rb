@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   resources :tags
 
   get '/campaigns/:id/dashboard' => 'campaigns#dashboard'
+  get '/campaigns/:id/tags' => 'tags#index'
+  get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'
+
 
   get '/twitter-test' => 'twitter#index'
 

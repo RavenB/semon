@@ -24,7 +24,8 @@
         </div>
         <div class="form-group">
           <%= f.label :c_description %>
-          <%= f.text_field :c_description, class: "form-control", placeholder: "Kampagnenbeschreibung" %>
+          <%= f.text_field :c_description, class: "form-control",
+                           placeholder: "Kampagnenbeschreibung" %>
         </div>
         <div class="form-group">
           <%= f.label :c_start %>*
@@ -49,7 +50,7 @@
       </div>
       <div class="box-footer">
         <%= f.submit "Speichern", class: "btn btn-success" %>
-        <%= link_to "Zurück", dashboard_path(@campaign.id), class: "btn btn-default" %>
+        <%= link_to "Zurück", :back, class: "btn btn-default" %>
       </div>
     <% end %>
   </div>
