@@ -10,18 +10,20 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require datepicker3
  *= require_self
  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "bootstrap-treeview";
 @import "AdminLTE/AdminLTE";
 @import "AdminLTE/skins/skin-black";
+@import "bootstrap-treeview";
+@import "datepicker3";
+@import "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css";
+@import "//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css";
 
 @import "variables";
 @import "additional-classes";
-@import "bootstrap-treeview-overwrite";
 @import "adminlte-overwrite";
+@import "bootstrap-treeview-overwrite";
 @import "validations";

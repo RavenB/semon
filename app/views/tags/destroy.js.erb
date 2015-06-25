@@ -5,5 +5,10 @@
   $(treeSelector).data('treeview').remove();
   var treeData = JSON.parse('<%=j @tags_json %>');
   createTreeview(treeSelector, treeData);
-  showFlashMsg('<%=j render partial: "tags/templates/update_success_flash_alert", locals: { msg: flash[:success] } %>');
+  showFlashMsg('<%=j render partial: "/tags/templates/success_flash_alert",
+                            locals: { msg: flash[:success] } %>');
+  if(<%= @campaign.tags.count %> == 0) {
+    // reload page for hiding campaign de-/activation button in the navigation
+    location.reload();
+  }
 <% end %>

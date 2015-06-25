@@ -1,11 +1,11 @@
 class TagsController < ApplicationController
-  before_action :set_campaign, only: [:index]
+  before_action :set_campaign, only: [:create, :destroy]
   before_action :set_tag, only: [:edit, :update, :destroy]
   respond_to :js
 
   # GET /tags
-  # GET /tags.json
   def index
+    @campaign = Campaign.find(params[:id])
     @tag = Tag.new
     @tags_json = view_context.treeview_json(campaign_tags(params[:id]))
   end
@@ -17,7 +17,6 @@ class TagsController < ApplicationController
   end
 
   # PATCH/PUT /tags/1
-  # PATCH/PUT /tags/1.json
   def update
     @tag.update_attributes(tag_params)
     @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
@@ -25,10 +24,13 @@ class TagsController < ApplicationController
   end
 
   # DELETE /tags/1
-  # DELETE /tags/1.json
   def destroy
     @tag.destroy
     @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    if @campaign.tags.count == 0
+      # deactivate campaign when all tags deleted
+      @campaign.update_attributes(c_status: "0")
+    end
     flash[:success] = "Erfolgreich aktualisiert!"
   end
 
@@ -50,7 +52,7 @@ class TagsController < ApplicationController
     end
 
     def set_campaign
-      @campaign = Campaign.find(params[:id])
+      @campaign = Campaign.find(tag_params[:campaign_id])
     end
 
     def campaign_tags(campaign_id)

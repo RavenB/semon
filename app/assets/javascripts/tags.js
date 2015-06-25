@@ -55,11 +55,13 @@ function getParentAncestry(treeSelector, node) {
 }
 
 function showFlashMsg(html) {
-  var $flashMsg = $('#flash-msg');
-  $flashMsg.html(html);
-  $flashMsg.slideDown('fast');
-  setTimeout(function hideFlashMsg() {
-    $flashMsg.slideUp('fast');
-    $flashMsg.find('button').click();
-  }, 3000);
+  if($('#flash-msg').length) {
+    var $flashMsg = $('#flash-msg');
+    $flashMsg.html(html);
+    $flashMsg.slideDown('fast');
+    setTimeout(function hideFlashMsg() {
+      $flashMsg.slideUp('fast');
+      $flashMsg.find('button').click();
+    }, 2000);
+  }
 }
