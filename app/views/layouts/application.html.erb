@@ -16,7 +16,8 @@
 
     <%= render "layouts/admin_ikusei_frontend_controlbar" %>
 
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true,
+                               "data-turbolinks-eval" => false %>
     <%= yield :page_script %>
   </body>
 </html>

@@ -9,7 +9,7 @@ $(function () {
  */
 function hoverCampaignIndexAction() {
   if($('.small-box .inner').length) {
-    $('.small-box .inner').hover(
+    $('.small-box .inner, .small-box .icon').hover(
       function () {
         $(this).siblings('.small-box-footer').addClass('small-box-footer-hover');
       },
