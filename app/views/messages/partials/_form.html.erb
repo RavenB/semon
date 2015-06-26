@@ -1,0 +1,78 @@
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">Bitte gib die Parameter für Deine Kampagne an:</h3>
+  </div>
+
+  <%= form_for(@message, html: { role: "form" }) do |f| %>
+    <div class="box-body">
+      <% if @message.errors.any? %>
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4><i class="icon fa fa-ban"></i> Achtung!</h4>
+          <ul class="list-unstyled">
+            <% @message.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :m_author %>*
+        <%= f.text_field :m_author, class: "form-control", placeholder: "Autorenname" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :m_text %>*
+        <%= f.text_area :m_text, class: "form-control", placeholder: "Beitragstext" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :m_moment %>*
+        <div class="input-group date">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <%= f.text_field :m_moment, class: "form-control pull-right datepicker",
+                           placeholder: "Beitragszeitpunkt" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :m_origin %>*
+        <%= f.text_field :m_origin, class: "form-control", placeholder: "Beitragsquelle" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :m_details %>
+        <%= f.text_field :m_details, class: "form-control", placeholder: "Beitragsdetails" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :m_rating %>
+        <%= f.text_field :m_rating, class: "form-control", placeholder: "Beitragsbewertung" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :category_id %>
+        <%= f.text_field :category_id, class: "form-control", placeholder: "Beitragskategorie" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :sentiment_id %>
+        <%= f.text_field :sentiment_id, class: "form-control", placeholder: "Beitragssentiment" %>
+      </div>
+      <div class="box-footer">
+        <%= f.submit "Speichern", class: "btn btn-success" %>
+        <%= link_to "Zurück", :back, class: "btn btn-default" %>
+      </div>
+      <%= f.hidden_field :campaign_id, value: @campaign.id %>
+    </div>
+  <% end %>
+</div>
+
+<% content_for :page_script do %>
+  <script type="text/javascript">
+    $(function () {
+      $('.input-group.date').datetimepicker({
+        locale: 'de',
+        keepOpen: true,
+        allowInputToggle: true
+      });
+    });
+  </script>
+<% end %>
+

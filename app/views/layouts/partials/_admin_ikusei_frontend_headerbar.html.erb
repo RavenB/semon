@@ -1,0 +1,71 @@
+<div class="wrapper">
+  <header class="main-header">
+    <%# logo %>
+    <a href="/" class="logo">
+      <%# mini logo for sidebar mini 50x50 pixels %>
+      <span class="logo-mini"><b>S</b>MO</span>
+      <%# logo for regular state and mobile devices %>
+      <span class="logo-lg"><b>SE</b>MON</span>
+    </a>
+    <%# header navbar %>
+    <nav class="navbar navbar-static-top" role="navigation">
+      <%# sidebar toggle button %>
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <%# add message %>
+          <% if is_campaign? %>
+            <li class="notifications-menu">
+              <%= link_to new_message_path do %>
+                <i class="fa fa-envelope-o"></i>
+                <span class="label label-default">+</span>
+              <% end %>
+            </li>
+          <% end %>
+          <%# notifications %>
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">Header</li>
+              <li>
+                <%# inner menu: contains the actual data %>
+                <div class="slimScrollDiv">
+                  <ul class="menu">
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-warning text-yellow"></i>
+                        Very long description here that may not fit into the page and may cause
+                        design problems
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="slimScrollBar"></div>
+                  <div class="slimScrollRail"></div>
+                </div>
+              </li>
+              <li class="footer"><a href="#">Footer</a></li>
+            </ul>
+          </li>
+          <%# control sidebar toggle button %>
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+</div>

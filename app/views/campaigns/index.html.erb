@@ -19,7 +19,7 @@
     <%# create a box element for every campaign containing its name and date range %>
     <% @campaigns.each do |campaign| %>
       <div class="col-lg-3 col-xs-6">
-        <%= link_to dashboard_path(campaign.id), title: campaign.c_name do %>
+        <%= link_to campaign_path(campaign), title: campaign.c_name do %>
           <div class="small-box <%= campaign.c_status == 1 ? 'bg-light-blue' : 'bg-gray' %>">
             <div class="inner">
               <h3><%= campaign.c_name %></h3>

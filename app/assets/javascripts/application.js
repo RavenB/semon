@@ -16,5 +16,8 @@
 //= require jquery.slimscroll
 //= require bootstrap-datepicker
 //= require locales/bootstrap-datepicker.de
+//= require moment
+//= require bootstrap-datetimepicker
+//= require moment/de
 //= require app
 //= require_tree .

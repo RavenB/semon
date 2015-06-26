@@ -1,19 +1,18 @@
 <section class="content-header">
   <h1>
-    Kampagne bearbeiten
-    <small><%= @campaign.c_name %></small>
+    Beitrag erstellen
   </h1>
   <ol class="breadcrumb">
     <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
     <li><%= link_to "#{@campaign.c_name} Dashboard", campaign_path(@campaign) %></li>
-    <li class="active"><a href="#">Kampagne bearbeiten</a></li>
+    <li class="active"><a href="#">Beitrag erstellen</a></li>
   </ol>
 </section>
 
 <section class="content">
   <div class="row">
     <div class="col-md-12">
-      <%= render "/campaigns/partials/form" %>
+      <%= render "/messages/partials/form" %>
     </div>
   </div>
 </section>

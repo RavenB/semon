@@ -5,11 +5,13 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'campaigns#index'
 
-  resources :campaigns
-  resources :tags
+  resources :campaigns, :tags
 
-  get '/campaigns/:id/dashboard' => 'campaigns#dashboard'
-  get '/campaigns/:id/tags' => 'tags#index'
+  scope '/campaigns' do
+    get '/:id/tags' => 'tags#index'
+    resources :messages, path: '/:id/messages'
+  end
+
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'
 
 

@@ -5,6 +5,6 @@
   $(treeSelector).data('treeview').remove();
   var treeData = JSON.parse('<%=j @tags_json %>');
   createTreeview(treeSelector, treeData);
-  showFlashMsg('<%=j render partial: "/tags/templates/success_flash_alert",
+  showFlashMsg('<%=j render partial: "/tags/partials/success_flash_alert",
                             locals: { msg: flash[:success] } %>');
 <% end %>

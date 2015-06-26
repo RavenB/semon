@@ -17,9 +17,6 @@
 #
 
 class Message < ActiveRecord::Base
-  attr_accessible :m_author, :m_text, :m_moment, :m_origin, :m_details, :m_rating, :campaign_id,
-                  :category_id, :sentiment_id
-
   has_many :tags, through: :message_tags
   has_many :message_tags
 

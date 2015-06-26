@@ -7,26 +7,27 @@ class TagsController < ApplicationController
   def index
     @campaign = Campaign.find(params[:id])
     @tag = Tag.new
-    @tags_json = view_context.treeview_json(campaign_tags(params[:id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(params[:id]))
   end
 
+  # POST /tags
   def create
     @tag = Tag.create(tag_params)
-    @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
     flash[:success] = "Erfolgreich aktualisiert!"
   end
 
   # PATCH/PUT /tags/1
   def update
     @tag.update_attributes(tag_params)
-    @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
     flash[:success] = "Erfolgreich aktualisiert!"
   end
 
   # DELETE /tags/1
   def destroy
     @tag.destroy
-    @tags_json = view_context.treeview_json(campaign_tags(tag_params[:campaign_id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
     if @campaign.tags.count == 0
       # deactivate campaign when all tags deleted
       @campaign.update_attributes(c_status: "0")
@@ -53,10 +54,6 @@ class TagsController < ApplicationController
 
     def set_campaign
       @campaign = Campaign.find(tag_params[:campaign_id])
-    end
-
-    def campaign_tags(campaign_id)
-      Tag.where(campaign_id: campaign_id)
     end
 
     # Using a private method to encapsulate the permissible parameters is just a good pattern

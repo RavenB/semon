@@ -1,0 +1,67 @@
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">Bitte gib die Parameter für Deine Kampagne an:</h3>
+  </div>
+
+  <%= form_for(@campaign, html: { role: "form" }) do |f| %>
+    <div class="box-body">
+      <% if @campaign.errors.any? %>
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4><i class="icon fa fa-ban"></i> Achtung!</h4>
+          <ul class="list-unstyled">
+            <% @campaign.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :c_name %>*
+        <%= f.text_field :c_name, class: "form-control", placeholder: "Kampagnenname" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :c_description %>
+        <%= f.text_field :c_description, class: "form-control",
+                         placeholder: "Kampagnenbeschreibung" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :c_start %>*
+        <div class="input-group date">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <%= f.text_field :c_start, class: "form-control pull-right datepicker",
+                           placeholder: "Kampagnenbeginn" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :c_end %>*
+        <div class="input-group date">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <%= f.text_field :c_end, class: "form-control pull-right datepicker",
+                           placeholder: "Kampagnenende" %>
+        </div>
+      </div>
+    </div>
+    <div class="box-footer">
+      <%= f.submit "Speichern", class: "btn btn-success" %>
+      <%= link_to "Zurück", :back, class: "btn btn-default" %>
+    </div>
+  <% end %>
+</div>
+
+<% content_for :page_script do %>
+  <script type="text/javascript">
+    $(function () {
+      $('.input-group.date').datepicker({
+        language: 'de',
+        orientation: 'bottom auto',
+        autoclose: true
+      });
+    });
+  </script>
+<% end %>
