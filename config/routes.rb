@@ -13,9 +13,7 @@ Rails.application.routes.draw do
   end
 
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'
-
-
-  get '/twitter-test' => 'twitter#index'
+  get '/tweets/:id' => 'twitter#tweets'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

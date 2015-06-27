@@ -25,4 +25,21 @@ class Message < ActiveRecord::Base
   belongs_to :sentiment
 
   validates :m_author, :m_text, :m_moment, :m_origin, :campaign_id, presence: true
+  validates :m_details, uniqueness: true
+
+  after_create :set_message_tags
+
+  private
+    # check message text for campaign tags and save matched tags to the message
+    def set_message_tags
+      campaign = Campaign.find(self.campaign_id)
+      campaign_tags = campaign.tags.map{ |t| t.t_name.downcase }.uniq
+      message_words = CGI.unescape(self.m_text).downcase.gsub('#', '').gsub('.', '').split(' ').uniq
+      message_tags = campaign_tags & message_words
+      message_tags.each do |tag|
+        current_tag = campaign.tags.where(t_name: tag).first
+        MessageTag.create(message_id: self.id, tag_id: current_tag.id)
+        current_tag.increment!(:t_count)
+      end
+    end
 end

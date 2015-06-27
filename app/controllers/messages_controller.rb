@@ -38,17 +38,6 @@ class MessagesController < ApplicationController
   end
 
   private
-    # check message text for campaign tags and save matching tags to the message
-    def set_message_tags
-      campaign_tags = @campaign.tags.map{ |t| t.t_name.downcase }.uniq
-      message_words = @message.m_text.downcase.gsub('#', '').gsub('.', '').split(' ').uniq
-      message_tags = campaign_tags & message_words
-      message_tags.each do |tag|
-        MessageTag.create(message_id: @message.id,
-                          tag_id: @campaign.tags.where(t_name: tag).first.id)
-      end
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])

@@ -30,6 +30,6 @@ module MessagesHelper
 
   # returns the message text with detected links formatted to html links
   def message_text_with_links(message_text)
-    Rinku.auto_link(message_text, :all, "target='_blank'").html_safe
+    Rinku.auto_link(CGI.unescape(message_text), :all, "target='_blank'").html_safe
   end
 end

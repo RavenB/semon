@@ -3,6 +3,10 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/1
   def show
+    # [["tag1", 10], ["tag2", 5]]
+    @campaign_tags = @campaign.tags.order(t_count: :desc).collect do |tag|
+      [tag.t_name, tag.t_count]
+    end
   end
 
   # GET /campaigns
