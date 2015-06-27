@@ -48,6 +48,7 @@ gem 'coffee-script-source', '1.8.0'
 gem 'ancestry'
 gem 'annotate' # https://github.com/ctran/annotate_models
 gem 'momentjs-rails', '>= 2.9.0'
+gem 'rinku'
 
 
 ######### LAYOUT #########

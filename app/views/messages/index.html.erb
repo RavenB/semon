@@ -1,12 +1,12 @@
 <section class="content-header">
   <h1>
-    <%= @campaign.c_name %>
+    <%= campaign_name(@campaign) %>
     <small>Timeline</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
-    <li><%= link_to "#{@campaign.c_name} Dashboard", campaign_path(@campaign) %></li>
-    <li class="active"><a href="#"><%= @campaign.c_name %> Timeline</a></li>
+    <li><%= link_to "#{campaign_name(@campaign)} Dashboard", campaign_path(@campaign) %></li>
+    <li class="active"><a href="#"><%= campaign_name(@campaign) %> Timeline</a></li>
   </ol>
 </section>
 
@@ -18,17 +18,17 @@
         <% prev_message_date = "" %>
 
         <% @messages.each_with_index do |message, index| %>
-          <% message_date = message.m_moment.strftime("%d.%m.%Y") %>
+          <% message_date = message_date(message.m_moment) %>
           <% if message_date != prev_message_date %>
             <%# timeline time label %>
             <li class="time-label">
-              <span class="bg-blue">
+              <span>
                 <%= message_date %>
               </span>
             </li>
           <% end %>
           <%= render partial: "/messages/partials/timeline_item", locals: { message: message } %>
-          <% prev_message_date = message.m_moment.strftime("%d.%m.%Y") %>
+          <% prev_message_date = message_date %>
         <% end %>
       </ul>
     </div>

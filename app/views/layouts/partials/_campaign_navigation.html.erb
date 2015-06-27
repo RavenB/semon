@@ -30,7 +30,7 @@
   </li>
   <li>
     <%= link_to @campaign, method: :delete,
-                data: { confirm: "#{@campaign.c_name} wirklich entfernen?" } do %>
+                data: { confirm: "#{campaign_name(@campaign)} wirklich entfernen?" } do %>
       <i class="fa fa-trash-o text-red"></i> <span>Kampagne löschen</span>
     <% end %>
   </li>

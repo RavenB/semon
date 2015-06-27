@@ -1,12 +1,12 @@
 <section class="content-header">
   <h1>
-    <%= @campaign.c_name %>
+    <%= campaign_name(@campaign) %>
     <small>Stichworte</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
-    <li><%= link_to "#{@campaign.c_name} Dashboard", campaign_path(@campaign) %></li>
-    <li class="active"><a href="#"><%= @campaign.c_name %> Stichworte</a></li>
+    <li><%= link_to "#{campaign_name(@campaign)} Dashboard", campaign_path(@campaign) %></li>
+    <li class="active"><a href="#"><%= campaign_name(@campaign) %> Stichworte</a></li>
   </ol>
 </section>
 

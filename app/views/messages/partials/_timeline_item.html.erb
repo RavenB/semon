@@ -1,16 +1,18 @@
 <%# timeline item %>
 <li>
   <%# timeline icon %>
-  <i class="fa fa-twitter bg-aqua"></i>
+  <i class="fa fa-<%= timeline_icon(message.m_origin) %> bg-<%= message.m_origin %>">
+    <%= timeline_icon_semon(message.m_origin) %>
+  </i>
   <div class="timeline-item">
-    <span class="time"><i class="fa fa-clock-o"></i> <%= message.m_moment.strftime("%H:%M") %></span>
+    <span class="time"><i class="fa fa-clock-o"></i> <%= message_time(message.m_moment) %></span>
 
     <h3 class="timeline-header">
       <a href="#" target="_blank"><%= message.m_author %></a>
     </h3>
 
     <div class="timeline-body">
-      <%= message.m_text %>
+      <%= message_text_with_links(message.m_text) %>
     </div>
 
     <div class="timeline-footer">

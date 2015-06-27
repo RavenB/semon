@@ -1,11 +1,11 @@
 <section class="content-header">
   <h1>
-    <%= @campaign.c_name %>
+    <%= campaign_name(@campaign) %>
     <small>Dashboard</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
-    <li class="active"><a href="#"><%= @campaign.c_name %> Dashboard</a></li>
+    <li class="active"><a href="#"><%= campaign_name(@campaign) %> Dashboard</a></li>
   </ol>
 </section>
 
@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
       <%= link_to messages_path, class: "info-box" do %>
-        <span class="info-box-icon bg-blue"><i class="ion-ios-list-outline"></i></span>
+        <span class="info-box-icon bg-light-blue"><i class="ion-ios-list-outline"></i></span>
         <div class="info-box-content">
           <span class="info-box-text">Alle Beiträge</span>
           <span class="info-box-number"><%= @campaign.messages.count %></span>

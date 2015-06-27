@@ -1,11 +1,11 @@
 <section class="content-header">
   <h1>
     Kampagne bearbeiten
-    <small><%= @campaign.c_name %></small>
+    <small><%= campaign_name(@campaign) %></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
-    <li><%= link_to "#{@campaign.c_name} Dashboard", campaign_path(@campaign) %></li>
+    <li><%= link_to "#{campaign_name(@campaign)} Dashboard", campaign_path(@campaign) %></li>
     <li class="active"><a href="#">Kampagne bearbeiten</a></li>
   </ol>
 </section>

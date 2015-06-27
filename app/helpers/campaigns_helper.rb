@@ -14,4 +14,9 @@ module CampaignsHelper
   def campaign_date_range(campaign)
     "#{campaign.c_start.strftime('%d.%m.%Y')} - #{campaign.c_end.strftime('%d.%m.%Y')}"
   end
+
+  # returns the name of a given campaign
+  def campaign_name(campaign)
+    campaign.c_name
+  end
 end
