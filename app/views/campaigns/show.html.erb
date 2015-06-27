@@ -8,3 +8,17 @@
     <li class="active"><a href="#"><%= @campaign.c_name %> Dashboard</a></li>
   </ol>
 </section>
+
+<section class="content-header">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <%= link_to messages_path, class: "info-box" do %>
+        <span class="info-box-icon bg-blue"><i class="ion-ios-list-outline"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Alle Beiträge</span>
+          <span class="info-box-number"><%= @campaign.messages.count %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

@@ -18,8 +18,9 @@
 @import "AdminLTE/AdminLTE";
 @import "AdminLTE/skins/skin-black";
 @import "bootstrap-treeview";
-@import "bootstrap-datepicker";
 @import "bootstrap-datetimepicker";
+@import "bootstrap-select";
+@import "iCheck/square/blue";
 @import "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css";
 @import "//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css";
 
@@ -28,3 +29,4 @@
 @import "adminlte-overwrite";
 @import "bootstrap-treeview-overwrite";
 @import "validations";
+@import "messages";

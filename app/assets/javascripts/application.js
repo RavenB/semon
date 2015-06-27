@@ -14,10 +14,11 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jquery.slimscroll
-//= require bootstrap-datepicker
-//= require locales/bootstrap-datepicker.de
 //= require moment
 //= require bootstrap-datetimepicker
 //= require moment/de
+//= require bootstrap-select
+//= require locales/bootstrap-select.de
+//= require iCheck
 //= require app
 //= require_tree .

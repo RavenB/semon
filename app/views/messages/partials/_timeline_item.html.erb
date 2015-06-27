@@ -1,0 +1,23 @@
+<%# timeline item %>
+<li>
+  <%# timeline icon %>
+  <i class="fa fa-twitter bg-aqua"></i>
+  <div class="timeline-item">
+    <span class="time"><i class="fa fa-clock-o"></i> <%= message.m_moment.strftime("%H:%M") %></span>
+
+    <h3 class="timeline-header">
+      <a href="#" target="_blank"><%= message.m_author %></a>
+    </h3>
+
+    <div class="timeline-body">
+      <%= message.m_text %>
+    </div>
+
+    <div class="timeline-footer">
+      <i class="fa fa-tags"></i>
+      <% message.tags.each do |tag| %>
+        <button class="btn btn-default btn-xs disabled"><%= tag.t_name %></button>
+      <% end %>
+    </div>
+  </div>
+</li>

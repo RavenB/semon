@@ -1,16 +1,15 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: []
+  before_action :set_campaign, only: [:index, :new, :create]
+  after_action :set_message_tags, only: [:create]
 
   # GET /messages
   def index
-    @messages = Message.all
-    # TODO only messages for a campaign
-    # index = timeline
+    @messages = @campaign.messages.order(m_moment: :desc)
   end
 
   # GET /messages/new
   def new
-    @campaign = Campaign.find(params[:id])
     @message = Message.new
   end
 
@@ -20,7 +19,6 @@ class MessagesController < ApplicationController
 
   # POST /messages
   def create
-    @campaign = Campaign.find(params[:id])
     @message = Message.create(message_params)
     respond_to do |format|
       if @message.save
@@ -32,7 +30,7 @@ class MessagesController < ApplicationController
   end
 
   # PATCH/PUT /messages/1
-  def update
+  def updates
   end
 
   # DELETE /messages/1
@@ -40,9 +38,24 @@ class MessagesController < ApplicationController
   end
 
   private
+    # check message text for campaign tags and save matching tags to the message
+    def set_message_tags
+      campaign_tags = @campaign.tags.map{ |t| t.t_name.downcase }.uniq
+      message_words = @message.m_text.downcase.gsub('#', '').gsub('.', '').split(' ').uniq
+      message_tags = campaign_tags & message_words
+      message_tags.each do |tag|
+        MessageTag.create(message_id: @message.id,
+                          tag_id: @campaign.tags.where(t_name: tag).first.id)
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])
+    end
+
+    def set_campaign
+      @campaign = Campaign.find(params[:id])
     end
 
     # Using a private method to encapsulate the permissible parameters is just a good pattern

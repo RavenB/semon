@@ -10,10 +10,7 @@
 #
 
 class Category < ActiveRecord::Base
-  attr_accessible :cat_name, :cat_description
-
   has_many :messages
-
 
   validates :cat_name, presence: true
 end

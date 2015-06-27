@@ -1,9 +1,10 @@
 <div class="box box-success">
   <div class="box-header with-border">
-    <h3 class="box-title">Bitte gib die Parameter für Deine Kampagne an:</h3>
+    <h3 class="box-title">Bitte gib die Parameter für den neuen Beitrag an:</h3>
   </div>
 
   <%= form_for(@message, html: { role: "form" }) do |f| %>
+    <%= f.hidden_field :campaign_id, value: @campaign.id %>
     <div class="box-body">
       <% if @message.errors.any? %>
         <div class="alert alert-danger alert-dismissable">
@@ -18,12 +19,12 @@
       <% end %>
 
       <div class="form-group">
-        <%= f.label :m_author %>*
-        <%= f.text_field :m_author, class: "form-control", placeholder: "Autorenname" %>
-      </div>
-      <div class="form-group">
         <%= f.label :m_text %>*
         <%= f.text_area :m_text, class: "form-control", placeholder: "Beitragstext" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :m_author %>*
+        <%= f.text_field :m_author, class: "form-control", placeholder: "Autorenname" %>
       </div>
       <div class="form-group">
         <%= f.label :m_moment %>*
@@ -37,7 +38,40 @@
       </div>
       <div class="form-group">
         <%= f.label :m_origin %>*
-        <%= f.text_field :m_origin, class: "form-control", placeholder: "Beitragsquelle" %>
+        <div class="form-m-origin">
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
+            <%= f.radio_button :m_origin, "twitter" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></a>
+            <%= f.radio_button :m_origin, "instagram" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+            <%= f.radio_button :m_origin, "facebook" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-google-plus"><i class="fa fa-google-plus"></i></a>
+            <%= f.radio_button :m_origin, "googleplus" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-tumblr"><i class="fa fa-tumblr"></i></a>
+            <%= f.radio_button :m_origin, "tumblr" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-vine"><i class="fa fa-vine"></i></a>
+            <%= f.radio_button :m_origin, "vine" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-social-icon btn-youtube"><i class="fa fa-youtube-play"></i></a>
+            <%= f.radio_button :m_origin, "youtube" %>
+          </div>
+          <div class="message-origin">
+            <a class="btn btn-semon"><span><b>SE</b>M</span></a>
+            <%= f.radio_button :m_origin, "semon" %>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <%= f.label :m_details %>
@@ -45,21 +79,20 @@
       </div>
       <div class="form-group">
         <%= f.label :m_rating %>
-        <%= f.text_field :m_rating, class: "form-control", placeholder: "Beitragsbewertung" %>
+        <%= f.select :m_rating, [1,2,3], {include_blank: true}, { class: "form-control selectpicker" } %>
       </div>
       <div class="form-group">
         <%= f.label :category_id %>
-        <%= f.text_field :category_id, class: "form-control", placeholder: "Beitragskategorie" %>
+        <%= f.select :category_id, [1,2,3], {include_blank: true}, { class: "form-control selectpicker" } %>
       </div>
       <div class="form-group">
         <%= f.label :sentiment_id %>
-        <%= f.text_field :sentiment_id, class: "form-control", placeholder: "Beitragssentiment" %>
+        <%= f.select :sentiment_id, [1,2,3], {include_blank: true}, { class: "form-control selectpicker" } %>
       </div>
       <div class="box-footer">
         <%= f.submit "Speichern", class: "btn btn-success" %>
         <%= link_to "Zurück", :back, class: "btn btn-default" %>
       </div>
-      <%= f.hidden_field :campaign_id, value: @campaign.id %>
     </div>
   <% end %>
 </div>
@@ -69,9 +102,22 @@
     $(function () {
       $('.input-group.date').datetimepicker({
         locale: 'de',
-        keepOpen: true,
-        allowInputToggle: true
+        allowInputToggle: true,
+        showClose: true
       });
+
+      $('input[type=radio]').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+      });
+
+      $('.message-origin .btn').click(function () {
+        $(this).next().iCheck('check');
+      });
+
+      if($('.message-origin .field_with_errors').length) {
+        $('.form-m-origin').addClass('message-origin-with-errors');
+      }
     });
   </script>
 <% end %>

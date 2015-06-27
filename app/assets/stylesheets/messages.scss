@@ -1,0 +1,68 @@
+.form-m-origin {
+  @extend .clearfix;
+
+  &.message-origin-with-errors {
+    border: 1px solid $red;
+  }
+
+  .message-origin {
+    @extend .pull-left;
+    @extend .col-md-1;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+
+    .btn {
+      @extend .center-block;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .btn-vine {
+      background-color: #00d9a3;
+      border-color: rgba(0, 0, 0, 0.2);
+      color: #ffffff;
+
+      &:hover { background-color: #00bf8f; }
+    }
+
+    .btn-youtube {
+      background-color: #e52d27;
+      border-color: rgba(0, 0, 0, 0.2);
+      color: #ffffff;
+
+      &:hover { background-color: #b31217; }
+    }
+
+    .btn-semon {
+      height: 34px;
+      overflow: hidden;
+      padding-bottom: 0;
+      padding-left: 44px !important;
+      padding-right: 0;
+      padding-top: 0;
+      position: relative;
+      text-align: left;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 34px;
+      background-color: #fff;
+      border-color: rgba(0, 0, 0, 0.2);
+      color: #333;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+      &:hover { background-color: #f4f4f4; }
+
+      span {
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        line-height: 34px;
+        font-size: 1.1em;
+        position: absolute;
+        text-align: center;
+        top: 0;
+      }
+    }
+  }
+}

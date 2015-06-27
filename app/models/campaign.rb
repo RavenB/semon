@@ -14,6 +14,7 @@
 #
 
 class Campaign < ActiveRecord::Base
+  has_many :messages
   has_many :tags
 
   validates :c_name, uniqueness: true

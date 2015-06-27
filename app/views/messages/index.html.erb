@@ -1,0 +1,36 @@
+<section class="content-header">
+  <h1>
+    <%= @campaign.c_name %>
+    <small>Timeline</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
+    <li><%= link_to "#{@campaign.c_name} Dashboard", campaign_path(@campaign) %></li>
+    <li class="active"><a href="#"><%= @campaign.c_name %> Timeline</a></li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="timeline">
+        <%# initially print time label %>
+        <% prev_message_date = "" %>
+
+        <% @messages.each_with_index do |message, index| %>
+          <% message_date = message.m_moment.strftime("%d.%m.%Y") %>
+          <% if message_date != prev_message_date %>
+            <%# timeline time label %>
+            <li class="time-label">
+              <span class="bg-blue">
+                <%= message_date %>
+              </span>
+            </li>
+          <% end %>
+          <%= render partial: "/messages/partials/timeline_item", locals: { message: message } %>
+          <% prev_message_date = message.m_moment.strftime("%d.%m.%Y") %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>

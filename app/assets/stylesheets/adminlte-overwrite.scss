@@ -18,3 +18,11 @@ body { background-color: #ecf0f5; }
 #flash-msg .alert h4 {
   margin-bottom: 0;
 }
+
+a.info-box {
+  color: #333;
+
+  &:hover {
+    color: #999;
+  }
+}

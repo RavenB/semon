@@ -57,10 +57,11 @@
 <% content_for :page_script do %>
   <script type="text/javascript">
     $(function () {
-      $('.input-group.date').datepicker({
-        language: 'de',
-        orientation: 'bottom auto',
-        autoclose: true
+      $('.input-group.date').datetimepicker({
+        locale: 'de',
+        allowInputToggle: true,
+        showClose: true,
+        format: 'DD.MM.YYYY'
       });
     });
   </script>
