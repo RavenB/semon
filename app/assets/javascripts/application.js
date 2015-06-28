@@ -20,5 +20,6 @@
 //= require bootstrap-select
 //= require locales/bootstrap-select.de
 //= require iCheck
+//= require jquery.infinite-pages
 //= require app
 //= require_tree .

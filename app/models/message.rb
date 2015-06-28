@@ -34,12 +34,18 @@ class Message < ActiveRecord::Base
     def set_message_tags
       campaign = Campaign.find(self.campaign_id)
       campaign_tags = campaign.tags.map{ |t| t.t_name.downcase }.uniq
-      message_words = CGI.unescape(self.m_text).downcase.gsub('#', '').gsub('.', '').split(' ').uniq
+      message_words = clean_up_message(CGI.unescape(self.m_text)).split(' ').uniq
       message_tags = campaign_tags & message_words
       message_tags.each do |tag|
         current_tag = campaign.tags.where(t_name: tag).first
         MessageTag.create(message_id: self.id, tag_id: current_tag.id)
         current_tag.increment!(:t_count)
       end
+    end
+
+    # clean up messages to got all words without punctuation marks, hashtags, @s, ...
+    def clean_up_message(message)
+      message.downcase.gsub('#', ' ').gsub('@', ' ').gsub('.', ' ').gsub('!', ' ').gsub('?', ' ')
+                      .gsub('-', ' ').gsub('+', ' ').gsub(':', ' ').gsub(',', ' ').gsub(';', ' ')
     end
 end

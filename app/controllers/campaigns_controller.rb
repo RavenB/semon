@@ -1,12 +1,8 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:show, :edit, :update, :destroy]
+  before_action :set_campaign, only: [:show, :edit, :update, :destroy, :messages_in_period, :top_15_tags]
 
   # GET /campaigns/1
   def show
-    # [["tag1", 10], ["tag2", 5]]
-    @campaign_tags = @campaign.tags.order(t_count: :desc).collect do |tag|
-      [tag.t_name, tag.t_count]
-    end
   end
 
   # GET /campaigns
@@ -60,6 +56,34 @@ class CampaignsController < ApplicationController
     @campaign.destroy
     respond_to do |format|
       format.html { redirect_to root_path }
+    end
+  end
+
+  # GET /campaigns/1/messages_in_period
+  def messages_in_period
+    # [["10.06.2015", 50], ["11.06.2015", 40]]
+    @campaign_messages = @campaign.messages.order(m_moment: :asc)
+                                           .group_by{ |m| view_context.message_date(m.m_moment)}
+                                           .collect do |date, messages|
+                                             [date, messages.count]
+                                           end
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_messages.unshift(["Tag", "Anzahl"]).to_json }
+      }
+    end
+  end
+
+  # GET /campaigns/1/top_15_tags
+  def top_15_tags
+    # [["tag1", 10], ["tag2", 5]]
+    @campaign_tags = @campaign.tags.order(t_count: :desc).take(15).collect do |tag|
+      [tag.t_name, tag.t_count]
+    end
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_tags.unshift(["Tag", "Anzahl"]).to_json }
+      }
     end
   end
 

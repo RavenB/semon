@@ -1,0 +1,12 @@
+// append new data
+$('.timeline').append(
+  '<%=j render(partial: "/messages/partials/timeline_item",
+               locals: { messages: @messages, prev_message_date: @prev_message_date }) %>'
+);
+
+// update pagination link
+<% if @messages.last_page? %>
+  $('.pagination').html('');
+<% else %>
+  $('.pagination').html('<%=j link_to_next_page(@messages, "Bitte warten...", remote: true) %>');
+<% end %>

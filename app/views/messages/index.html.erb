@@ -14,23 +14,20 @@
   <div class="row">
     <div class="col-md-12">
       <ul class="timeline">
-        <%# initially print time label %>
-        <% prev_message_date = "" %>
-
-        <% @messages.each_with_index do |message, index| %>
-          <% message_date = message_date(message.m_moment) %>
-          <% if message_date != prev_message_date %>
-            <%# timeline time label %>
-            <li class="time-label">
-              <span>
-                <%= message_date %>
-              </span>
-            </li>
-          <% end %>
-          <%= render partial: "/messages/partials/timeline_item", locals: { message: message } %>
-          <% prev_message_date = message_date %>
-        <% end %>
+        <%= render partial: "/messages/partials/timeline_item",
+                   locals: { messages: @messages, prev_message_date: "" } %>
       </ul>
+      <div class="pagination">
+        <%= link_to_next_page(@messages, "Bitte warten...", remote: true) %>
+      </div>
     </div>
   </div>
 </section>
+
+<% content_for :page_script do %>
+  <script type="text/javascript">
+    $(function() {
+      $('body').infinitePages();
+    });
+  </script>
+<% end %>

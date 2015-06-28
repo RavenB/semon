@@ -49,7 +49,8 @@ gem 'ancestry'
 gem 'annotate' # https://github.com/ctran/annotate_models
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'rinku'
-gem 'swagchart'
+gem 'kaminari'
+gem 'jquery-infinite-pages'
 
 
 ######### LAYOUT #########

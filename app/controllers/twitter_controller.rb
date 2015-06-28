@@ -6,11 +6,11 @@ class TwitterController < ApplicationController
   def tweets
     all_campaign_tags = @campaign.tags.map{ |t| "##{t.t_name}" }.join(" OR ")
     from_date = @campaign.c_start.strftime("%Y-%m-%d")
-    to_date = (@campaign.c_end + 1.day).strftime("%Y-%m-%d")
+    to_date = (@campaign.c_end - 3.day).strftime("%Y-%m-%d")
     query = "#{all_campaign_tags} since:#{from_date} until:#{to_date}"
 
     search_results = @client.search(query, { result_type: "recent", count: 50, lang: "de" })
-                            .take(50)
+                            .take(70)
 
     search_results.each do |tweet|
       message = Message.new(campaign_id: @campaign.id)

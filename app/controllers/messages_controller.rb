@@ -1,11 +1,13 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: []
   before_action :set_campaign, only: [:index, :new, :create]
-  after_action :set_message_tags, only: [:create]
 
   # GET /messages
   def index
-    @messages = @campaign.messages.order(m_moment: :desc)
+    page_before = params[:page].to_i - 1
+    last_message_before = @campaign.messages.order(m_moment: :desc).page(page_before).per(20).last
+    @prev_message_date = view_context.message_date(last_message_before.m_moment)
+    @messages = @campaign.messages.order(m_moment: :desc).page(params[:page]).per(20)
   end
 
   # GET /messages/new

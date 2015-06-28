@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   scope '/campaigns' do
     get '/:id/tags' => 'tags#index'
+    get '/:id/messages_in_period' => 'campaigns#messages_in_period'
+    get '/:id/top_15_tags' => 'campaigns#top_15_tags'
     resources :messages, path: '/:id/messages'
   end
 

@@ -16,47 +16,60 @@
         <span class="info-box-icon bg-light-blue"><i class="ion-ios-list-outline"></i></span>
         <div class="info-box-content">
           <span class="info-box-text">Alle Beiträge</span>
-          <span class="info-box-number"><%= @campaign.messages.count %></span>
+          <span id="all-messages-count" class="info-box-number"><%= @campaign.messages.count %></span>
         </div>
       <% end %>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-6">
-      <% colors = ['#3c8dbc', '#dd4b39', '#00a65a', '#00c0ef', '#f39c12', '#0073b7', '#001F3F', '#39CCCC', '#3D9970', '#01FF70', '#FF851B', '#F012BE', '#605ca8', '#D81B60', '#111111', '#d2d6de'] %>
-      <%= chart :pie_chart, @campaign_tags,
-                options: { colors: colors } %>
-    </div>
-
-    <div id="chart" class="col-md-6"></div>
+    <div id="messages-in-period" class="col-md-6">Bitte warten...</div>
+    <div id="top-15-tags" class="col-md-6">Bitte warten...</div>
 
     <div class="col-md-12"><%= link_to "Tweets", "/tweets/#{@campaign.id}" %></div>
   </div>
 </section>
 
-<% content_for :google_charts_script do %>
-  <%= javascript_include_tag "//www.google.com/jsapi" %>
-  <%# https://github.com/pachacamac/swagchart %>
-<% end %>
-
 <% content_for :page_script do %>
   <script type="text/jsx">
-    // react code goes here
-    /** @jsx React.DOM */
-    var Chart = React.createClass({
-      render: function () {
-        return (
-          <div class="col-md-6">
-            ads
-          </div>
-        );
-      }
+    $(function() {
+      var ajax_options = {
+        dataType: 'script',
+        cache: true,
+        url: 'https://www.google.com/jsapi',
+      };
+      $.ajax(ajax_options).done(function () {
+        google.load('visualization', '1.1', {
+          packages:['corechart'],
+          callback: function() {
+            messagesInPeriod();
+            top15Tags();
+          }
+        });
+      });
     });
 
-    React.render(
-      <Chart/>,
-      document.getElementById('chart')
-    );
+    var FIVE_MINUTES = 5 * 60000;
+    var CHART_COLORS = [
+      '#3c8dbc', '#dd4b39', '#00a65a', '#00c0ef', '#f39c12', '#0073b7', '#001F3F', '#39CCCC',
+      '#3D9970', '#01FF70', '#FF851B', '#F012BE', '#605ca8', '#D81B60', '#111111', '#d2d6de'
+    ];
+
+    // react code goes here
+    /** @jsx React.DOM */
+    var SetIntervalMixin = {
+      componentWillMount: function() {
+        this.intervals = [];
+      },
+      setInterval: function() {
+        this.intervals.push(setInterval.apply(null, arguments));
+      },
+      componentWillUnmount: function() {
+        this.intervals.map(clearInterval);
+      }
+    };
   </script>
+
+  <%= render "/dashboard/messages_in_period" %>
+  <%= render "/dashboard/top_15_tags" %>
 <% end %>
