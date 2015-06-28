@@ -15,6 +15,7 @@ class TwitterController < ApplicationController
     search_results.each do |tweet|
       message = Message.new(campaign_id: @campaign.id)
       view_context.create_twitter_message(message, tweet)
+      message.save
     end
 
     redirect_to campaign_path(@campaign)

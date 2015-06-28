@@ -40,6 +40,8 @@
 </section>
 
 <% content_for :page_script do %>
+  <%= javascript_include_tag "tags" %>
+
   <script type="text/javascript">
     var treeSelector = '#tag-tree';
     var treeData = JSON.parse('<%=j @tags_json %>');

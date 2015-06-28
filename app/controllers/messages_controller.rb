@@ -22,6 +22,10 @@ class MessagesController < ApplicationController
   # POST /messages
   def create
     @message = Message.create(message_params)
+    @message.m_text = view_context.escape_text_characters(@message.m_text)
+    if params[:message][:m_details][:manual].present?
+      @message.m_details = view_context.manual_details_json(params[:message][:m_details])
+    end
     respond_to do |format|
       if @message.save
         format.html { redirect_to campaign_path(@campaign) }

@@ -1,0 +1,23 @@
+<div class="form-group">
+  <%= f.label :m_details %>
+  <%= hidden_field_tag "message[m_details][manual]", true %>
+  <%= text_field_tag "message[m_details][id]", nil, class: "form-control",
+                                               placeholder: "ID zum Tweet" %>
+</div>
+<div class="form-group">
+  <div class="input-group">
+    <div class="input-group-addon">
+      <i class="fa"><b>#</b></i>
+    </div>
+    <%= text_field_tag "message[m_details][hashtags]", nil, class: "form-control",
+                                                       placeholder: "Hashtags" %>
+  </div>
+</div>
+<div class="form-group">
+  <%= text_field_tag "message[m_details][user][url]", nil, class: "form-control",
+                                                      placeholder: "Link zum Nutzer" %>
+</div>
+<div class="form-group">
+  <%= text_field_tag "message[m_details][user][image]", nil, class: "form-control",
+                                                        placeholder: "Link zum Nutzerbild" %>
+</div>

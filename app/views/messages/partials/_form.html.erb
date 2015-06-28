@@ -73,21 +73,21 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <%= f.label :m_details %>
-        <%= f.text_field :m_details, class: "form-control", placeholder: "Beitragsdetails" %>
-      </div>
+      <%= render partial: "/messages/partials/twitter_details", locals: { f: f } %>
       <div class="form-group">
         <%= f.label :m_rating %>
-        <%= f.select :m_rating, [1,2,3], {include_blank: true}, { class: "form-control selectpicker" } %>
+        <%= f.select :m_rating, [1,2,3], { include_blank: true },
+                                         { class: "form-control selectpicker" } %>
       </div>
       <div class="form-group">
         <%= f.label :category_id %>
-        <%= f.select :category_id, [1,2,3], {include_blank: true}, { class: "form-control selectpicker" } %>
+        <%= f.select :category_id, [1,2,3], { include_blank: true },
+                                            { class: "form-control selectpicker" } %>
       </div>
       <div class="form-group">
         <%= f.label :sentiment_id %>
-        <%= f.select :sentiment_id, [1,2,3], {include_blank: true}, { class: "form-control selectpicker" } %>
+        <%= f.select :sentiment_id, [1,2,3], { include_blank: true },
+                                             { class: "form-control selectpicker" } %>
       </div>
       <div class="box-footer">
         <%= f.submit "Speichern", class: "btn btn-success" %>
@@ -98,27 +98,6 @@
 </div>
 
 <% content_for :page_script do %>
-  <script type="text/javascript">
-    $(function () {
-      $('.input-group.date').datetimepicker({
-        locale: 'de',
-        allowInputToggle: true,
-        showClose: true
-      });
-
-      $('input[type=radio]').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-      });
-
-      $('.message-origin .btn').click(function () {
-        $(this).next().iCheck('check');
-      });
-
-      if($('.message-origin .field_with_errors').length) {
-        $('.form-m-origin').addClass('message-origin-with-errors');
-      }
-    });
-  </script>
+  <%= javascript_include_tag "messages" %>
 <% end %>
 
