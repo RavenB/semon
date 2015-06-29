@@ -1,0 +1,17 @@
+<div class="form-group">
+  <%= f.label :sentiment_id %>
+  <div class="form-m-sentiment">
+    <div class="message-sentiment">
+      <a class="btn btn-sentiment-icon btn-success"><i class="fa fa-smile-o"></i></a>
+      <%= f.radio_button :sentiment_id, 1 %>
+    </div>
+    <div class="message-sentiment">
+      <a class="btn btn-sentiment-icon btn-warning"><i class="fa fa-meh-o"></i></a>
+      <%= f.radio_button :sentiment_id, 2 %>
+    </div>
+    <div class="message-sentiment">
+      <a class="btn btn-sentiment-icon btn-danger"><i class="fa  fa-frown-o"></i></a>
+      <%= f.radio_button :sentiment_id, 3 %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<section class="content-header">
+  <h1>
+    Kategorie bearbeiten
+    <small><%= @category.cat_name %></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li>
+      <%= link_to categories_path do %>
+        <i class="fa fa-fa-folder-o"></i> Kategorien
+      <% end %>
+    </li>
+    <li class="active"><a href="#">Kategorie bearbeiten</a></li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <%= render "/categories/partials/form" %>
+    </div>
+  </div>
+</section>

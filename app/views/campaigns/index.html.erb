@@ -1,17 +1,17 @@
 <section class="content-header">
   <h1>
-    Alle Kampagnen
+    Kampagnen
     <small>Übersicht</small>
   </h1>
   <ol class="breadcrumb">
-    <li class="active"><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
+    <li class="active"><a href="/"><i class="fa fa-th"></i> Kampagnen</a></li>
   </ol>
 </section>
 
 <section class="content">
   <div class="row margin-bottom">
     <div class="col-md-12">
-      <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+      <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-success" %>
     </div>
   </div>
 
@@ -39,7 +39,7 @@
   <% if @campaigns.count > 12 %>
     <div class="row">
       <div class="col-md-12">
-        <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+        <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-success" %>
       </div>
     </div>
   <% end %>

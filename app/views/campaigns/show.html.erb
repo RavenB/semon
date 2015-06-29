@@ -4,7 +4,7 @@
     <small>Dashboard</small>
   </h1>
   <ol class="breadcrumb">
-    <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
+    <li><a href="/"><i class="fa fa-th"></i> Kampagnen</a></li>
     <li class="active"><a href="#"><%= campaign_name(@campaign) %> Dashboard</a></li>
   </ol>
 </section>
@@ -23,8 +23,10 @@
   </div>
 
   <div class="row">
-    <div id="messages-in-period" class="col-md-6">Bitte warten...</div>
-    <div id="top-15-tags" class="col-md-6">Bitte warten...</div>
+
+    <%= render partial: "/campaigns/partials/chart_box_dashboard",
+               locals: { id: "messages-in-period" } %>
+    <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "top-15-tags" } %>
 
     <div class="col-md-12"><%= link_to "Tweets", "/tweets/#{@campaign.id}" %></div>
   </div>

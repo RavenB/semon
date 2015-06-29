@@ -19,4 +19,7 @@ class Campaign < ActiveRecord::Base
 
   validates :c_name, uniqueness: true
   validates :c_name, :c_start, :c_end, presence: true
+
+  scope :active, -> { where(c_status: 1) }
+  scope :inactive, -> { where(c_status: 0) }
 end

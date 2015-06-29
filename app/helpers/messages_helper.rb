@@ -32,4 +32,28 @@ module MessagesHelper
   def message_text_with_links(message_text)
     Rinku.auto_link(CGI.unescape(message_text), :all, "target='_blank'").html_safe
   end
+
+  # returns an image html tag for user image if present
+  def message_user_image(message_details)
+    if message_details.present? && JSON.parse(message_details)["user"]["image"].present?
+      "<img src='#{JSON.parse(message_details)["user"]["image"]}' />".html_safe
+    end
+  end
+
+  # returns the public twitter user url
+  def message_user_url(message_details)
+    message_details_json = JSON.parse(message_details)
+    if message_details.present? && message_details_json["user"]["url"].present?
+      message_details_json["user"]["url"]
+    end
+  end
+
+  # returns the public tweet url: M_DETAILS.USER.URL/status/M_DETAILS.ID
+  def message_tweet_url(message_details)
+    message_details_json = JSON.parse(message_details)
+    if message_details.present? && message_details_json["id"].present? &&
+       message_details_json["user"]["url"].present?
+      "#{message_details_json["user"]["url"]}/status/#{message_details_json["id"]}"
+    end
+  end
 end

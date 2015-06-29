@@ -1,4 +1,9 @@
-<div class="box box-success">
+<% box_class = "success" %>
+<% if @campaign.errors.any? %>
+  <% box_class = "danger" %>
+<% end %>
+
+<div class="box box-<%= box_class %>">
   <div class="box-header with-border">
     <h3 class="box-title">Bitte gib die Parameter für Deine Kampagne an:</h3>
   </div>

@@ -1,5 +1,4 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: []
   before_action :set_campaign, only: [:index, :new, :create]
 
   # GET /messages
@@ -45,10 +44,6 @@ class MessagesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
-
     def set_campaign
       @campaign = Campaign.find(params[:id])
     end

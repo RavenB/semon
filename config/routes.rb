@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'campaigns#index'
 
-  resources :campaigns, :tags
+  resources :campaigns, :tags, :categories
 
   scope '/campaigns' do
     get '/:id/tags' => 'tags#index'

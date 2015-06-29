@@ -1,5 +1,12 @@
 body { background-color: #ecf0f5; }
 
+.skin-black .main-header > .navbar .pull-left .navbar-nav > li > a {
+  border-left: none;
+  border-right: 1px solid #eee;
+}
+
+.sidebar-menu .active-campaigns { margin-right: 30px !important; }
+
 .small-box {
   &.bg-gray {
     color: #f9f9f9;

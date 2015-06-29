@@ -1,5 +1,8 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:show, :edit, :update, :destroy, :messages_in_period, :top_15_tags]
+  before_action :set_campaign, only: [
+                                       :show, :edit, :update, :destroy, :messages_in_period,
+                                       :top_15_tags
+                                     ]
 
   # GET /campaigns/1
   def show

@@ -7,6 +7,9 @@ de:
       message:
         one: "Beitrag"
         other: "Beiträge"
+      category:
+        one: "Kategorie"
+        other: "Kategorien"
     attributes:
       campaign:
         c_name: "Name der Kampagne"
@@ -24,5 +27,8 @@ de:
         m_origin: "Quelle des Beitrags"
         m_details: "Details der Social Media Plattform"
         m_rating: "Bewertung des Beitrags"
-        category_id: "Kategorisierung des Beitrags"
+        category_id: "Kategorie des Beitrags"
         sentiment_id: "Sentiment des Beitrags"
+      category:
+        cat_name: "Name der Kategorie"
+        cat_description: "Beschreibung der Kategorie"

@@ -1,0 +1,54 @@
+<section class="content-header">
+  <h1>
+    Kategorien
+    <small>Übersicht</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li class="active">
+      <%= link_to categories_path do %>
+        <i class="fa fa-folder-o"></i> Kategorien
+      <% end %>
+    </li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row margin-bottom">
+    <div class="col-md-12">
+      <%= link_to "Kategorie erstellen", new_category_path, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover categories-table">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <th>Beschreibung</th>
+                <th class="edit-delete"></th>
+              </tr>
+              <% @categories.each do |category| %>
+                <tr>
+                  <td><%= category.cat_name %></td>
+                  <td><%= category.cat_description %></td>
+                  <td>
+                    <%= link_to edit_category_path(category), title: "bearbeiten" do %>
+                      <i class="fa fa-pencil"></i>
+                    <% end %>
+                    <%= link_to category, method: :delete, title: "entfernen",
+                        data: { confirm: "#{category.cat_name} wirklich entfernen?" } do %>
+                      <i class="fa fa-trash-o"></i>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

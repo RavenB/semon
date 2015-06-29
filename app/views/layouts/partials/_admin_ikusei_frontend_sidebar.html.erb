@@ -5,41 +5,22 @@
     <ul class="sidebar-menu">
       <li class="<%= 'active' if current_page?(root_path) %>">
         <a href="/">
-          <i class="fa fa-th"></i> <span>Alle Kampagnen</span>
-          <small class="label pull-right bg-green">7</small>
+          <i class="fa fa-th"></i> <span>Kampagnen</span>
+          <small class="label pull-right bg-light-blue active-campaigns" title="aktiv">
+            <%= Campaign.active.count %>
+          </small>
+          <small class="label pull-right bg-gray" title="inaktiv">
+            <%= Campaign.inactive.count %>
+          </small>
         </a>
       </li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-files-o"></i>
-          <span>Goals</span>
-          <span class="label label-primary pull-right">2</span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="#"><i class="fa fa-circle-o"></i> First</a></li>
-          <li><a href="#"><i class="fa fa-circle-o"></i> Second</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fa fa-smile-o"></i> <span>Customers</span>
-        </a>
-      </li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-plus-square"></i>
-          <span>Extra</span>
-          <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="#"><i class="fa fa-angle-double-right"></i> Something</a></li>
-          <li><a href="#"><i class="fa fa-angle-double-right"></i> Something else</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#" target="_blank">
-          <i class="fa fa-question-circle"></i> <span>Support</span>
-        </a>
+      <li class="<%= 'active' if current_page?(categories_path) %>">
+        <%= link_to categories_path do %>
+          <i class="fa fa-folder-o"></i> <span>Kategorien</span>
+          <small class="label pull-right bg-light-blue">
+            <%= Category.count %>
+          </small>
+        <% end %>
       </li>
       <%= render "/layouts/partials/campaign_navigation" %>
     </ul>

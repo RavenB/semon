@@ -17,8 +17,10 @@
     <div class="timeline-item">
       <span class="time"><i class="fa fa-clock-o"></i> <%= message_time(message.m_moment) %></span>
 
-      <h3 class="timeline-header">
-        <a href="#" target="_blank"><%= message.m_author %></a>
+      <h3 class="timeline-header"><%= link_to message_user_url(message.m_details), target: "_blank" do %>
+          <%= message_user_image(message.m_details) %>
+          <%= message.m_author %>
+        <% end %>
       </h3>
 
       <div class="timeline-body">
@@ -26,6 +28,10 @@
       </div>
 
       <div class="timeline-footer">
+        <%= link_to message_tweet_url(message.m_details),
+                    title: message_tweet_url(message.m_details), target: "_blank" do %>
+          <i class="fa fa-link"></i>
+        <% end %>
         <i class="fa fa-tags"></i>
         <% message.tags.each do |tag| %>
           <button class="btn btn-default btn-xs disabled"><%= tag.t_name %></button>
@@ -35,5 +41,3 @@
   </li>
   <% prev_message_date = message_date %>
 <% end %>
-
-<%# link zum tweet: M_DETAILS.USER.URL/status/M_DETAILS.ID %>
