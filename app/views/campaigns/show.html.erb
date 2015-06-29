@@ -28,6 +28,16 @@
                locals: { id: "messages-in-period" } %>
     <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "top-15-tags" } %>
 
+    <%#
+      - darstellungen von (gefilterten) daten
+      - zeiterverlauf/anzahlen in liniendiagramm
+      - plattformen/anzahlen in balken- oder kreisdiagramm
+      - themen/häufigkeit in tagcloud
+      - topautoren/anzahl beiträge in balken- oder kreisdiagramm/tabelle
+      - topseiten oder -links/anzahl beiträge in balken- oder kreisdiagramm
+      - tonalität (positiv, neutral, negativ) linien-, balken- oder kreisdiagramm
+    %>
+
     <div class="col-md-12"><%= link_to "Tweets", "/tweets/#{@campaign.id}" %></div>
   </div>
 </section>
