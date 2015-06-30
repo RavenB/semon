@@ -38,7 +38,7 @@
       - tonalität (positiv, neutral, negativ) linien-, balken- oder kreisdiagramm
     %>
 
-    <div class="col-md-12"><%= link_to "Tweets", "/tweets/#{@campaign.id}" %></div>
+    <div class="col-md-12"><%= link_to "Tweets", "/tweets/#{@campaign.id}", remote: true %></div>
   </div>
 </section>
 

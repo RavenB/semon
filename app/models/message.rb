@@ -29,6 +29,8 @@ class Message < ActiveRecord::Base
 
   after_create :set_message_tags
 
+  scope :twitter, -> { where(m_origin: "twitter") }
+
   private
     # check message text for campaign tags and save matched tags to the message
     def set_message_tags

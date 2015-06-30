@@ -43,14 +43,16 @@ group :development, :test do
 end
 
 gem 'mysql2'
-gem 'httparty'
 gem 'coffee-script-source', '1.8.0'
-gem 'ancestry'
+
+gem 'httparty' # https://github.com/jnunemaker/httparty
+gem 'ancestry' # https://github.com/stefankroes/ancestry
 gem 'annotate' # https://github.com/ctran/annotate_models
 gem 'momentjs-rails', '>= 2.9.0'
-gem 'rinku'
-gem 'kaminari'
-gem 'jquery-infinite-pages'
+gem 'rinku' # https://github.com/vmg/rinku
+gem 'kaminari' # https://github.com/amatsuda/kaminari
+gem 'jquery-infinite-pages' # https://github.com/magoosh/jquery-infinite-pages
+gem 'sentimental' # https://github.com/7compass/sentimental
 
 
 ######### LAYOUT #########

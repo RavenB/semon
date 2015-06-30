@@ -56,4 +56,16 @@ module MessagesHelper
       "#{message_details_json["user"]["url"]}/status/#{message_details_json["id"]}"
     end
   end
+
+  # checks the message sentiment and saves it to the message
+  # 1 = positive
+  # 2 = neutral
+  # 3 = negative
+  # the base is an english txt file and a smiley file:
+  # https://github.com/7compass/sentimental/blob/master/lib/sentiwords.txt
+  # https://github.com/7compass/sentimental/blob/master/lib/sentislang.txt
+  # with an own file in addition:
+  def analyse_sentiment
+
+  end
 end
