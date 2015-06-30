@@ -1,0 +1,29 @@
+<script type="text/jsx">
+  function twitterRequest() {
+    // react code goes here
+    /** @jsx React.DOM */
+    var TwitterRequest = React.createClass({
+      mixins: [SetIntervalMixin], // Use the mixin
+      render: function() {
+        return false;
+      },
+      componentDidMount: function() {
+        this.requestNewTwitterData();
+        // call a method on the mixin to update the chart after given time
+        this.setInterval(this.requestNewTwitterData, FIVE_MINUTES);
+      },
+      requestNewTwitterData: function() {
+        var ajax_options = {
+          dataType: 'js',
+          url: '/tweets/<%= @campaign.id %>',
+        };
+        $.ajax(ajax_options);
+      }
+    });
+
+    React.render(
+      <TwitterRequest/>,
+      document.getElementById('twitter-request')
+    );
+  }
+</script>
