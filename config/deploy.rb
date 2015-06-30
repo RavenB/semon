@@ -31,11 +31,11 @@ set :rvm_ruby_version, '2.2.0'      # Defaults to: 'default'
 
 # Default value for :linked_files is []
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-set :linked_files, %w{config/database.yml settings.yml config/unicorn.rb}
+set :linked_files, %w{config/database.yml config/unicorn.rb}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/system public/uploads public/assets}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/assets}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
