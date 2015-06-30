@@ -1,0 +1,35 @@
+<section class="content-header">
+  <h1>
+    <%= campaign_name(@campaign) %>
+    <small>Timeline</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-th"></i> Kampagnen</a></li>
+    <li><%= link_to "#{campaign_name(@campaign)} Dashboard", campaign_path(@campaign) %></li>
+    <li class="active"><a href="#"><%= campaign_name(@campaign) %> Timeline</a></li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <% if @messages.present? %>
+        <ul class="timeline">
+          <%= render partial: "/messages/partials/timeline_item",
+                     locals: { messages: @messages, prev_message_date: "" } %>
+        </ul>
+        <div class="pagination">
+          <%= link_to_next_page(@messages, "Bitte warten...", remote: true) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<% content_for :page_script do %>
+  <script type="text/javascript">
+    $(function() {
+      $('body').infinitePages();
+    });
+  </script>
+<% end %>

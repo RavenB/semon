@@ -1,0 +1,16 @@
+.categories-table {
+  .fa-pencil {
+    color: #333;
+    margin-right: 10px;
+
+    &:hover { color: #999; }
+  }
+
+  .fa-trash-o {
+    color: $red;
+
+    &:hover { color: #f56954; }
+  }
+
+  .edit-delete { width: 55px; }
+}

@@ -10,8 +10,6 @@
 #
 
 class MessageTag < ActiveRecord::Base
-  attr_accessible :message_id, :tag_id
-
   belongs_to :message
   belongs_to :tag
 end

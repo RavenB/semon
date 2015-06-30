@@ -3,13 +3,15 @@
     Kampagne erstellen
   </h1>
   <ol class="breadcrumb">
-    <li><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
+    <li><a href="/"><i class="fa fa-th"></i> Kampagnen</a></li>
     <li class="active"><a href="#">Kampagne erstellen</a></li>
   </ol>
 </section>
 
 <section class="content">
   <div class="row">
-    <%= render "form" %>
+    <div class="col-md-12">
+      <%= render "/campaigns/partials/form" %>
+    </div>
   </div>
 </section>

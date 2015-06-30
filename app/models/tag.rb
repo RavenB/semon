@@ -21,4 +21,6 @@ class Tag < ActiveRecord::Base
   has_ancestry orphan_strategy: :restrict
 
   validates :t_name, :campaign_id, presence: true
+
+  scope :for_campaign, -> campaign_id { where(campaign_id: campaign_id) }
 end

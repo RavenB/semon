@@ -1,17 +1,17 @@
 <section class="content-header">
   <h1>
-    Alle Kampagnen
+    Kampagnen
     <small>Übersicht</small>
   </h1>
   <ol class="breadcrumb">
-    <li class="active"><a href="/"><i class="fa fa-th"></i> Alle Kampagnen</a></li>
+    <li class="active"><a href="/"><i class="fa fa-th"></i> Kampagnen</a></li>
   </ol>
 </section>
 
 <section class="content">
   <div class="row margin-bottom">
     <div class="col-md-12">
-      <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+      <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-success" %>
     </div>
   </div>
 
@@ -19,10 +19,10 @@
     <%# create a box element for every campaign containing its name and date range %>
     <% @campaigns.each do |campaign| %>
       <div class="col-lg-3 col-xs-6">
-        <%= link_to dashboard_path(campaign.id), title: campaign.c_name do %>
+        <%= link_to campaign_path(campaign), title: campaign_name(campaign) do %>
           <div class="small-box <%= campaign.c_status == 1 ? 'bg-light-blue' : 'bg-gray' %>">
             <div class="inner">
-              <h3><%= campaign.c_name %></h3>
+              <h3><%= campaign_name(campaign) %></h3>
               <p><%= campaign_date_range(campaign) %></p>
             </div>
             <div class="icon">
@@ -39,7 +39,7 @@
   <% if @campaigns.count > 12 %>
     <div class="row">
       <div class="col-md-12">
-        <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-lg btn-success" %>
+        <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-success" %>
       </div>
     </div>
   <% end %>

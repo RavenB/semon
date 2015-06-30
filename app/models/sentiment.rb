@@ -9,8 +9,6 @@
 #
 
 class Sentiment < ActiveRecord::Base
-  attr_accessible :s_name
-
   has_many :messages
 
   validates :s_name, presence: true

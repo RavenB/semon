@@ -1,0 +1,43 @@
+<script type="text/jsx">
+  function top15Tags() {
+    // react code goes here
+    /** @jsx React.DOM */
+    var GooglePieChart = React.createClass({
+      mixins: [SetIntervalMixin], // Use the mixin
+      render: function() {
+        return (
+          <div id='pie-chart' style={{ height: 400 }}></div>
+        );
+      },
+      componentDidMount: function() {
+        this.drawCharts();
+        // call a method on the mixin to update the chart after given time
+        this.setInterval(this.drawCharts, FIVE_MINUTES);
+      },
+      drawCharts: function() {
+        var options = {
+          colors: CHART_COLORS,
+          pieHole: 0.3,
+          title: "Top 15 Stichworte der Kampagne"
+        };
+        var chart = new google.visualization.PieChart(
+          document.getElementById('pie-chart')
+        );
+
+        var ajax_options = {
+          dataType: 'json',
+          url: '/campaigns/<%= @campaign.id %>/top_15_tags',
+        };
+        $.ajax(ajax_options).done(function (data) {
+          var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
+          chart.draw(data, options);
+        });
+      }
+    });
+
+    React.render(
+      <GooglePieChart/>,
+      document.getElementById('top-15-tags')
+    );
+  }
+</script>

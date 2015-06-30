@@ -1,0 +1,91 @@
+<section class="content-header">
+  <h1>
+    <%= campaign_name(@campaign) %>
+    <small>Dashboard</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-th"></i> Kampagnen</a></li>
+    <li class="active"><a href="#"><%= campaign_name(@campaign) %> Dashboard</a></li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <%= link_to messages_path, class: "info-box" do %>
+        <span class="info-box-icon bg-light-blue"><i class="ion-ios-list-outline"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Alle Beiträge</span>
+          <span id="all-messages-count" class="info-box-number"><%= @campaign.messages.count %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <%= render partial: "/campaigns/partials/chart_box_dashboard",
+               locals: { id: "messages-in-period" } %>
+    <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "top-15-tags" } %>
+
+    <%#
+      - darstellungen von (gefilterten) daten
+      - zeiterverlauf/anzahlen in liniendiagramm
+      - plattformen/anzahlen in balken- oder kreisdiagramm
+      - themen/häufigkeit in tagcloud
+      - topautoren/anzahl beiträge in balken- oder kreisdiagramm/tabelle
+      - topseiten oder -links/anzahl beiträge in balken- oder kreisdiagramm
+      - tonalität (positiv, neutral, negativ) linien-, balken- oder kreisdiagramm
+    %>
+
+    <div id="twitter-request"></div>
+  </div>
+</section>
+
+<% content_for :page_script do %>
+  <script type="text/jsx">
+    $(function() {
+      // init google charts
+      var ajax_options = {
+        dataType: 'script',
+        cache: true,
+        url: 'https://www.google.com/jsapi',
+      };
+      $.ajax(ajax_options).done(function () {
+        google.load('visualization', '1.1', {
+          packages:['corechart'],
+          callback: function() { // call all charts renderer
+            messagesInPeriod();
+            top15Tags();
+            twitterRequest();
+          }
+        });
+      });
+    });
+
+    var FIVE_MINUTES = 5 * 60000;
+    var ONE_MINUTE = 1 * 60000;
+    var CHART_COLORS = [
+      '#3c8dbc', '#dd4b39', '#00a65a', '#00c0ef', '#f39c12', '#0073b7', '#001F3F', '#39CCCC',
+      '#3D9970', '#01FF70', '#FF851B', '#F012BE', '#605ca8', '#D81B60', '#111111', '#d2d6de'
+    ];
+
+    // react code goes here
+    /** @jsx React.DOM */
+    var SetIntervalMixin = {
+      componentWillMount: function() {
+        this.intervals = [];
+      },
+      setInterval: function() {
+        this.intervals.push(setInterval.apply(null, arguments));
+      },
+      componentWillUnmount: function() {
+        this.intervals.map(clearInterval);
+      }
+    };
+  </script>
+
+  <%= render "/dashboard/messages_in_period" %>
+  <%= render "/dashboard/top_15_tags" %>
+  <%= render "/dashboard/twitter_request" %>
+<% end %>

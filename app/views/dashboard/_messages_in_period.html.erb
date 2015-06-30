@@ -1,0 +1,53 @@
+<script type="text/jsx">
+  function messagesInPeriod() {
+    // react code goes here
+    /** @jsx React.DOM */
+    var GoogleLineChart = React.createClass({
+      mixins: [SetIntervalMixin], // Use the mixin
+      render: function() {
+        return (
+          <div id='line-chart' style={{ height: 400 }}></div>
+        );
+      },
+      componentDidMount: function() {
+        this.drawCharts();
+        // call a method on the mixin to update the chart after given time
+        this.setInterval(this.drawCharts, FIVE_MINUTES);
+      },
+      drawCharts: function() {
+        var options = {
+          colors: CHART_COLORS,
+          pieHole: 0.3,
+          title: 'Beiträge über den Eventzeitraum (<%= campaign_date_range(@campaign) %>)',
+          legend: { position: 'none' }
+        };
+        var chart = new google.visualization.LineChart(
+          document.getElementById('line-chart')
+        );
+
+        var ajax_options = {
+          dataType: 'json',
+          url: '/campaigns/<%= @campaign.id %>/messages_in_period',
+        };
+        $.ajax(ajax_options).done(function (data) {
+          var data_array = $.parseJSON(data.responseText);
+          var data = google.visualization.arrayToDataTable(data_array);
+          chart.draw(data, options);
+          // count messages and update messages count in timeline link box
+          var campaignMessageCount = 0;
+          data_array.map(function(item) {
+            if (typeof(item[1]) == 'number') {
+              campaignMessageCount += item[1];
+            }
+          });
+          $('#all-messages-count').text(campaignMessageCount);
+        });
+      }
+    });
+
+    React.render(
+      <GoogleLineChart/>,
+      document.getElementById('messages-in-period')
+    );
+  }
+</script>

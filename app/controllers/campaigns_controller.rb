@@ -1,11 +1,14 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:dashboard, :edit, :update, :destroy]
+  before_action :set_campaign, only: [
+                                       :show, :edit, :update, :destroy, :messages_in_period,
+                                       :top_15_tags
+                                     ]
 
-  def dashboard
+  # GET /campaigns/1
+  def show
   end
 
   # GET /campaigns
-  # GET /campaigns.json
   def index
     @campaigns = Campaign.all
   end
@@ -24,7 +27,7 @@ class CampaignsController < ApplicationController
     @campaign = Campaign.new(campaign_params)
     respond_to do |format|
       if @campaign.save
-        format.html { redirect_to view_context.dashboard_path(@campaign.id) }
+        format.html { redirect_to campaign_path(@campaign) }
       else
         format.html { render "new" }
       end
@@ -43,7 +46,7 @@ class CampaignsController < ApplicationController
     else
       respond_to do |format|
         if @campaign.update(campaign_params)
-          format.html { redirect_to view_context.dashboard_path(@campaign.id) }
+          format.html { redirect_to campaign_path(@campaign) }
         else
           format.html { render "edit" }
         end
@@ -56,6 +59,38 @@ class CampaignsController < ApplicationController
     @campaign.destroy
     respond_to do |format|
       format.html { redirect_to root_path }
+    end
+  end
+
+  # GET /campaigns/1/messages_in_period
+  def messages_in_period
+    # [["10.06.2015", 50], ["11.06.2015", 40]]
+    @campaign_messages = @campaign.messages.order(m_moment: :asc)
+                                           .group_by{ |m| view_context.message_date(m.m_moment)}
+                                           .collect do |date, messages|
+                                             [date, messages.count]
+                                           end
+    if @campaign_messages.blank?
+      # create empty dummy for campaign start date to prevent google charts errors
+      @campaign_messages = [[@campaign.c_start.strftime("%d.%m.%Y"), 0]]
+    end
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_messages.unshift(["Tag", "Anzahl"]).to_json }
+      }
+    end
+  end
+
+  # GET /campaigns/1/top_15_tags
+  def top_15_tags
+    # [["tag1", 10], ["tag2", 5]]
+    @campaign_tags = @campaign.tags.order(t_count: :desc).take(15).collect do |tag|
+      [tag.t_name, tag.t_count]
+    end
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_tags.unshift(["Tag", "Anzahl"]).to_json }
+      }
     end
   end
 

@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%= render "layouts/admin_ikusei_frontend_head_meta" %>
+  <%= render "/layouts/partials/admin_ikusei_frontend_head_meta" %>
 </head>
 <body class="skin-black sidebar-mini fixed">
-    <%= render "layouts/admin_ikusei_frontend_headerbar" %>
+    <%= render "/layouts/partials/admin_ikusei_frontend_headerbar" %>
 
     <%# left side column %>
-    <%= render "layouts/admin_ikusei_frontend_sidebar" %>
+    <%= render "/layouts/partials/admin_ikusei_frontend_sidebar" %>
 
     <%# page content %>
     <div class="content-wrapper">
+      <%= yield :google_charts_script %>
       <%= yield %>
     </div>
 
-    <%= render "layouts/admin_ikusei_frontend_controlbar" %>
+    <%# create message modal template %>
+    <%= render "/messages/partials/create_message_modal" %>
+
+    <%= render "/layouts/partials/admin_ikusei_frontend_controlbar" %>
 
     <%= javascript_include_tag "application" %>
     <%= yield :page_script %>

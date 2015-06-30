@@ -34,19 +34,35 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
+group :production do
+  gem 'unicorn'
+end
+
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   # gem 'sqlite3'
   gem 'byebug' # https://github.com/deivid-rodriguez/byebug
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'thin'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
 end
 
 gem 'mysql2'
-gem 'httparty'
 gem 'coffee-script-source', '1.8.0'
-gem 'ancestry'
+
+gem 'httparty' # https://github.com/jnunemaker/httparty
+gem 'ancestry' # https://github.com/stefankroes/ancestry
 gem 'annotate' # https://github.com/ctran/annotate_models
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'rinku' # https://github.com/vmg/rinku
+gem 'kaminari' # https://github.com/amatsuda/kaminari
+gem 'jquery-infinite-pages' # https://github.com/magoosh/jquery-infinite-pages
+gem 'stimmung' # https://github.com/pachacamac/stimmung
 
 
 ######### LAYOUT #########

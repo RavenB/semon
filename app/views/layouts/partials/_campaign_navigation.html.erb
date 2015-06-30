@@ -1,13 +1,13 @@
 <% if is_campaign? %>
   <li class="header">KAMPAGNE</li>
-  <li class="<%= 'active' if current_page?(dashboard_path(@campaign.id)) %>">
-    <%= link_to dashboard_path(@campaign.id) do %>
+  <li class="<%= 'active' if current_page?(campaign_path(@campaign)) %>">
+    <%= link_to campaign_path(@campaign) do %>
       <i class="fa fa-dashboard"></i> <span>Dashboard</span>
     <% end %>
   </li>
-  <li class="<%= 'active' if current_page?(edit_campaign_path(@campaign)) %>">
-    <%= link_to edit_campaign_path(@campaign) do %>
-      <i class="fa fa-pencil"></i> <span>Kampagne bearbeiten</span>
+  <li class="<%= 'active' if current_page?("/campaigns/#{@campaign.id}/tags") %>">
+    <%= link_to "/campaigns/#{@campaign.id}/tags" do %>
+      <i class="fa fa-tags"></i> <span>Stichworte</span>
     <% end %>
   </li>
   <li>
@@ -23,14 +23,14 @@
       <% end %>
     <% end %>
   </li>
-  <li class="<%= 'active' if current_page?("/campaigns/#{@campaign.id}/tags") %>">
-    <%= link_to "/campaigns/#{@campaign.id}/tags" do %>
-      <i class="fa fa-tags"></i> <span>Stichworte</span>
+  <li class="<%= 'active' if current_page?(edit_campaign_path(@campaign)) %>">
+    <%= link_to edit_campaign_path(@campaign) do %>
+      <i class="fa fa-pencil"></i> <span>Kampagne bearbeiten</span>
     <% end %>
   </li>
   <li>
     <%= link_to @campaign, method: :delete,
-                data: { confirm: "#{@campaign.c_name} wirklich entfernen?" } do %>
+                data: { confirm: "#{campaign_name(@campaign)} wirklich entfernen?" } do %>
       <i class="fa fa-trash-o text-red"></i> <span>Kampagne löschen</span>
     <% end %>
   </li>

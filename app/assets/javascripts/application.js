@@ -12,9 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require JSXTransformer-0.13.3
+//= require react-with-addons-0.13.3
 //= require bootstrap-sprockets
 //= require jquery.slimscroll
-//= require bootstrap-datepicker
-//= require locales/bootstrap-datepicker.de
+//= require moment
+//= require bootstrap-datetimepicker
+//= require moment/de
+//= require bootstrap-select
+//= require locales/bootstrap-select.de
+//= require iCheck
+//= require jquery.infinite-pages
+//= require bootstrap-treeview
 //= require app
-//= require_tree .
+//= require adminlte-addons

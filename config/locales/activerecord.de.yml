@@ -4,6 +4,12 @@ de:
       campaign:
         one: "Kampagne"
         other: "Kampagnen"
+      message:
+        one: "Beitrag"
+        other: "Beiträge"
+      category:
+        one: "Kategorie"
+        other: "Kategorien"
     attributes:
       campaign:
         c_name: "Name der Kampagne"
@@ -14,3 +20,15 @@ de:
         last_accessed: "Zuletzt abgerufen"
         created_at: "Erstellt am"
         updated_at: "Aktualisiert am"
+      message:
+        m_author: "Autor des Beitrags"
+        m_text: "Inhalt des Beitrags"
+        m_moment: "Zeitpunkt des Beitrags"
+        m_origin: "Quelle des Beitrags"
+        m_details: "Details der Social Media Plattform"
+        m_rating: "Bewertung des Beitrags"
+        category_id: "Kategorie des Beitrags"
+        sentiment_id: "Sentiment des Beitrags"
+      category:
+        cat_name: "Name der Kategorie"
+        cat_description: "Beschreibung der Kategorie"
