@@ -17,7 +17,7 @@ class CategoriesController < ApplicationController
 
   # POST /categories
   def create
-    @category = Category.create(category_params)
+    @category = Category.new(category_params)
     respond_to do |format|
       if @category.save
         format.html { redirect_to categories_path }

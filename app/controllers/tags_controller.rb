@@ -12,7 +12,9 @@ class TagsController < ApplicationController
 
   # POST /tags
   def create
-    @tag = Tag.create(tag_params)
+    @tag = Tag.new(tag_params)
+    @tag.t_name = @tag.t_name.delete(" ")
+    @tag.save
     @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
     flash[:success] = "Erfolgreich aktualisiert!"
   end

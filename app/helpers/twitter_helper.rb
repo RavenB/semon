@@ -5,10 +5,7 @@ module TwitterHelper
     message.m_moment = tweet.created_at
     message.m_origin = "twitter"
     message.m_details = twitter_details_json(message, tweet)
-  end
-
-  def escape_text_characters(tweet_text)
-    CGI.escape(tweet_text).gsub('+', ' ')
+    message.sentiment_id = analyse_sentiment(tweet.text)
   end
 
   # create message.m_details string when getting from api

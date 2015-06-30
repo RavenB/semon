@@ -13,13 +13,15 @@
 <section class="content">
   <div class="row">
     <div class="col-md-12">
-      <ul class="timeline">
-        <%= render partial: "/messages/partials/timeline_item",
-                   locals: { messages: @messages, prev_message_date: "" } %>
-      </ul>
-      <div class="pagination">
-        <%= link_to_next_page(@messages, "Bitte warten...", remote: true) %>
-      </div>
+      <% if @messages.present? %>
+        <ul class="timeline">
+          <%= render partial: "/messages/partials/timeline_item",
+                     locals: { messages: @messages, prev_message_date: "" } %>
+        </ul>
+        <div class="pagination">
+          <%= link_to_next_page(@messages, "Bitte warten...", remote: true) %>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>

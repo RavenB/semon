@@ -33,7 +33,7 @@
           var data_array = $.parseJSON(data.responseText);
           var data = google.visualization.arrayToDataTable(data_array);
           chart.draw(data, options);
-          // update messages count in timeline link box
+          // count messages and update messages count in timeline link box
           var campaignMessageCount = 0;
           data_array.map(function(item) {
             if (typeof(item[1]) == 'number') {

@@ -57,6 +57,14 @@ module MessagesHelper
     end
   end
 
+  def escape_text_characters(text_string)
+    CGI.escape(text_string).gsub("+", " ")
+  end
+
+  def unescape_text_characters(text_string)
+    CGI.unescape(text_string)
+  end
+
   # checks the message sentiment and saves it to the message
   # 1 = positive
   # 2 = neutral
@@ -65,7 +73,15 @@ module MessagesHelper
   # https://github.com/7compass/sentimental/blob/master/lib/sentiwords.txt
   # https://github.com/7compass/sentimental/blob/master/lib/sentislang.txt
   # with an own file in addition:
-  def analyse_sentiment
-
+  def analyse_sentiment(message_text)
+    # to get an analysed score for the string between -1.0 and 1.0
+    score = Sentiment.score(message_text)
+    if score > 0.45
+      1
+    elsif score < -0.45
+      3
+    else
+      2
+    end
   end
 end

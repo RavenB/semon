@@ -21,7 +21,8 @@
           <%= form_for(@tag, remote: true, html: { role: "form" }) do |f| %>
             <div class="input-group">
               <%= f.hidden_field :campaign_id, value: @campaign.id %>
-              <%= f.text_field :t_name, class: "form-control", placeholder: "Stichwort" %>
+              <%= f.text_field :t_name, class: "form-control", placeholder: "Stichwort",
+                                        autofocus: "" %>
               <span class="input-group-btn">
                 <%= f.submit "Hinzufügen", class: "btn btn-success" %>
               </span>

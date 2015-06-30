@@ -24,7 +24,7 @@ class CampaignsController < ApplicationController
 
   # POST /campaigns
   def create
-    @campaign = Campaign.create(campaign_params)
+    @campaign = Campaign.new(campaign_params)
     respond_to do |format|
       if @campaign.save
         format.html { redirect_to campaign_path(@campaign) }
@@ -70,6 +70,10 @@ class CampaignsController < ApplicationController
                                            .collect do |date, messages|
                                              [date, messages.count]
                                            end
+    if @campaign_messages.blank?
+      # create empty dummy for campaign start date to prevent google charts errors
+      @campaign_messages = [[@campaign.c_start.strftime("%d.%m.%Y"), 0]]
+    end
     respond_to do |format|
       format.json {
         render json: { responseText: @campaign_messages.unshift(["Tag", "Anzahl"]).to_json }

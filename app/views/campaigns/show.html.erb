@@ -38,13 +38,14 @@
       - tonalität (positiv, neutral, negativ) linien-, balken- oder kreisdiagramm
     %>
 
-    <div class="col-md-12"><%= link_to "Tweets", "/tweets/#{@campaign.id}", remote: true %></div>
+    <div id="twitter-request"></div>
   </div>
 </section>
 
 <% content_for :page_script do %>
   <script type="text/jsx">
     $(function() {
+      // init google charts
       var ajax_options = {
         dataType: 'script',
         cache: true,
@@ -53,15 +54,17 @@
       $.ajax(ajax_options).done(function () {
         google.load('visualization', '1.1', {
           packages:['corechart'],
-          callback: function() {
+          callback: function() { // call all charts renderer
             messagesInPeriod();
             top15Tags();
+            twitterRequest();
           }
         });
       });
     });
 
     var FIVE_MINUTES = 5 * 60000;
+    var ONE_MINUTE = 1 * 60000;
     var CHART_COLORS = [
       '#3c8dbc', '#dd4b39', '#00a65a', '#00c0ef', '#f39c12', '#0073b7', '#001F3F', '#39CCCC',
       '#3D9970', '#01FF70', '#FF851B', '#F012BE', '#605ca8', '#D81B60', '#111111', '#d2d6de'
@@ -84,4 +87,5 @@
 
   <%= render "/dashboard/messages_in_period" %>
   <%= render "/dashboard/top_15_tags" %>
+  <%= render "/dashboard/twitter_request" %>
 <% end %>
