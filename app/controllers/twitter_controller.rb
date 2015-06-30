@@ -95,7 +95,7 @@ class TwitterController < ApplicationController
           end
         end
       end
-      # Thread.new do
+      Thread.new do
         if @campaign.last_accessed.present?
           if @campaign.tags.last.created_at > @campaign.last_accessed
             # mark access and recrawl with new tags
@@ -104,12 +104,16 @@ class TwitterController < ApplicationController
             get_twitter_data(client, query_array, true)
           end
         end
+        search_results_count = 0;
         query_array.each do |query|
-          iterate_twitter_request(client, query, max_id, since_id)
+          search_results_count += iterate_twitter_request(client, query, max_id, since_id)
         end
-        @campaign.last_accessed = Time.now
-        @campaign.save
-      # end
+        if search_results_count < 2
+          # mark access to finish requesting past tweets
+          @campaign.last_accessed = Time.now
+          @campaign.save
+        end
+      end
     end
 
     def iterate_twitter_request(client, query, max_id, since_id)
@@ -121,6 +125,7 @@ class TwitterController < ApplicationController
         end
         iterate_twitter_request(client, query, max_id, since_id)
       end
+      search_results.count
     end
 
     # counter represents count from behind to get the oldest message with details id (twitter id)
@@ -161,8 +166,9 @@ class TwitterController < ApplicationController
         search_results_part.each do |tweet|
           message = Message.new(campaign_id: @campaign.id)
           view_context.create_twitter_message(message, tweet)
-          message.save
-          last_tweet_id = tweet.id
+          if message.save
+            last_tweet_id = tweet.id
+          end
         end
         iterate_message_save(search_results, counter_from + 100, counter_to + 100)
       end

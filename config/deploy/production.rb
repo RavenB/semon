@@ -20,9 +20,12 @@
 # role :app, %w{deploy@example.com}, my_property: :my_value
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
-role :app, %w{5.57.41.2}
-role :web, %w{5.57.41.2}
-role :db, %w{5.57.41.2}
+# role :app, %w{5.57.41.17}
+# role :web, %w{5.57.41.17}
+# role :db, %w{5.57.41.17}
+role :web, '5.57.41.17:65422'                          # Your HTTP server, Apache/etc
+role :app, '5.57.41.17:65422'                          # This may be the same as your `Web` server
+role :db,  '5.57.41.17:65422', :primary => true        # This is where Rails migrations will run
 
 
 # Configuration
@@ -33,7 +36,7 @@ role :db, %w{5.57.41.2}
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
-server '5.57.41.2', user: 'u10_semon', roles: %w{web app}, my_property: :my_value
+server '5.57.41.17:65422', user: 'u10_semon', roles: %w{web app}, my_property: :my_value
 
 
 # Custom SSH Options
