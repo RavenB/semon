@@ -52,3 +52,26 @@
     </div>
   </div>
 </section>
+
+<% content_for :page_script do %>
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="comment">
+            <p>Hier folgt der Hilfetext für die Kategorien.</p>
+            <p>{this.props.parame}</p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer parame="übergebener Parameter"/>,
+      document.getElementById('help-container')
+    );
+  </script>
+<% end %>
