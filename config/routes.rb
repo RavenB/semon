@@ -9,9 +9,13 @@ Rails.application.routes.draw do
 
   scope '/campaigns' do
     get '/:id/tags' => 'tags#index'
-    get '/:id/messages_in_period' => 'campaigns#messages_in_period'
-    get '/:id/top_15_tags' => 'campaigns#top_15_tags'
     resources :messages, path: '/:id/messages'
+  end
+
+  scope '/dashboard' do
+    get '/:id/messages_in_period' => 'dashboard#messages_in_period'
+    get '/:id/top_15_tags' => 'dashboard#top_15_tags'
+    get '/:id/sentiment' => 'dashboard#sentiment'
   end
 
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'

@@ -1,0 +1,48 @@
+<script type="text/jsx">
+  function sentiment() {
+    // react code goes here
+    /** @jsx React.DOM */
+    var GoogleBarChart = React.createClass({
+      mixins: [SetIntervalMixin], // Use the mixin
+      render: function() {
+        return (
+          <div id='bar-chart' style={{ height: 400 }}></div>
+        );
+      },
+      componentDidMount: function() {
+        this.drawCharts();
+        // call a method on the mixin to update the chart after given time
+        this.setInterval(this.drawCharts, FIVE_MINUTES);
+      },
+      drawCharts: function() {
+        var options = {
+          title: 'Sentiment der Beiträge',
+          legend: { position: 'none' },
+          hAxis: {
+            viewWindow: {
+              min: 0
+            },
+            format: 'short'
+          }
+        };
+        var chart = new google.visualization.BarChart(
+          document.getElementById('bar-chart')
+        );
+
+        var ajax_options = {
+          dataType: 'json',
+          url: '/dashboard/<%= @campaign.id %>/sentiment',
+        };
+        $.ajax(ajax_options).done(function (data) {
+          var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
+          chart.draw(data, options);
+        });
+      }
+    });
+
+    React.render(
+      <GoogleBarChart/>,
+      document.getElementById('sentiment')
+    );
+  }
+</script>
