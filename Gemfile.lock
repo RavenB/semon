@@ -1,10 +1,9 @@
 GIT
   remote: ssh://git@git.ikusei.de:7999/AK/admin_ikusei_frontend.git
-  revision: 8bfa38321916b2e914b39c801e74daa041b8c319
+  revision: 5cee75c61857bb97dac660e581900792196d5683
   specs:
     admin_ikusei_frontend (0.1.0)
       bootstrap-sass (~> 3.3.4.1)
-      haml
 
 GEM
   remote: https://rubygems.org/
@@ -36,6 +35,8 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    airbrussh (0.5.1)
+      sshkit (>= 1.6.1, != 1.7.0)
     ancestry (2.1.0)
       activerecord (>= 3.0.0)
     annotate (2.6.10)
@@ -89,8 +90,6 @@ GEM
     execjs (2.5.2)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    haml (4.0.6)
-      tilt
     hike (1.2.3)
     http (0.6.4)
       http_parser.rb (~> 0.6.0)
@@ -114,6 +113,7 @@ GEM
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     kgio (2.9.3)
+    libv8 (3.16.14.8)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     memoizable (0.4.2)
@@ -126,7 +126,6 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.18)
-    mysql2 (0.3.18-x86-mingw32)
     naught (1.0.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -152,7 +151,7 @@ GEM
     raindrops (0.14.0)
     rake (10.4.2)
     rdoc (4.2.0)
-      json (~> 1.4)
+    ref (1.0.5)
     rinku (1.7.3)
     sass (3.2.19)
     sass-rails (4.0.5)
@@ -164,12 +163,12 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     simple_oauth (0.3.1)
-    sprockets (2.12.3)
+    sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.3.1)
+    sprockets-rails (2.3.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
@@ -178,6 +177,9 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     stimmung (0.0.1)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
@@ -194,8 +196,6 @@ GEM
       simple_oauth (~> 0.3.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2015.5)
-      tzinfo (>= 1.0.0)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -206,10 +206,10 @@ GEM
 
 PLATFORMS
   ruby
-  x86-mingw32
 
 DEPENDENCIES
   admin_ikusei_frontend!
+  airbrussh
   ancestry
   annotate
   better_errors
@@ -227,6 +227,7 @@ DEPENDENCIES
   jquery-infinite-pages
   jquery-rails
   kaminari
+  libv8
   momentjs-rails (>= 2.9.0)
   mysql2
   rails (= 4.1.8)
@@ -234,10 +235,11 @@ DEPENDENCIES
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   stimmung
+  therubyracer
   twitter
   tzinfo-data
   uglifier (>= 1.3.0)
   unicorn
 
 BUNDLED WITH
-   1.10.4
+   1.10.5
