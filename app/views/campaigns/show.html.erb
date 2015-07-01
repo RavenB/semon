@@ -28,7 +28,7 @@
                locals: { id: "messages-in-period" } %>
     <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "top-15-tags" } %>
     <%= render partial: "/campaigns/partials/chart_box_dashboard",
-               locals: { id: "xxx" } %>
+               locals: { id: "messages-at-time" } %>
     <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "sentiment" } %>
 
     <%#
@@ -60,6 +60,7 @@
           callback: function() { // call all charts renderer
             messagesInPeriod();
             top15Tags();
+            messagesAtTime();
             sentiment();
             twitterRequest();
           }
@@ -91,6 +92,7 @@
 
   <%= render "/dashboard/messages_in_period" %>
   <%= render "/dashboard/top_15_tags" %>
+  <%= render "/dashboard/messages_at_time" %>
   <%= render "/dashboard/sentiment" %>
   <%= render "/dashboard/twitter_request" %>
 <% end %>

@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   before_action :set_campaign, only: [
                                        :messages_in_period,
                                        :top_15_tags,
+                                       :messages_at_time,
                                        :sentiment
                                      ]
 
@@ -33,6 +34,25 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.json {
         render json: { responseText: @campaign_tags.unshift(["Stichwort", "Anzahl"]).to_json }
+      }
+    end
+  end
+
+  # GET /dashboard/1/messages_at_time
+  def messages_at_time
+    # [["14:30", 50], ["16:23", 40]]
+    @campaign_messages = @campaign.messages.order(m_moment: :asc)
+                                           .group_by{ |m| view_context.message_time(m.m_moment) }
+                                           .collect do |time, messages|
+                                             [time, messages.count]
+                                           end
+    if @campaign_messages.blank?
+      # create empty dummy for campaign start date to prevent google charts errors
+      @campaign_messages = [[@campaign.c_start.strftime("%H:%M"), 0]]
+    end
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_messages.unshift(["Datum", "Anzahl"]).to_json }
       }
     end
   end

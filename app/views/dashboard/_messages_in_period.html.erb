@@ -17,15 +17,14 @@
       drawCharts: function() {
         var options = {
           colors: CHART_COLORS,
-          pieHole: 0.3,
           title: 'Beiträge über den Eventzeitraum (<%= campaign_date_range(@campaign) %>)',
           legend: { position: 'none' },
           vAxis: {
             viewWindow: {
               min: 0
-            },
-            format: 'short'
-          }
+            }
+          },
+          animation: { startup: true, duration: 800 }
         };
         var chart = new google.visualization.LineChart(
           document.getElementById('messages-line-chart')
