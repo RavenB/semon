@@ -26,7 +26,7 @@
 
         var ajax_options = {
           dataType: 'json',
-          url: '/campaigns/<%= @campaign.id %>/top_15_tags',
+          url: '/dashboard/<%= @campaign.id %>/top_15_tags',
         };
         $.ajax(ajax_options).done(function (data) {
           var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));

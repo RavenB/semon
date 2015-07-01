@@ -33,6 +33,7 @@ function tagEditListItem(treeSelector, node) {
     complete: function (data) {
       $(treeSelector).find('li[data-nodeid="' + node.nodeId + '"]').after(data.responseText);
       $('.node-added').slideDown('fast');
+      $('.node-added #tag_t_name').focus();
       $('.node-added').click(function (e) {
         // bootstrap-treeview has special listener on list items what causes the form
         // submit to fail

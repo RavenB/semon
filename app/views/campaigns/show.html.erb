@@ -27,6 +27,9 @@
     <%= render partial: "/campaigns/partials/chart_box_dashboard",
                locals: { id: "messages-in-period" } %>
     <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "top-15-tags" } %>
+    <%= render partial: "/campaigns/partials/chart_box_dashboard",
+               locals: { id: "xxx" } %>
+    <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "sentiment" } %>
 
     <%#
       - darstellungen von (gefilterten) daten
@@ -57,6 +60,7 @@
           callback: function() { // call all charts renderer
             messagesInPeriod();
             top15Tags();
+            sentiment();
             twitterRequest();
           }
         });
@@ -87,5 +91,6 @@
 
   <%= render "/dashboard/messages_in_period" %>
   <%= render "/dashboard/top_15_tags" %>
+  <%= render "/dashboard/sentiment" %>
   <%= render "/dashboard/twitter_request" %>
 <% end %>

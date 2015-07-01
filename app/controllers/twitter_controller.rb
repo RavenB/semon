@@ -118,8 +118,8 @@ class TwitterController < ApplicationController
 
     def iterate_twitter_request(client, query, max_id, since_id)
       search_results = send_request(client, query, max_id, since_id)
-      if (max_id.present? && search_results.count > 1) || (since_id.present? && search_results.any?)
-        last_saved_tweet_id = iterate_message_save(search_results, 0, 99)
+      if (since_id.blank? && search_results.count > 1) || (since_id.present? && search_results.any?)
+        last_saved_tweet_id = iterate_message_save(search_results, 0, 99) || max_id
         if max_id.present? && max_id != last_saved_tweet_id
           max_id = last_saved_tweet_id
         end
@@ -160,7 +160,7 @@ class TwitterController < ApplicationController
     # save in 100 parts
     # returns last saved tweet id
     def iterate_message_save(search_results, counter_from, counter_to)
-      last_tweet_id = 0;
+      last_tweet_id = nil;
       search_results_part = search_results[counter_from..counter_to]
       if search_results_part.present?
         search_results_part.each do |tweet|
