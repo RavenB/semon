@@ -75,7 +75,7 @@ module MessagesHelper
   # with an own file in addition:
   def analyse_sentiment(message_text)
     # to get an analysed score for the string between -1.0 and 1.0
-    score = Sentiment.score(message_text)
+    score = SentimentModule.score(message_text)
     if score > 0.45
       1
     elsif score < -0.45

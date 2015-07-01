@@ -1,4 +1,4 @@
-module Sentiment
+module SentimentModule
   STIMMUNG = Stimmung.new
 
   def self.score(text)
