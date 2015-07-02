@@ -95,7 +95,7 @@ class TwitterController < ApplicationController
           end
         end
       end
-      Thread.new do
+      # Thread.new do
         if @campaign.last_accessed.present?
           if @campaign.tags.last.created_at > @campaign.last_accessed
             # mark access and recrawl with new tags
@@ -113,14 +113,14 @@ class TwitterController < ApplicationController
           @campaign.last_accessed = Time.now
           @campaign.save
         end
-      end
+      # end
     end
 
     def iterate_twitter_request(client, query, max_id, since_id)
       search_results = send_request(client, query, max_id, since_id)
       if (since_id.blank? && search_results.count > 1) || (since_id.present? && search_results.any?)
-        last_saved_tweet_id = iterate_message_save(search_results, 0, 99) || max_id
-        if max_id.present? && max_id != last_saved_tweet_id
+        last_saved_tweet_id = iterate_message_save(search_results, 0, 99)
+        if max_id.present? && max_id != last_saved_tweet_id && last_saved_tweet_id.present?
           max_id = last_saved_tweet_id
         end
         iterate_twitter_request(client, query, max_id, since_id)
