@@ -17,7 +17,9 @@
           dataType: 'js',
           url: '/tweets/<%= @campaign.id %>',
         };
-        $.ajax(ajax_options);
+        $.ajax(ajax_options).error(function (data) {
+          console.error(data);
+        });
       }
     });
 
