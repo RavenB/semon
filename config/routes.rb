@@ -14,9 +14,10 @@ Rails.application.routes.draw do
 
   scope '/dashboard' do
     get '/:id/messages_in_period' => 'dashboard#messages_in_period'
-    get '/:id/top_15_tags' => 'dashboard#top_15_tags'
     get '/:id/messages_at_time' => 'dashboard#messages_at_time'
     get '/:id/sentiment' => 'dashboard#sentiment'
+    get '/:id/top_tags' => 'dashboard#top_tags'
+    get '/:id/word_cloud' => 'dashboard#word_cloud'
   end
 
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'

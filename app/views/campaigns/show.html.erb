@@ -11,25 +11,55 @@
 
 <section class="content">
   <div class="row">
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <%= link_to messages_path, class: "info-box" do %>
-        <span class="info-box-icon bg-light-blue"><i class="ion-ios-list-outline"></i></span>
+    <div class="col-xs-12 col-sm-6">
+      <%= link_to messages_path, class: "info-box bg-light-blue" do %>
+        <span class="info-box-icon bg-opacity">
+          <i class="ion-ios-list-outline"></i>
+        </span>
         <div class="info-box-content">
-          <span class="info-box-text">Alle Beiträge</span>
-          <span id="all-messages-count" class="info-box-number"><%= @campaign.messages.count %></span>
+          <span class="info-box-text" title="Timeline aller Beiträge">
+            Timeline aller Beiträge
+          </span>
+          <span id="all-messages-count" class="info-box-number">
+            <%= @campaign.messages.count %>
+          </span>
         </div>
       <% end %>
     </div>
   </div>
-
   <div class="row">
-
-    <%= render partial: "/campaigns/partials/chart_box_dashboard",
-               locals: { id: "messages-in-period" } %>
-    <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "top-15-tags" } %>
-    <%= render partial: "/campaigns/partials/chart_box_dashboard",
-               locals: { id: "messages-at-time" } %>
-    <%= render partial: "/campaigns/partials/chart_box_dashboard", locals: { id: "sentiment" } %>
+    <div class="col-md-12">
+      <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <%= link_to "Beiträge", "#tab_1", "data-toggle" => "tab", "aria-expanded" => "true" %>
+          </li>
+          <li>
+            <%= link_to "Stichworte", "#tab_2", "data-toggle" => "tab", "aria-expanded" => "true" %>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="tab_1" class="tab-pane active">
+            <div class="row">
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "", id: "messages-in-period" } %>
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "", id: "messages-at-time" } %>
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "", id: "sentiment" } %>
+            </div>
+          </div>
+          <div id="tab_2" class="tab-pane">
+            <div class="row">
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "Top Stichworte der Kampagne", id: "top-tags" } %>
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "Wort-Cloud aller Beiträge", id: "word-cloud" } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <%#
       - darstellungen von (gefilterten) daten
@@ -48,6 +78,7 @@
 <% content_for :page_script do %>
   <script type="text/jsx">
     $(function() {
+      var secondTabOpended = 0;
       // init google charts
       var ajax_options = {
         dataType: 'script',
@@ -59,10 +90,17 @@
           packages:['corechart'],
           callback: function() { // call all charts renderer
             messagesInPeriod();
-            top15Tags();
             messagesAtTime();
             sentiment();
             twitterRequest();
+
+            $('a[data-toggle=tab]').on('shown.bs.tab', function (e) {
+              if ($(e.target).attr('href') == '#tab_2' && !secondTabOpended) {
+                topTags();
+                wordCloud();
+                secondTabOpended = 1;
+              }
+            });
           }
         });
       });
@@ -71,8 +109,8 @@
     var FIVE_MINUTES = 5 * 60000;
     var ONE_MINUTE = 1 * 60000;
     var CHART_COLORS = [
-      '#3c8dbc', '#dd4b39', '#00a65a', '#00c0ef', '#f39c12', '#0073b7', '#001F3F', '#39CCCC',
-      '#3D9970', '#01FF70', '#FF851B', '#F012BE', '#605ca8', '#D81B60', '#111111', '#d2d6de'
+      '#3c8dbc', '#dd4b39', '#00a65a', '#00c0ef', '#f39c12', '#605ca8', '#001F3F', '#39CCCC',
+      '#3D9970', '#01FF70', '#F012BE', '#0073b7', '#D81B60', '#111111', '#FF851B', '#d2d6de'
     ];
 
     // react code goes here
@@ -91,8 +129,9 @@
   </script>
 
   <%= render "/dashboard/messages_in_period" %>
-  <%= render "/dashboard/top_15_tags" %>
   <%= render "/dashboard/messages_at_time" %>
   <%= render "/dashboard/sentiment" %>
   <%= render "/dashboard/twitter_request" %>
+  <%= render "/dashboard/top_tags" %>
+  <%= render "/dashboard/word_cloud" %>
 <% end %>

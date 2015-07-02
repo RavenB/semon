@@ -1,12 +1,12 @@
 <script type="text/jsx">
-  function top15Tags() {
+  function topTags() {
     // react code goes here
     /** @jsx React.DOM */
     var GooglePieChart = React.createClass({
       mixins: [SetIntervalMixin], // Use the mixin
       render: function() {
         return (
-          <div id='pie-chart' style={{ height: 400 }}></div>
+          <div id='pie-chart' style={{ height: 400, width: 670 }}></div>
         );
       },
       componentDidMount: function() {
@@ -17,8 +17,7 @@
       drawCharts: function() {
         var options = {
           colors: CHART_COLORS,
-          pieHole: 0.3,
-          title: "Top 15 Stichworte der Kampagne"
+          pieHole: 0.3
         };
         var chart = new google.visualization.PieChart(
           document.getElementById('pie-chart')
@@ -26,7 +25,8 @@
 
         var ajax_options = {
           dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/top_15_tags',
+          data: { 'top_tags_count': 10 },
+          url: '/dashboard/<%= @campaign.id %>/top_tags',
         };
         $.ajax(ajax_options).done(function (data) {
           var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
@@ -37,7 +37,7 @@
 
     React.render(
       <GooglePieChart/>,
-      document.getElementById('top-15-tags')
+      document.getElementById('top-tags')
     );
   }
 </script>

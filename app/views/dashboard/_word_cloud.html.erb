@@ -1,0 +1,71 @@
+<script type="text/jsx">
+  function wordCloud() {
+    // react code goes here
+    /** @jsx React.DOM */
+    var WordCloud = React.createClass({
+      mixins: [SetIntervalMixin], // Use the mixin
+      getInitialState: function() {
+        return { data: [["Bitte warten...", 0]] };
+      },
+      render: function() {
+        var obj = eval(this.state.data);
+
+        return (
+          <div>
+            {
+              obj.map(function (i) {
+                return <span data-weight={i[1]}>{i[0]}</span>;
+              })
+            }
+          </div>
+        );
+      },
+      componentDidMount: function() {
+        this.getWords(this);
+      },
+      getWords: function(that) {
+        var ajax_options = {
+          dataType: 'json',
+          url: '/dashboard/<%= @campaign.id %>/word_cloud',
+        };
+        $.ajax(ajax_options).done(function (data) {
+          that.setState({ data: data.responseText });
+          that.drawCloud();
+        });
+        // call a method on the mixin to update the cloud after given time
+        that.setInterval(function () {
+          var ajax_options = {
+            dataType: 'json',
+            url: '/dashboard/<%= @campaign.id %>/word_cloud',
+          };
+          $.ajax(ajax_options).done(function (data) {
+            that.setState({ data: data.responseText });
+            that.drawCloud();
+          });
+        }, FIVE_MINUTES);
+      },
+      drawCloud: function() {
+        $('#word-cloud > div').awesomeCloud({
+          'size' : {
+            'grid' : 12, // word spacing, smaller is more tightly packed
+            'factor' : 0.75, // font resize factor, 0 means automatic
+            'normalize' : true // reduces outliers for more attractive output
+          },
+          'options' : {
+            'color' : 'random-dark', // random-light, random-dark, gradient
+            'rotationRatio' : 0.15, // 0 is all horizontal, 1 is all vertical
+            'printMultiplier' : 3, // set to 3 for nice printer output; higher numbers take longer
+            'sort' : 'highest' // highest, lowest or random
+          },
+          'font' : '"Source Sans Pro", sans-serif', //  the CSS font-family string
+          'shape' : 'circle' // circle, square, star or a theta function describing a shape
+        });
+      }
+    });
+
+    React.render(
+      <WordCloud/>,
+      document.getElementById('word-cloud')
+    );
+  }
+</script>

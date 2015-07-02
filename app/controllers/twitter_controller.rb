@@ -4,11 +4,12 @@ class TwitterController < ApplicationController
 
   # get tweets for a campaign
   def tweets
+    @data_count = 0
     if @campaign.c_status == 1
-      get_twitter_data(@client, create_query, false)
+      @data_count = get_twitter_data(@client, create_query, false)
     end
     respond_to do |format|
-      format.js
+      format.json
     end
   end
 
@@ -69,9 +70,10 @@ class TwitterController < ApplicationController
     # send request to twitter api
     # returns up to 500 tweets
     def send_request(client, query, max_id, since_id)
-      client.search(query, {
-        result_type: "recent", lang: "de", max_id: max_id, since_id: since_id
-      }).take(1000)
+      # client.search(query, {
+      #   result_type: "recent", lang: "de", max_id: max_id, since_id: since_id
+      # }).take(1000)
+      []
     end
 
     # iterate over twitter response and save messages to database
@@ -114,6 +116,7 @@ class TwitterController < ApplicationController
           @campaign.save
         end
       # end
+      search_results_count
     end
 
     def iterate_twitter_request(client, query, max_id, since_id)

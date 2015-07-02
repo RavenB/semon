@@ -14,11 +14,15 @@
       },
       requestNewTwitterData: function() {
         var ajax_options = {
-          dataType: 'js',
+          dataType: 'json',
           url: '/tweets/<%= @campaign.id %>',
         };
-        $.ajax(ajax_options).error(function (data) {
+        $.ajax(ajax_options).error(function (data, error) {
           console.error(data);
+          console.error(error);
+        }).success(function (data, status) {
+          console.log(data);
+          console.log(status);
         });
       }
     });

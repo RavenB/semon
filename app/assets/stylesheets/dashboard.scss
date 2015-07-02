@@ -1,0 +1,10 @@
+#word-cloud > div {
+  height: 400px;
+  width: 100%;
+  padding: 20px;
+
+  > canvas {
+    border: 1px solid #fff;
+    border-radius: 30%;
+  }
+}

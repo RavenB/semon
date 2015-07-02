@@ -5,9 +5,17 @@
       <i class="fa fa-dashboard"></i> <span>Dashboard</span>
     <% end %>
   </li>
+  <li class="<%= 'active' if current_page?(messages_path) %>">
+    <%= link_to messages_path do %>
+      <i class="fa ion-ios-list-outline"></i> <span>Timeline</span>
+      <small class="label pull-right bg-light-blue" title="Beiträge">
+        <%= @campaign.messages.count %>
+      </small>
+    <% end %>
+  </li>
   <li class="<%= 'active' if current_page?("/campaigns/#{@campaign.id}/tags") %>">
     <%= link_to "/campaigns/#{@campaign.id}/tags" do %>
-      <i class="fa fa-tags"></i> <span>Stichworte</span>
+      <i class="fa fa-tags"></i> <span>Stichworte verwalten</span>
     <% end %>
   </li>
   <li>

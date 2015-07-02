@@ -24,5 +24,6 @@
 //= require iCheck
 //= require jquery.infinite-pages
 //= require bootstrap-treeview
+//= require jquery.awesomeCloud-0.2
 //= require app
 //= require adminlte-addons
