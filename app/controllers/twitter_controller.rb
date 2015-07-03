@@ -64,16 +64,23 @@ class TwitterController < ApplicationController
       # to_date + 1 because api wants 10.06.2015 - 13.06.2015 if you request data for 10th, 11th
       # and 12th of june but the campaign end date needs to be included
       to_date = (@campaign.c_end + 1.day).strftime("%Y-%m-%d")
-      "#{all_tags_from_root_processed.join(' OR ')} since:#{from_date} until:#{to_date}"
+      query = [
+        "#{all_tags_from_root_processed.map{ |t| t.downcase }.join(' OR ')}",
+        "since:#{from_date}", "until:#{to_date}"
+      ].join(" ")
+      dismissed_accounts = [
+        "-from:trendingdeutsch", "-from:trendinggermany", "-from:trendiede", "-from:javatheghost",
+        "-from:tweettrendfacts"
+        ].join(" ")
+      [query, dismissed_accounts].join(" ")
     end
 
     # send request to twitter api
-    # returns up to 500 tweets
+    # returns up to 1000 tweets
     def send_request(client, query, max_id, since_id)
-      # client.search(query, {
-      #   result_type: "recent", lang: "de", max_id: max_id, since_id: since_id
-      # }).take(1000)
-      []
+      client.search(query, {
+        result_type: "recent", lang: "de", max_id: max_id, since_id: since_id
+      }).take(1000)
     end
 
     # iterate over twitter response and save messages to database
@@ -122,7 +129,7 @@ class TwitterController < ApplicationController
     def iterate_twitter_request(client, query, max_id, since_id)
       search_results = send_request(client, query, max_id, since_id)
       if (since_id.blank? && search_results.count > 1) || (since_id.present? && search_results.any?)
-        last_saved_tweet_id = iterate_message_save(search_results, 0, 99)
+        last_saved_tweet_id = iterate_message_save(search_results, 0, 99, nil)
         if max_id.present? && max_id != last_saved_tweet_id && last_saved_tweet_id.present?
           max_id = last_saved_tweet_id
         end
@@ -162,8 +169,7 @@ class TwitterController < ApplicationController
     # iterate the saving of message from the maximum of 500 responses to have faster server actions
     # save in 100 parts
     # returns last saved tweet id
-    def iterate_message_save(search_results, counter_from, counter_to)
-      last_tweet_id = nil;
+    def iterate_message_save(search_results, counter_from, counter_to, last_tweet_id)
       search_results_part = search_results[counter_from..counter_to]
       if search_results_part.present?
         search_results_part.each do |tweet|
@@ -173,7 +179,7 @@ class TwitterController < ApplicationController
             last_tweet_id = tweet.id
           end
         end
-        iterate_message_save(search_results, counter_from + 100, counter_to + 100)
+        iterate_message_save(search_results, counter_from + 100, counter_to + 100, last_tweet_id)
       end
       last_tweet_id
     end

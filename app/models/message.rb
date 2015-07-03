@@ -31,23 +31,25 @@ class Message < ActiveRecord::Base
 
   scope :twitter, -> { where(m_origin: "twitter") }
 
+  # clean up messages to got all words without punctuation marks, hashtags, @s, ...
+  def clean_up_message(message)
+    CGI.unescape(message.downcase).gsub("#", " ").gsub("@", " ").gsub(".", " ").gsub("!", " ")
+                                  .gsub("?", " ").gsub("-", " ").gsub("+", " ").gsub(":", " ")
+                                  .gsub(",", " ").gsub(";", " ").gsub("(", "").gsub(")", "")
+                                  .gsub("http", "").gsub("//t", "").gsub("rt ", "")
+  end
+
   private
     # check message text for campaign tags and save matched tags to the message
     def set_message_tags
       campaign = Campaign.find(self.campaign_id)
       campaign_tags = campaign.tags.map{ |t| t.t_name.downcase }.uniq
-      message_words = clean_up_message(CGI.unescape(self.m_text)).split(" ").uniq
+      message_words = self.clean_up_message(self.m_text).split(" ").uniq
       message_tags = campaign_tags & message_words
       message_tags.each do |tag|
         current_tag = campaign.tags.where(t_name: tag).first
         MessageTag.create(message_id: self.id, tag_id: current_tag.id)
         current_tag.increment!(:t_count)
       end
-    end
-
-    # clean up messages to got all words without punctuation marks, hashtags, @s, ...
-    def clean_up_message(message)
-      message.downcase.gsub("#", " ").gsub("@", " ").gsub(".", " ").gsub("!", " ").gsub("?", " ")
-                      .gsub("-", " ").gsub("+", " ").gsub(":", " ").gsub(",", " ").gsub(";", " ")
     end
 end

@@ -1,12 +1,12 @@
 <script type="text/jsx">
-  function topTags() {
+  function wordTree() {
     // react code goes here
     /** @jsx React.DOM */
-    var GooglePieChart = React.createClass({
+    var WordTree = React.createClass({
       mixins: [SetIntervalMixin], // Use the mixin
       render: function() {
         return (
-          <div id='pie-chart' style={{ height: 400 }}></div>
+          <div id='word-tree-chart' style={{ height: 400 }}></div>
         );
       },
       componentDidMount: function() {
@@ -15,18 +15,24 @@
         this.setInterval(this.drawCharts, FIVE_MINUTES);
       },
       drawCharts: function() {
+        <% campaign_tags = @campaign.tags %>
+        <% top_campaign_tag = campaign_tags.where(t_count: campaign_tags.maximum(:t_count)).first %>
+        var wordForTree = '#<%= top_campaign_tag.t_name %>';
+        // TODO: wort auswählbar aus top 10 tags
         var options = {
-          colors: CHART_COLORS,
-          pieHole: 0.3
+          wordtree: {
+            format: 'implicit',
+            word: wordForTree,
+            type: 'double'
+          }
         };
-        var chart = new google.visualization.PieChart(
-          document.getElementById('pie-chart')
+        var chart = new google.visualization.WordTree(
+          document.getElementById('word-tree-chart')
         );
 
         var ajax_options = {
           dataType: 'json',
-          data: { 'top_tags_count': 10 },
-          url: '/dashboard/<%= @campaign.id %>/top_tags',
+          url: '/dashboard/<%= @campaign.id %>/word_tree',
         };
         $.ajax(ajax_options).done(function (data) {
           var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
@@ -36,8 +42,8 @@
     });
 
     React.render(
-      <GooglePieChart/>,
-      document.getElementById('top-tags')
+      <WordTree/>,
+      document.getElementById('word-tree')
     );
   }
 </script>

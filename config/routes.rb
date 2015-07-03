@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     get '/:id/sentiment' => 'dashboard#sentiment'
     get '/:id/top_tags' => 'dashboard#top_tags'
     get '/:id/word_cloud' => 'dashboard#word_cloud'
+    get '/:id/word_tree' => 'dashboard#word_tree'
   end
 
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'

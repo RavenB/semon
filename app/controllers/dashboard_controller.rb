@@ -4,7 +4,8 @@ class DashboardController < ApplicationController
                                        :messages_at_time,
                                        :sentiment,
                                        :top_tags,
-                                       :word_cloud
+                                       :word_cloud,
+                                       :word_tree
                                      ]
 
   # GET /dashboard/1/messages_in_period
@@ -93,16 +94,42 @@ class DashboardController < ApplicationController
   # GET /dashboard/1/word_cloud
   def word_cloud
     # [["word1", 10], ["word2", 5]]
-    @campaign_word = @campaign.messages.map(&:m_text)
-                              .collect{
-                                |text| clean_up_message(CGI.unescape(text)).split(" ")
-                              }.flatten.group_by{ |word| word.downcase }
-                              .collect do |word, words|
-                                [word, words.count] if word.length > 3 && words.count > 10
-                              end
+    @campaign_words = @campaign.messages.map(&:m_text)
+                              .collect{ |text|
+                                clean_up_message(text).split(" ")
+                              }.flatten.group_by{ |word|
+                                word.downcase
+                              }.collect { |word, words|
+                                [word, words.count] if word.length > 3
+                              }.compact
+                              .sort_by{ |a|
+                                a.last
+                              }.reverse.take(100)
+    # word cloud fails if the range is to big between first and last tag, so try to keep the
+    # range under 1000 --> top tags could be excluded (but you see them in other charts)
+    while @campaign_words.any? do
+      if @campaign_words.first[1] - 1000 > @campaign_words.last[1]
+        @campaign_words.shift
+      else
+        break
+      end
+    end
     respond_to do |format|
       format.json {
-        render json: { responseText: @campaign_word.compact.to_json }
+        render json: { responseText: @campaign_words.to_json }
+      }
+    end
+  end
+
+  # GET /dashboard/1/word_tree
+  def word_tree
+    # [["text1"], ["text2"]]
+    @campaign_texts = @campaign.messages.map{ |message|
+                                          clean_up_message(message.m_text)
+                                        }.collect{ |text| [text] }
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_texts.unshift(["Beiträge"]).to_json }
       }
     end
   end
@@ -115,8 +142,10 @@ class DashboardController < ApplicationController
 
     # clean up messages to got all words without punctuation marks, hashtags, @s, ...
     def clean_up_message(message)
-      message.gsub("#", "").gsub("@", "").gsub(".", "").gsub("!", "").gsub("?", "")
-             .gsub("-", "").gsub("+", "").gsub(":", "").gsub(",", "").gsub(";", "")
-             .gsub("(", "").gsub(")", "").gsub("http", "").gsub("//t", "")
+      CGI.unescape(message).gsub(". ", " ").gsub("!", " ").gsub("?", " ").gsub("_", " ")
+                           .gsub("-", " ").gsub("+", " ").gsub(": ", " ").gsub(";", " ")
+                           .gsub(",", " ").gsub("(", " ").gsub(")", " ").gsub("rt ", " ")
+                           .gsub("RT ", " ")
+
     end
 end

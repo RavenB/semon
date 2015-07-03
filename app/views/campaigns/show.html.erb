@@ -42,11 +42,13 @@
           <div id="tab_1" class="tab-pane active">
             <div class="row">
               <%= render partial: "/campaigns/partials/chart_box_dashboard",
-                         locals: { title: "", id: "messages-in-period" } %>
+                         locals: {
+                           title: "Beiträge pro Tag (#{campaign_date_range(@campaign)})",
+                           id: "messages-in-period" } %>
               <%= render partial: "/campaigns/partials/chart_box_dashboard",
-                         locals: { title: "", id: "messages-at-time" } %>
+                         locals: { title: "Beitragszeitpunkte", id: "messages-at-time" } %>
               <%= render partial: "/campaigns/partials/chart_box_dashboard",
-                         locals: { title: "", id: "sentiment" } %>
+                         locals: { title: "Sentiment der Beiträge", id: "sentiment" } %>
             </div>
           </div>
           <div id="tab_2" class="tab-pane">
@@ -55,6 +57,11 @@
                          locals: { title: "Top Stichworte der Kampagne", id: "top-tags" } %>
               <%= render partial: "/campaigns/partials/chart_box_dashboard",
                          locals: { title: "Wort-Cloud aller Beiträge", id: "word-cloud" } %>
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: {
+                           title: "Wortbaum des top Stichworts",
+                           id: "word-tree",
+                           col: 12 } %>
             </div>
           </div>
         </div>
@@ -87,7 +94,7 @@
       };
       $.ajax(ajax_options).done(function () {
         google.load('visualization', '1.1', {
-          packages:['corechart'],
+          packages:['corechart', 'wordtree'],
           callback: function() { // call all charts renderer
             messagesInPeriod();
             messagesAtTime();
@@ -98,6 +105,7 @@
               if ($(e.target).attr('href') == '#tab_2' && !secondTabOpended) {
                 topTags();
                 wordCloud();
+                wordTree();
                 secondTabOpended = 1;
               }
             });
@@ -134,4 +142,5 @@
   <%= render "/dashboard/twitter_request" %>
   <%= render "/dashboard/top_tags" %>
   <%= render "/dashboard/word_cloud" %>
+  <%= render "/dashboard/word_tree" %>
 <% end %>

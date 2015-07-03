@@ -17,7 +17,6 @@
       drawCharts: function() {
         var options = {
           colors: CHART_COLORS,
-          title: 'Beiträge über den Eventzeitraum (<%= campaign_date_range(@campaign) %>)',
           legend: { position: 'none' },
           vAxis: {
             viewWindow: {
@@ -45,7 +44,7 @@
               campaignMessageCount += item[1];
             }
           });
-          $('#all-messages-count').text(campaignMessageCount);
+          $('#all-messages-count, #all-messages-count-navi').text(campaignMessageCount);
         });
       }
     });
