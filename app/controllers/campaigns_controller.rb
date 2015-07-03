@@ -34,11 +34,9 @@ class CampaignsController < ApplicationController
   # PATCH/PUT /campaigns/1
   def update
     if campaign_params[:c_status].present?
-      # on updating the campaign status from the left navigation just reload the page
-      # because you can do it from every view with the navigation option
       @campaign.update_attributes(campaign_params)
       respond_to do |format|
-        format.html { redirect_to :back } # refresh current view
+        format.html { redirect_to campaign_path(@campaign) }
       end
     else
       respond_to do |format|

@@ -6,7 +6,7 @@ class TwitterController < ApplicationController
   def tweets
     @last_saved_tweet_id = 0
     if @campaign.c_status == 1
-      @last_saved_tweet_id = get_twitter_data(@client, create_query, false)
+      @last_saved_tweet_id = get_twitter_data(@client, create_query(nil), false)
     end
     respond_to do |format|
       format.json
@@ -32,47 +32,47 @@ class TwitterController < ApplicationController
     # combining all tags and their conenctions
     # creating array with elements at a maximum string size of 500 (twitter api limit)
     # https://dev.twitter.com/rest/reference/get/search/tweets
-    def create_query
+    def create_query(last_access)
       query_array = []
-      all_campaign_tags = @campaign.tags
+      if last_access.present?
+        all_campaign_tags = @campaign.tags.where("created_at > ?", last_access)
+      else
+        all_campaign_tags = @campaign.tags
+      end
+      processed_tags = [] # should always < 491 length
       all_campaign_tags.roots.each do |tag_root|
-        all_tags_from_root_processed = []
         all_tags_from_root = tag_root.subtree
-        tag_root.subtree.each do |tag|
+        all_tags_from_root.each do |tag|
           if tag.t_connection.present?
             connected_tag = Tag.find(tag.t_connection)
-            all_tags_from_root_processed << "#{tag.t_name} #{connected_tag.t_name}"
+            processed_tags << "#{tag.t_name} #{connected_tag.t_name}"
           else
-            all_tags_from_root_processed << tag.t_name
+            processed_tags << tag.t_name
           end
           # count depends on escaped url param string for query
-          # p CGI.escape(build_query_with_dates(all_tags_from_root_processed)).length
-          if CGI.escape(build_query_with_dates(all_tags_from_root_processed)).length > 490
-            next_first_element = all_tags_from_root_processed.pop
-            query_array << build_query_with_dates(all_tags_from_root_processed)
-            all_tags_from_root_processed = [next_first_element]
-          elsif tag == all_tags_from_root.last
-            query_array << build_query_with_dates(all_tags_from_root_processed)
+          if CGI.escape(build_query_with_dates(processed_tags)).length > 490
+            next_first_element = processed_tags.pop
+            query_array << build_query_with_dates(processed_tags)
+            processed_tags = [next_first_element]
           end
         end
+      end
+      if processed_tags.any?
+        query_array << build_query_with_dates(processed_tags)
       end
       query_array
     end
 
-    def build_query_with_dates(all_tags_from_root_processed)
+    def build_query_with_dates(processed_tags)
       from_date = @campaign.c_start.strftime("%Y-%m-%d")
       # to_date + 1 because api wants 10.06.2015 - 13.06.2015 if you request data for 10th, 11th
       # and 12th of june but the campaign end date needs to be included
       to_date = (@campaign.c_end + 1.day).strftime("%Y-%m-%d")
       query = [
-        "#{all_tags_from_root_processed.map{ |t| t.downcase }.join(' OR ')}",
+        "#{processed_tags.map{ |t| t.downcase }.join(' OR ')}",
         "since:#{from_date}", "until:#{to_date}"
       ].join(" ")
-      # dismissed_accounts = [
-      #   "-from:trendingdeutsch", "-from:trendinggermany", "-from:trendiede", "-from:javatheghost",
-      #   "-from:tweettrendfacts"
-      #   ].join(" ")
-      [query].join(" ")
+      query
     end
 
     # send request to twitter api
@@ -88,40 +88,41 @@ class TwitterController < ApplicationController
     # when done till campaign start, only check new tweets with since_id
     # read for info about max_id/since_id: https://dev.twitter.com/rest/public/timelines
     def get_twitter_data(client, query_array, recrawl)
+      # fresh first request for tweets with nil, nil
       max_id = nil
       since_id = nil
       if @campaign.messages.twitter.present?
         if @campaign.last_accessed.blank?
-          # fresh first request for tweets
+          # request for tweets in the past after a last_accessed reset
           max_id = current_oldest_message_tweet_id(-1)
         else
-          if recrawl
-            # request for tweets in the past with new tags
-            max_id = current_latest_message_tweet_id(0)
-          else
+          if !recrawl
             # request for new tweets since last message
             since_id = current_latest_message_tweet_id(0)
+          else
+            # request for tweets in the past (with new tags) and nil ids again
           end
         end
       end
       # Thread.new do
-        if @campaign.last_accessed.present?
+        last_saved_tweet_id = 0
+        if @campaign.last_accessed.present? && !recrawl
           if @campaign.tags.last.created_at > @campaign.last_accessed
+            # save last access time
+            last_access = @campaign.last_accessed
             # mark access and recrawl with new tags
-            @campaign.last_accessed = Time.now
+            @campaign.last_accessed = Time.now.utc
             @campaign.save
-            get_twitter_data(client, query_array, true)
+            last_saved_tweet_id = get_twitter_data(client, create_query(last_access), true)
           end
-        end
-        last_saved_tweet_id = 0;
-        query_array.each do |query|
-          last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
-        end
-        # if search_results_count < 2
+        else
+          query_array.each do |query|
+            last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
+          end
           # mark access to finish requesting past tweets
-          @campaign.last_accessed = Time.now
+          @campaign.last_accessed = Time.now.utc
           @campaign.save
-        # end
+        end
       # end
       last_saved_tweet_id
     end
@@ -133,9 +134,9 @@ class TwitterController < ApplicationController
         last_saved_tweet_id = iterate_message_save(search_results, 0, 499, "default")
         max_id = last_saved_tweet_id
         if max_id > 0
-          iterate_twitter_request(client, query, max_id, since_id)
+          last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
         else
-          last_saved_tweet_id
+          last_saved_tweet_id = 0
         end
       elsif max_id.present? && search_results.count > 1
         last_saved_tweet_id = iterate_message_save(search_results, 0, 499, "default")
@@ -143,9 +144,9 @@ class TwitterController < ApplicationController
           max_id = last_saved_tweet_id
         end
         if max_id > 0
-          iterate_twitter_request(client, query, max_id, since_id)
+          last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
         else
-          last_saved_tweet_id
+          last_saved_tweet_id = 0
         end
       elsif max_id.blank? && since_id.present? && search_results.any?
         last_saved_tweet_id = iterate_message_save(search_results, 0, 499, "reverse")
@@ -153,13 +154,14 @@ class TwitterController < ApplicationController
           since_id = last_saved_tweet_id
         end
         if since_id > 0
-          iterate_twitter_request(client, query, max_id, since_id)
+          last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
         else
-          last_saved_tweet_id
+          last_saved_tweet_id 0
         end
       else
-        0
+        last_saved_tweet_id = 0
       end
+      last_saved_tweet_id
     end
 
     # counter represents count from behind to get the oldest message with details id (twitter id)
@@ -210,11 +212,11 @@ class TwitterController < ApplicationController
             end
           end
         end
-        last_tweet_id
         # iterate_message_save(search_results, counter_from + 100, counter_to + 100, last_tweet_id)
       else
-        0
+        last_tweet_id = 0
       end
+      last_tweet_id
     end
 
     def dismiss_accounts(message)
