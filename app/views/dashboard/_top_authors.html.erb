@@ -1,12 +1,12 @@
 <script type="text/jsx">
-  function messagesAtTime() {
+  function topAuthors() {
     // react code goes here
     /** @jsx React.DOM */
-    var MessagesTimeGoogleLineChart = React.createClass({
+    var GoogleBarChart = React.createClass({
       mixins: [SetIntervalMixin], // Use the mixin
       render: function() {
         return (
-          <div id='messages-time-line-chart' style={{ height: 400 }}></div>
+          <div id='bar-chart' style={{ height: 400 }}></div>
         );
       },
       componentDidMount: function() {
@@ -17,42 +17,39 @@
       drawCharts: function() {
         var options = {
           colors: CHART_COLORS,
-          title: 'Beiträge zu Tageszeiten',
           legend: { position: 'none' },
-          vAxis: {
-            viewWindow: {
-              min: 1
-            }
-          },
           hAxis: {
             viewWindow: {
-              min: [0, 0],
-              max: [23, 59]
+              min: 0
             }
           },
-          format: 'hh:mm',
-          curveType: 'function',
           animation: { startup: true, duration: 800 }
         };
-        var chart = new google.visualization.LineChart(
-          document.getElementById('messages-time-line-chart')
+        var chart = new google.visualization.BarChart(
+          document.getElementById('bar-chart')
         );
 
         var ajax_options = {
           dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/messages_at_time',
+          url: '/dashboard/<%= @campaign.id %>/top_authors',
         };
         $.ajax(ajax_options).done(function (data) {
-          var data_array = $.parseJSON(data.responseText);
-          var data = google.visualization.arrayToDataTable(data_array);
+          var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
+          google.visualization.events.addListener(chart, 'click', function(e) {
+            var parts = e.targetID.split('#');
+            if (parts.indexOf('vAxis') == 0 && parts.indexOf('label') == 2) {
+              var idx = parseInt(parts[3]);
+              window.open($.parseJSON(data.getValue(idx, 0)).user.url, '_blank');
+            }
+          });
           chart.draw(data, options);
         });
       }
     });
 
     React.render(
-      <MessagesTimeGoogleLineChart/>,
-      document.getElementById('messages-at-time')
+      <GoogleBarChart/>,
+      document.getElementById('top-authors')
     );
   }
 </script>

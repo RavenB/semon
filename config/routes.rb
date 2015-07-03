@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     get '/:id/top_tags' => 'dashboard#top_tags'
     get '/:id/word_cloud' => 'dashboard#word_cloud'
     get '/:id/word_tree' => 'dashboard#word_tree'
+    get '/:id/top_authors' => 'dashboard#top_authors'
+    get '/:id/author_genders' => 'dashboard#author_genders'
   end
 
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'

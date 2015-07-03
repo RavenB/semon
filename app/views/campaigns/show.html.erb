@@ -37,6 +37,9 @@
           <li>
             <%= link_to "Stichworte", "#tab_2", "data-toggle" => "tab", "aria-expanded" => "true" %>
           </li>
+          <li>
+            <%= link_to "Autoren", "#tab_3", "data-toggle" => "tab", "aria-expanded" => "true" %>
+          </li>
         </ul>
         <div class="tab-content">
           <div id="tab_1" class="tab-pane active">
@@ -64,6 +67,14 @@
                            col: 12 } %>
             </div>
           </div>
+          <div id="tab_3" class="tab-pane">
+            <div class="row">
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "Top Autoren der Kampagne", id: "top-authors" } %>
+              <%= render partial: "/campaigns/partials/chart_box_dashboard",
+                         locals: { title: "Geschlechterverhältnis", id: "author-genders" } %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -85,7 +96,7 @@
 <% content_for :page_script do %>
   <script type="text/jsx">
     $(function() {
-      var secondTabOpended = 0;
+      var secondTabOpended, thirdTabOpended = 0;
       // init google charts
       var ajax_options = {
         dataType: 'script',
@@ -107,6 +118,10 @@
                 wordCloud();
                 wordTree();
                 secondTabOpended = 1;
+              } else if ($(e.target).attr('href') == '#tab_3' && !thirdTabOpended) {
+                topAuthors();
+                authorGenders();
+                thirdTabOpended = 1;
               }
             });
           }
@@ -143,4 +158,6 @@
   <%= render "/dashboard/top_tags" %>
   <%= render "/dashboard/word_cloud" %>
   <%= render "/dashboard/word_tree" %>
+  <%= render "/dashboard/top_authors" %>
+  <%= render "/dashboard/author_genders" %>
 <% end %>

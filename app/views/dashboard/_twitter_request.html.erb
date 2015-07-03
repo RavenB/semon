@@ -23,6 +23,8 @@
         }).success(function (data, status) {
           console.log(data);
           console.log(status);
+          // update messages count in timeline link box
+          $('#all-messages-count, #all-messages-count-navi').text(data.campaignMessageCount);
         });
       }
     });

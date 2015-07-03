@@ -94,7 +94,7 @@ class TwitterController < ApplicationController
       if @campaign.messages.twitter.present?
         if @campaign.last_accessed.blank?
           # request for tweets in the past after a last_accessed reset
-          max_id = current_oldest_message_tweet_id(-1)
+          # max_id = current_oldest_message_tweet_id(-1)
         else
           if !recrawl
             # request for new tweets since last message

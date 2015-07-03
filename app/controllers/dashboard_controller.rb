@@ -7,7 +7,9 @@ class DashboardController < ApplicationController
                                        :sentiment,
                                        :top_tags,
                                        :word_cloud,
-                                       :word_tree
+                                       :word_tree,
+                                       :top_authors,
+                                       :author_genders
                                      ]
 
   # GET /dashboard/1/messages_in_period
@@ -15,9 +17,9 @@ class DashboardController < ApplicationController
     # [["10.06.2015", 50], ["11.06.2015", 40]]
     @campaign_messages = @campaign.messages.order(m_moment: :asc)
                                            .group_by{ |m| view_context.message_date(m.m_moment)}
-                                           .collect do |date, messages|
+                                           .collect{ |date, messages|
                                              [date, messages.count]
-                                           end
+                                           }
     if @campaign_messages.blank?
       # create empty dummy for campaign start date to prevent google charts errors
       @campaign_messages = [[@campaign.c_start.strftime("%d.%m.%Y"), 0]]
@@ -31,15 +33,24 @@ class DashboardController < ApplicationController
 
   # GET /dashboard/1/messages_at_time
   def messages_at_time
-    # [["14:30", 50], ["16:23", 40]]
+    # [[{v: [14, 30], f: "14:30"}, 50], [{v: [17, 30], f: "17:30"}, 40]]
     @campaign_messages = @campaign.messages.order(m_moment: :asc)
-                                           .group_by{ |m| view_context.message_time(m.m_moment) }
-                                           .collect do |time, messages|
-                                             [time, messages.count]
-                                           end
+                                           .group_by{ |m|
+                                              view_context.message_time(m.m_moment).split(":").first
+                                           }.collect{ |time, messages|
+                                             [
+                                               {
+                                                 v: time.split(":").map{ |a| a.to_i },
+                                                 f: "#{time}:00"
+                                               },
+                                               messages.count
+                                             ]
+                                           }.sort_by{ |a|
+                                             a.first[:f]
+                                           }
     if @campaign_messages.blank?
       # create empty dummy for campaign start date to prevent google charts errors
-      @campaign_messages = [[@campaign.c_start.strftime("%H:%M"), 0]]
+      @campaign_messages = [[[0, 0], 0]]
     end
     respond_to do |format|
       format.json {
@@ -54,14 +65,14 @@ class DashboardController < ApplicationController
     @campaign_sentiment = @campaign.messages.where("sentiment_id = 1 OR sentiment_id = 3")
                                    .group_by{
                                      |m| m.sentiment_id
-                                   }.collect do |sentiment_id, messages|
+                                   }.collect{ |sentiment_id, messages|
                                      case sentiment_id
                                      when 1
                                        ["Positiv", messages.count, "#00a65a"]
                                      when 3
                                        ["Negativ", messages.count, "#dd4b39"]
                                      end
-                                   end
+                                   }
     if @campaign_sentiment.blank?
       # create empty dummy to prevent google charts errors
       @campaign_sentiment = [["Positiv", 0, "#00a65a"], ["Negativ", 0, "#dd4b39"]]
@@ -83,9 +94,9 @@ class DashboardController < ApplicationController
     if params[:top_tags_count].present?
       top_tags_count = params[:top_tags_count]
     end
-    @campaign_tags = @campaign.tags.order(t_count: :desc).take(top_tags_count).collect do |tag|
+    @campaign_tags = @campaign.tags.order(t_count: :desc).take(top_tags_count).collect { |tag|
       [tag.t_name, tag.t_count]
-    end
+    }
     respond_to do |format|
       format.json {
         render json: { responseText: @campaign_tags.unshift(["Stichwort", "Anzahl"]).to_json }
@@ -101,12 +112,12 @@ class DashboardController < ApplicationController
                                 clean_up_message(text).split(" ")
                               }.flatten.group_by{ |word|
                                 word.downcase
-                              }.collect { |word, words|
-                                [word, words.count] if word.length > 3
+                              }.collect{ |word, words|
+                                [word, words.count] if word.length > 3 # min character length
                               }.compact
                               .sort_by{ |a|
                                 a.last
-                              }.reverse.take(100)
+                              }.reverse[1..101] # 100 without first
     # word cloud fails if the range is to big between first and last tag, so try to keep the
     # range under 1000 --> top tags could be excluded (but you see them in other charts)
     while @campaign_words.any? do
@@ -136,6 +147,60 @@ class DashboardController < ApplicationController
     end
   end
 
+  # GET /dashboard/1/top_authors
+  def top_authors
+    # [[{v: "www.twitter.com/author1", f: "author1"}, 10],
+    #  [{v: "www.twitter.com/author2", f: "author2"}, 5]]
+    @campaign_authors = @campaign.messages.group_by{ |message| message.m_author }
+                                          .collect{ |author, messages|
+                                            [
+                                              {
+                                                v: messages.first.m_details,
+                                                f: author
+                                              },
+                                              messages.count,
+                                            ]
+                                          }.sort_by{ |a|
+                                            a.last
+                                          }.reverse.take(15)
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_authors.unshift(["Author", "Beiträge"]).to_json }
+      }
+    end
+  end
+
+  # GET /dashboard/1/author_genders
+  def author_genders
+    # [["female", 10], ["male", 5]]
+    f_count = 0
+    m_count = 0
+    campaign_genders = @campaign.messages.map(&:m_author).group_by{ |author|
+                                           GenderModule.get_gender(author.split(" ").first)
+                                         }.map{ |gender, authors|
+                                           case gender.to_s
+                                           when "female"
+                                             f_count += authors.count
+                                           when"mostly_female"
+                                             f_count += authors.count
+                                           when "male"
+                                             m_count += authors.count
+                                           when "mostly_male"
+                                             m_count += authors.count
+                                           end
+                                         }
+                                         p campaign_genders
+    @campaign_genders = [
+      ["Weiblich", f_count],
+      ["Männlich", m_count]
+    ]
+    respond_to do |format|
+      format.json {
+        render json: { responseText: @campaign_genders.unshift(["Geschlecht", "Anzahl"]).to_json }
+      }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
@@ -144,10 +209,9 @@ class DashboardController < ApplicationController
 
     # clean up messages to got all words without punctuation marks, hashtags, @s, ...
     def clean_up_message(message)
-      CGI.unescape(message).gsub(". ", " ").gsub("!", " ").gsub("?", " ").gsub("_", " ")
-                           .gsub("-", " ").gsub("+", " ").gsub(": ", " ").gsub(";", " ")
-                           .gsub(",", " ").gsub("(", " ").gsub(")", " ").gsub("rt ", " ")
-                           .gsub("RT ", " ")
-
+      cleaned_message = CGI.unescape(message).gsub(". ", " ").gsub("!", " ").gsub("?", " ")
+                           .gsub("_", " ").gsub("-", " ").gsub("+", " ").gsub(": ", " ")
+                           .gsub(";", " ").gsub(",", " ").gsub("(", " ").gsub(")", " ")
+                           .gsub("rt ", " ").gsub("RT ", " ")
     end
 end

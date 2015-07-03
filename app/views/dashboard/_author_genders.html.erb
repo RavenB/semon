@@ -1,12 +1,12 @@
 <script type="text/jsx">
-  function sentiment() {
+  function authorGenders() {
     // react code goes here
     /** @jsx React.DOM */
-    var GoogleColumnChart = React.createClass({
+    var GoogleGenderPieChart = React.createClass({
       mixins: [SetIntervalMixin], // Use the mixin
       render: function() {
         return (
-          <div id='column-chart' style={{ height: 400 }}></div>
+          <div id='gender-pie-chart' style={{ height: 400 }}></div>
         );
       },
       componentDidMount: function() {
@@ -16,21 +16,16 @@
       },
       drawCharts: function() {
         var options = {
-          legend: { position: 'none' },
-          hAxis: {
-            viewWindow: {
-              min: 0
-            }
-          },
-          animation: { startup: true, duration: 800 }
+          colors: ['#F012BE', '#001F3F'],
+          pieHole: 0.3
         };
-        var chart = new google.visualization.ColumnChart(
-          document.getElementById('column-chart')
+        var chart = new google.visualization.PieChart(
+          document.getElementById('gender-pie-chart')
         );
 
         var ajax_options = {
           dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/sentiment',
+          url: '/dashboard/<%= @campaign.id %>/author_genders',
         };
         $.ajax(ajax_options).done(function (data) {
           var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
@@ -40,8 +35,8 @@
     });
 
     React.render(
-      <GoogleColumnChart/>,
-      document.getElementById('sentiment')
+      <GoogleGenderPieChart/>,
+      document.getElementById('author-genders')
     );
   }
 </script>

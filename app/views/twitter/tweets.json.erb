@@ -1,4 +1,5 @@
 {
   "lastResponse": "<%= Time.now.strftime('%d.%m.%y %H:%M') %>",
-  "lastSavedTweetId": <%= @last_saved_tweet_id %>
+  "lastSavedTweetId": <%= @last_saved_tweet_id %>,
+  "campaignMessageCount": <%= @campaign.messages.count %>
 }

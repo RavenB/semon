@@ -63,6 +63,8 @@ gem 'rinku' # https://github.com/vmg/rinku
 gem 'kaminari' # https://github.com/amatsuda/kaminari
 gem 'jquery-infinite-pages' # https://github.com/magoosh/jquery-infinite-pages
 gem 'stimmung' # https://github.com/pachacamac/stimmung
+# gem 'stopwords-filter' # https://github.com/brenes/stopwords-filter
+gem 'gender_detector' # https://github.com/bmuller/gender_detector
 
 
 ######### LAYOUT #########

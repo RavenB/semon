@@ -21,7 +21,8 @@
   <li>
     <% if @campaign.tags.present? %>
       <% if @campaign.c_status == 0 %>
-        <%= link_to campaign_path(@campaign, { campaign: { c_status: "1" } }), method: :put do %>
+        <%= link_to campaign_path(@campaign, {
+            campaign: { c_status: "1", last_accessed: nil } }), method: :put do %>
           <i class="fa fa-play"></i> <span>Kampagne aktivieren</span>
         <% end %>
       <% else %>
@@ -37,11 +38,8 @@
     <% end %>
   </li>
   <li>
-    <%#= link_to @campaign, method: :delete,
-                data: { confirm: "#{campaign_name(@campaign)} wirklich entfernen?" } do %>
-    <%= link_to "", data: {
-          confirm: "#{campaign_name(@campaign)} wird hier nicht wirklich entfernt"
-        } do %>
+    <%= link_to @campaign, method: :delete, data: {
+        confirm: "#{campaign_name(@campaign)} wird hier nicht wirklich entfernt" } do %>
       <i class="fa fa-trash-o text-red"></i> <span>Kampagne löschen</span>
     <% end %>
   </li>
