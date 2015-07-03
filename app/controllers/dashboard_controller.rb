@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class DashboardController < ApplicationController
   before_action :set_campaign, only: [
                                        :messages_in_period,

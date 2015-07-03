@@ -4,9 +4,9 @@ class TwitterController < ApplicationController
 
   # get tweets for a campaign
   def tweets
-    @data_count = 0
+    @last_saved_tweet_id = 0
     if @campaign.c_status == 1
-      @data_count = get_twitter_data(@client, create_query, false)
+      @last_saved_tweet_id = get_twitter_data(@client, create_query, false)
     end
     respond_to do |format|
       format.json
@@ -68,19 +68,19 @@ class TwitterController < ApplicationController
         "#{all_tags_from_root_processed.map{ |t| t.downcase }.join(' OR ')}",
         "since:#{from_date}", "until:#{to_date}"
       ].join(" ")
-      dismissed_accounts = [
-        "-from:trendingdeutsch", "-from:trendinggermany", "-from:trendiede", "-from:javatheghost",
-        "-from:tweettrendfacts"
-        ].join(" ")
-      [query, dismissed_accounts].join(" ")
+      # dismissed_accounts = [
+      #   "-from:trendingdeutsch", "-from:trendinggermany", "-from:trendiede", "-from:javatheghost",
+      #   "-from:tweettrendfacts"
+      #   ].join(" ")
+      [query].join(" ")
     end
 
     # send request to twitter api
-    # returns up to 1000 tweets
+    # returns up to 500 tweets
     def send_request(client, query, max_id, since_id)
       client.search(query, {
         result_type: "recent", lang: "de", max_id: max_id, since_id: since_id
-      }).take(1000)
+      }).take(500)
     end
 
     # iterate over twitter response and save messages to database
@@ -113,29 +113,53 @@ class TwitterController < ApplicationController
             get_twitter_data(client, query_array, true)
           end
         end
-        search_results_count = 0;
+        last_saved_tweet_id = 0;
         query_array.each do |query|
-          search_results_count += iterate_twitter_request(client, query, max_id, since_id)
+          last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
         end
-        if search_results_count < 2
+        # if search_results_count < 2
           # mark access to finish requesting past tweets
           @campaign.last_accessed = Time.now
           @campaign.save
-        end
+        # end
       # end
-      search_results_count
+      last_saved_tweet_id
     end
 
+    # TODO: iterate correctly
     def iterate_twitter_request(client, query, max_id, since_id)
       search_results = send_request(client, query, max_id, since_id)
-      if (since_id.blank? && search_results.count > 1) || (since_id.present? && search_results.any?)
-        last_saved_tweet_id = iterate_message_save(search_results, 0, 99, nil)
-        if max_id.present? && max_id != last_saved_tweet_id && last_saved_tweet_id.present?
+      if max_id.blank? && since_id.blank? && search_results.count > 1
+        last_saved_tweet_id = iterate_message_save(search_results, 0, 499, "default")
+        max_id = last_saved_tweet_id
+        if max_id > 0
+          iterate_twitter_request(client, query, max_id, since_id)
+        else
+          last_saved_tweet_id
+        end
+      elsif max_id.present? && search_results.count > 1
+        last_saved_tweet_id = iterate_message_save(search_results, 0, 499, "default")
+        if last_saved_tweet_id.present? && max_id != last_saved_tweet_id
           max_id = last_saved_tweet_id
         end
-        iterate_twitter_request(client, query, max_id, since_id)
+        if max_id > 0
+          iterate_twitter_request(client, query, max_id, since_id)
+        else
+          last_saved_tweet_id
+        end
+      elsif max_id.blank? && since_id.present? && search_results.any?
+        last_saved_tweet_id = iterate_message_save(search_results, 0, 499, "reverse")
+        if last_saved_tweet_id.present? && since_id != last_saved_tweet_id
+          since_id = last_saved_tweet_id
+        end
+        if since_id > 0
+          iterate_twitter_request(client, query, max_id, since_id)
+        else
+          last_saved_tweet_id
+        end
+      else
+        0
       end
-      search_results.count
     end
 
     # counter represents count from behind to get the oldest message with details id (twitter id)
@@ -166,22 +190,48 @@ class TwitterController < ApplicationController
       end
     end
 
+    # TODO: iterate correctly
     # iterate the saving of message from the maximum of 500 responses to have faster server actions
     # save in 100 parts
     # returns last saved tweet id
-    def iterate_message_save(search_results, counter_from, counter_to, last_tweet_id)
+    def iterate_message_save(search_results, counter_from, counter_to, direction)
       search_results_part = search_results[counter_from..counter_to]
       if search_results_part.present?
+        if "reverse" == direction
+          search_results_part.reverse
+        end
+        last_tweet_id = 0
         search_results_part.each do |tweet|
           message = Message.new(campaign_id: @campaign.id)
-          view_context.create_twitter_message(message, tweet)
-          if message.save
-            last_tweet_id = tweet.id
+          message = view_context.create_twitter_message(message, tweet)
+          if dismiss_accounts(message)
+            if message.save
+              last_tweet_id = tweet.id
+            end
           end
         end
-        iterate_message_save(search_results, counter_from + 100, counter_to + 100, last_tweet_id)
+        last_tweet_id
+        # iterate_message_save(search_results, counter_from + 100, counter_to + 100, last_tweet_id)
+      else
+        0
       end
-      last_tweet_id
+    end
+
+    def dismiss_accounts(message)
+      case message.m_author
+      when "trendingdeutsch"
+        false
+      when "trendinggermany"
+        false
+      when "trendiede"
+        false
+      when "javatheghost"
+        false
+      when "tweettrendfacts"
+        false
+      else
+        true
+      end
     end
 end
 

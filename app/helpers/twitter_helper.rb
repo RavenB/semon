@@ -6,6 +6,7 @@ module TwitterHelper
     message.m_origin = "twitter"
     message.m_details = twitter_details_json(message, tweet)
     message.sentiment_id = analyse_sentiment(tweet.text)
+    message
   end
 
   # create message.m_details string when getting from api

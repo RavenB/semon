@@ -16,28 +16,30 @@
       },
       drawCharts: function() {
         <% campaign_tags = @campaign.tags %>
-        <% top_campaign_tag = campaign_tags.where(t_count: campaign_tags.maximum(:t_count)).first %>
-        var wordForTree = '#<%= top_campaign_tag.t_name %>';
-        // TODO: wort auswählbar aus top 10 tags
-        var options = {
-          wordtree: {
-            format: 'implicit',
-            word: wordForTree,
-            type: 'double'
-          }
-        };
-        var chart = new google.visualization.WordTree(
-          document.getElementById('word-tree-chart')
-        );
+        <% if campaign_tags.present? %>
+          <% top_campaign_tag = campaign_tags.where(t_count: campaign_tags.maximum(:t_count)).first %>
+          var wordForTree = '#<%= top_campaign_tag.t_name %>';
+          // TODO: wort auswählbar aus top 10 tags
+          var options = {
+            wordtree: {
+              format: 'implicit',
+              word: wordForTree,
+              type: 'double'
+            }
+          };
+          var chart = new google.visualization.WordTree(
+            document.getElementById('word-tree-chart')
+          );
 
-        var ajax_options = {
-          dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/word_tree',
-        };
-        $.ajax(ajax_options).done(function (data) {
-          var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
-          chart.draw(data, options);
-        });
+          var ajax_options = {
+            dataType: 'json',
+            url: '/dashboard/<%= @campaign.id %>/word_tree',
+          };
+          $.ajax(ajax_options).done(function (data) {
+            var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
+            chart.draw(data, options);
+          });
+        <% end %>
       }
     });
 
