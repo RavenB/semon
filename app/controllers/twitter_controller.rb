@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class TwitterController < ApplicationController
   before_action :set_client, only: [:tweets]
   before_action :set_campaign, only: [:tweets]
@@ -219,17 +221,19 @@ class TwitterController < ApplicationController
       last_tweet_id
     end
 
+    # TODO: m_details usser url prüfen ob eins vorhanden
     def dismiss_accounts(message)
-      case message.m_author
-      when "trendingdeutsch"
+      if message.m_details­.include?("trendingdeutsch")
         false
-      when "trendinggermany"
+      elsif message.m_details­.include?("trendinggermany")
         false
-      when "trendiede"
+      elsif message.m_details­.include?("trendiede")
         false
-      when "javatheghost"
+      elsif message.m_details­.include?("javatheghost")
         false
-      when "tweettrendfacts"
+      elsif message.m_details­.include?("tweettrendfacts")
+        false
+      elsif message.m_details­.include?("trendsberlin")
         false
       else
         true

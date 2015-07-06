@@ -34,7 +34,6 @@ class CampaignsController < ApplicationController
   # PATCH/PUT /campaigns/1
   def update
     if campaign_params[:c_status].present?
-      p campaign_params
       @campaign.update_attributes(campaign_params)
       respond_to do |format|
         format.html { redirect_to campaign_path(@campaign) }
@@ -53,6 +52,7 @@ class CampaignsController < ApplicationController
   # DELETE /campaigns/1
   def destroy
     # @campaign.destroy
+    @campaign.update_attributes(last_accessed: nil)
     respond_to do |format|
       format.html { redirect_to root_path }
     end

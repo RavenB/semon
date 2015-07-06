@@ -94,9 +94,9 @@ class DashboardController < ApplicationController
     if params[:top_tags_count].present?
       top_tags_count = params[:top_tags_count]
     end
-    @campaign_tags = @campaign.tags.order(t_count: :desc).take(top_tags_count).collect { |tag|
-      [tag.t_name, tag.t_count]
-    }
+    @campaign_tags = @campaign.tags.group_by{ |t| t.t_name }.collect{ |t|
+      [t.first, t.last.map{ |t| t.t_count }.inject(:+)]
+    }.sort_by{ |t| t.last }.reverse.take(top_tags_count.to_i)
     respond_to do |format|
       format.json {
         render json: { responseText: @campaign_tags.unshift(["Stichwort", "Anzahl"]).to_json }
@@ -121,7 +121,7 @@ class DashboardController < ApplicationController
     # word cloud fails if the range is to big between first and last tag, so try to keep the
     # range under 1000 --> top tags could be excluded (but you see them in other charts)
     while @campaign_words.any? do
-      if @campaign_words.first[1] - 1000 > @campaign_words.last[1]
+      if @campaign_words.first[1] - 600 > @campaign_words.last[1]
         @campaign_words.shift
       else
         break
