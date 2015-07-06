@@ -50,7 +50,7 @@ class TwitterController < ApplicationController
             processed_tags << tag.t_name
           end
           # count depends on escaped url param string for query
-          if CGI.escape(build_query_with_dates(processed_tags)).length > 490
+          if CGI.escape(build_query_with_dates(processed_tags)).length > 480
             next_first_element = processed_tags.pop
             query_array << build_query_with_dates(processed_tags)
             processed_tags = [next_first_element]
