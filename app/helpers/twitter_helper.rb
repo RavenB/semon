@@ -36,6 +36,8 @@ module TwitterHelper
     twitter_details[:user][:id] = ""
     twitter_details[:user][:url] = message_details[:user][:url]
     twitter_details[:user][:image] = message_details[:user][:image]
+    twitter_details[:manual] = {}
+    twitter_details[:manual][:time] = Time.now.to_f
     twitter_details.to_json.to_s
   end
 

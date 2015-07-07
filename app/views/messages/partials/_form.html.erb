@@ -43,6 +43,8 @@
       </div>
       <%= render partial: "/messages/partials/origin_selection", locals: { f: f } %>
       <%= render partial: "/messages/partials/twitter_details", locals: { f: f } %>
+      <%= render partial: "/messages/partials/instagram_details", locals: { f: f } %>
+      <%= render partial: "/messages/partials/facebook_details", locals: { f: f } %>
       <div class="form-group">
         <%= f.label :category_id %>
         <% category_select = Category.all.order(:cat_name).map{ |c| [c.cat_name, c.id] } %>
