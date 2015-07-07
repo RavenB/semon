@@ -9,7 +9,7 @@
     </li>
   <% end %>
   <%# timeline item %>
-  <li>
+  <li data-msg-id="<%= message.id %>">
     <%# timeline icon %>
     <i class="fa fa-<%= timeline_icon(message.m_origin) %> bg-<%= message.m_origin %>">
       <%= timeline_icon_semon(message.m_origin) %>
@@ -28,14 +28,24 @@
       </div>
 
       <div class="timeline-footer">
-        <%= link_to message_tweet_url(message.m_details),
-                    title: message_tweet_url(message.m_details), target: "_blank" do %>
-          <i class="fa fa-link"></i>
-        <% end %>
-        <i class="fa fa-tags"></i>
-        <% message.tags.each do |tag| %>
-          <button class="btn btn-default btn-xs disabled"><%= tag.t_name %></button>
-        <% end %>
+        <div class="row">
+          <div class="col-xs-12 col-sm-11">
+            <%= link_to message_tweet_url(message.m_details),
+                        title: message_tweet_url(message.m_details), target: "_blank" do %>
+              <i class="fa fa-link"></i>
+            <% end %>
+            <i class="fa fa-tags"></i>
+            <% message.tags.each do |tag| %>
+              <button class="btn btn-default btn-xs disabled"><%= tag.t_name %></button>
+            <% end %>
+          </div>
+          <div class="col-xs-12 col-sm-1">
+            <%= link_to "/messages/#{message.id}", method: :delete, remote: true, data: {
+                confirm: "Diese Nachricht wirklich entfernen?" }, class: "pull-right" do %>
+              <i class="fa fa-trash-o text-red"></i>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </li>

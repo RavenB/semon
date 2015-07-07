@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_campaign, only: [:index, :new, :create]
+  before_action :set_message, only: [:destroy]
 
   # GET /messages
   def index
@@ -38,17 +39,26 @@ class MessagesController < ApplicationController
   end
 
   # PATCH/PUT /messages/1
-  def updates
+  def update
   end
 
   # DELETE /messages/1
   def destroy
+    @message.destroy
+    @messages_count = @message.campaign.messages.count
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
       @campaign = Campaign.find(params[:id])
+    end
+
+    def set_message
+      @message = Message.find(params[:id])
     end
 
     # Using a private method to encapsulate the permissible parameters is just a good pattern

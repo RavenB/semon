@@ -92,6 +92,9 @@
   }
 
   > li {
+    margin-right: 0;
+    .timeline-item { margin-right: 0; }
+
     > .bg-twitter, > .bg-instagram, > .bg-facebook, > .bg-googleplus, > .bg-tumblr, > .bg-youtube,
     > .bg-vine {
       border: 1px solid rgba(0, 0, 0, 0.2);

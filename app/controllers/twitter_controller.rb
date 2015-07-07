@@ -116,6 +116,7 @@ class TwitterController < ApplicationController
             last_saved_tweet_id = get_twitter_data(client, create_query(last_access), true)
           end
         else
+          p query_array
           query_array.each do |query|
             last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
           end
