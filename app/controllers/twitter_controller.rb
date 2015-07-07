@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class TwitterController < ApplicationController
   before_action :set_client, only: [:tweets]
   before_action :set_campaign, only: [:tweets]
@@ -208,7 +206,7 @@ class TwitterController < ApplicationController
         search_results_part.each do |tweet|
           message = Message.new(campaign_id: @campaign.id)
           message = view_context.create_twitter_message(message, tweet)
-          if dismiss_accounts(message)
+          if dismiss_accounts(tweet)
             if message.save
               last_tweet_id = tweet.id
             end
@@ -222,18 +220,18 @@ class TwitterController < ApplicationController
     end
 
     # TODO: m_details usser url prüfen ob eins vorhanden
-    def dismiss_accounts(message)
-      if message.m_details­.include?("trendingdeutsch")
+    def dismiss_accounts(tweet)
+      if tweet.user.url.to_s.include?("trendingdeutsch")
         false
-      elsif message.m_details­.include?("trendinggermany")
+      elsif tweet.user.url.to_s.include?("trendinggermany")
         false
-      elsif message.m_details­.include?("trendiede")
+      elsif tweet.user.url.to_s.include?("trendiede")
         false
-      elsif message.m_details­.include?("javatheghost")
+      elsif tweet.user.url.to_s.include?("javatheghost")
         false
-      elsif message.m_details­.include?("tweettrendfacts")
+      elsif tweet.user.url.to_s.include?("tweettrendfacts")
         false
-      elsif message.m_details­.include?("trendsberlin")
+      elsif tweet.user.url.to_s.include?("trendsberlin")
         false
       else
         true
