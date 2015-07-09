@@ -15,6 +15,8 @@
         this.setInterval(this.drawCharts, FIVE_MINUTES);
       },
       drawCharts: function() {
+        // show loading spinner on process start
+        $('#loading-spinner').removeClass('hidden');
         <% campaign_tags = @campaign.tags %>
         <% if campaign_tags.present? %>
           <% top_campaign_tag = campaign_tags.where(t_count: campaign_tags.maximum(:t_count)).first %>
@@ -38,6 +40,8 @@
           $.ajax(ajax_options).done(function (data) {
             var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
             chart.draw(data, options);
+            // hide loading spinner on process finish
+            $('#loading-spinner').addClass('hidden');
           });
         <% end %>
       }

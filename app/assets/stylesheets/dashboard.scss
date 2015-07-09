@@ -15,3 +15,12 @@
 }
 
 #top-authors svg g g g text { cursor: pointer; }
+
+#loading-spinner {
+  a {
+    background: #222d32;
+    cursor: default;
+  }
+
+  i { color: #fff; }
+}

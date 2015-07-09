@@ -13,6 +13,8 @@
         this.setInterval(this.requestNewTwitterData, FIVE_MINUTES);
       },
       requestNewTwitterData: function() {
+        // show loading spinner on process start
+        $('#loading-spinner').removeClass('hidden');
         var ajax_options = {
           dataType: 'json',
           url: '/tweets/<%= @campaign.id %>',
@@ -20,11 +22,14 @@
         $.ajax(ajax_options).error(function (data, error) {
           console.error(data);
           console.error(error);
-        }).success(function (data, status) {
+        }).success(function (data) {
           console.log(data);
-          console.log(status);
           // update messages count in timeline link box
           $('#all-messages-count, #all-messages-count-navi').text(data.campaignMessageCount);
+          // draw charts with new data
+          drawChartsAfterRequest();
+          // hide loading spinner after process finish
+          $('#loading-spinner').addClass('hidden');
         });
       }
     });

@@ -32,13 +32,19 @@
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li class="active">
-            <%= link_to "Beiträge", "#tab_1", "data-toggle" => "tab", "aria-expanded" => "true" %>
+            <%= link_to "#tab_1", "data-toggle" => "tab", "aria-expanded" => "true" do %>
+              <i class="fa fa-bar-chart"></i> Beiträge
+            <% end %>
           </li>
           <li>
-            <%= link_to "Stichworte", "#tab_2", "data-toggle" => "tab", "aria-expanded" => "true" %>
+            <%= link_to "#tab_2", "data-toggle" => "tab", "aria-expanded" => "true" do %>
+              <i class="fa fa-bar-chart"></i> Stichworte
+            <% end %>
           </li>
           <li>
-            <%= link_to "Autoren", "#tab_3", "data-toggle" => "tab", "aria-expanded" => "true" %>
+            <%= link_to "#tab_3", "data-toggle" => "tab", "aria-expanded" => "true" do %>
+              <i class="fa fa-bar-chart"></i> Autoren
+            <% end %>
           </li>
         </ul>
         <div class="tab-content">
@@ -94,10 +100,11 @@
 </section>
 
 <% content_for :page_script do %>
+  <%= javascript_include_tag "dashboard" %>
+
   <script type="text/jsx">
     $(function() {
-      var secondTabOpended, thirdTabOpended = 0;
-      // init google charts
+     // init google charts
       var ajax_options = {
         dataType: 'script',
         cache: true,
@@ -106,24 +113,9 @@
       $.ajax(ajax_options).done(function () {
         google.load('visualization', '1.1', {
           packages:['corechart', 'wordtree'],
-          callback: function() { // call all charts renderer
-            messagesInPeriod();
-            messagesAtTime();
-            sentiment();
+          callback: function() {
+            // call all charts renderer on success callback
             twitterRequest();
-
-            $('a[data-toggle=tab]').on('shown.bs.tab', function (e) {
-              if ($(e.target).attr('href') == '#tab_2' && !secondTabOpended) {
-                topTags();
-                wordCloud();
-                wordTree();
-                secondTabOpended = 1;
-              } else if ($(e.target).attr('href') == '#tab_3' && !thirdTabOpended) {
-                topAuthors();
-                authorGenders();
-                thirdTabOpended = 1;
-              }
-            });
           }
         });
       });

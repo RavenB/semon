@@ -24,6 +24,8 @@
         this.getWords(this);
       },
       getWords: function(that) {
+        // show loading spinner on process start
+        $('#loading-spinner').removeClass('hidden');
         var ajax_options = {
           dataType: 'json',
           url: '/dashboard/<%= @campaign.id %>/word_cloud',
@@ -60,6 +62,8 @@
           'font' : '"Source Sans Pro", sans-serif', //  the CSS font-family string
           'shape' : 'circle' // circle, square, star or a theta function describing a shape
         });
+        // hide loading spinner on process finish
+        $('#loading-spinner').addClass('hidden');
       }
     });
 

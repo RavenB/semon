@@ -79,7 +79,7 @@ class TwitterController < ApplicationController
     # returns up to 500 tweets
     def send_request(client, query, max_id, since_id)
       client.search(query, {
-        result_type: "recent", lang: "de", max_id: max_id, since_id: since_id
+        result_type: "recent", lang: "de", max_id: max_id, since_id: since_id, count: 100
       }).take(500)
     end
 
