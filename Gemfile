@@ -78,11 +78,11 @@ gem 'admin_ikusei_frontend', git: 'ssh://git@git.ikusei.de:7999/AK/admin_ikusei_
 gem 'twitter' # https://github.com/sferik/twitter
 # gem 'tweetstream' # https://github.com/tweetstream/tweetstream
 
+# Instagram
+gem 'instagram' # https://github.com/Instagram/instagram-ruby-gem
+
 # Facebook
 # gem 'fb_graph2' # https://github.com/nov/fb_graph2
-
-# Instagram
-# gem 'instagram' # https://github.com/Instagram/instagram-ruby-gem
 
 # Google+
 # gem 'google_plus' # https://github.com/seejohnrun/google_plus

@@ -30,6 +30,7 @@ class Message < ActiveRecord::Base
   after_create :set_message_tags
 
   scope :twitter, -> { where(m_origin: "twitter") }
+  scope :instagram, -> { where(m_origin: "instagram") }
 
   # clean up messages to got all words without punctuation marks, hashtags, @s, ...
   def clean_up_message(message)

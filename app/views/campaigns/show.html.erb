@@ -85,17 +85,8 @@
       </div>
     </div>
 
-    <%#
-      - darstellungen von (gefilterten) daten
-      - zeiterverlauf/anzahlen in liniendiagramm
-      - plattformen/anzahlen in balken- oder kreisdiagramm
-      - themen/häufigkeit in tagcloud
-      - topautoren/anzahl beiträge in balken- oder kreisdiagramm/tabelle
-      - topseiten oder -links/anzahl beiträge in balken- oder kreisdiagramm
-      - tonalität (positiv, neutral, negativ) linien-, balken- oder kreisdiagramm
-    %>
-
     <div id="twitter-request"></div>
+    <div id="instagram-request"></div>
   </div>
 </section>
 
@@ -116,6 +107,7 @@
           callback: function() {
             // call all charts renderer on success callback
             twitterRequest();
+            instagramRequest();
           }
         });
       });
@@ -146,10 +138,11 @@
   <%= render "/dashboard/messages_in_period" %>
   <%= render "/dashboard/messages_at_time" %>
   <%= render "/dashboard/sentiment" %>
-  <%= render "/dashboard/twitter_request" %>
   <%= render "/dashboard/top_tags" %>
   <%= render "/dashboard/word_cloud" %>
   <%= render "/dashboard/word_tree" %>
   <%= render "/dashboard/top_authors" %>
   <%= render "/dashboard/author_genders" %>
+  <%= render "/dashboard/twitter_request" %>
+  <%= render "/dashboard/instagram_request" %>
 <% end %>

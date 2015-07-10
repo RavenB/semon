@@ -17,9 +17,10 @@
     <div class="timeline-item">
       <span class="time"><i class="fa fa-clock-o"></i> <%= message_time(message.m_moment) %></span>
 
-      <h3 class="timeline-header"><%= link_to message_user_url(message.m_details), target: "_blank" do %>
+      <h3 class="timeline-header">
+        <%= link_to message_user_url(message.m_details), target: "_blank" do %>
           <%= message_user_image(message.m_details) %>
-          <%= message.m_author %>
+          <%= unescape_text_characters(message.m_author) %>
         <% end %>
       </h3>
 
@@ -30,8 +31,7 @@
       <div class="timeline-footer">
         <div class="row">
           <div class="col-xs-12 col-sm-11">
-            <%= link_to message_tweet_url(message.m_details),
-                        title: message_tweet_url(message.m_details), target: "_blank" do %>
+            <%= link_to message_url(message), title: message_url(message), target: "_blank" do %>
               <i class="fa fa-link"></i>
             <% end %>
             <i class="fa fa-tags"></i>

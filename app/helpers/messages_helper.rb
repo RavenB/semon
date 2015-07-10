@@ -40,20 +40,24 @@ module MessagesHelper
     end
   end
 
-  # returns the public twitter user url
+  # returns the public user url
   def message_user_url(message_details)
     message_details_json = JSON.parse(message_details)
-    if message_details.present? && message_details_json["user"]["url"].present?
+    if message_details_json["user"]["url"].present?
       message_details_json["user"]["url"]
     end
   end
 
-  # returns the public tweet url: M_DETAILS.USER.URL/status/M_DETAILS.ID
-  def message_tweet_url(message_details)
-    message_details_json = JSON.parse(message_details)
-    if message_details.present? && message_details_json["id"].present? &&
+  # returns the public message url
+  # twitter url: M_DETAILS.USER.URL/status/M_DETAILS.ID
+  # instagram url: M_DETAILS.LINK
+  def message_url(message)
+    message_details_json = JSON.parse(message.m_details)
+    if "twitter" == message.m_origin && message_details_json["id"].present? &&
        message_details_json["user"]["url"].present?
       "#{message_details_json["user"]["url"]}/status/#{message_details_json["id"]}"
+    elsif "instagram" == message.m_origin && message_details_json["link"].present?
+      message_details_json["link"]
     end
   end
 
@@ -63,6 +67,25 @@ module MessagesHelper
 
   def unescape_text_characters(text_string)
     CGI.unescape(text_string)
+  end
+
+  # create message.m_details string when creating manually
+  def manual_details_json(message_details)
+    m_details = {}
+    m_details[:id] = message_details[:id]
+    m_details[:hashtags] = clear_and_get_hashtags_from_string(message_details[:hashtags])
+    m_details[:user] = {}
+    m_details[:user][:id] = ""
+    m_details[:user][:url] = message_details[:user][:url]
+    m_details[:user][:image] = message_details[:user][:image]
+    m_details[:manual] = {}
+    m_details[:manual][:time] = Time.now.to_f
+    m_details.to_json.to_s
+  end
+
+  # splits given words removes hashtags and creates array
+  def clear_and_get_hashtags_from_string(hashtags_string)
+    hashtags_string.gsub(',', ' ').split(' ').map{ |h| h.gsub('#', '') }
   end
 
   # checks the message sentiment and saves it to the message
