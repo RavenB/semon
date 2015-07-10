@@ -6,7 +6,7 @@ class TwitterController < ApplicationController
   def tweets
     @last_saved_tweet_id = 0
     if @campaign.c_status == 1
-      @last_saved_tweet_id = get_twitter_data(@client, create_query(nil), false)
+      @last_saved_tweet_id = get_twitter_data(@client, create_query, false)
     end
     respond_to do |format|
       format.json
@@ -29,16 +29,12 @@ class TwitterController < ApplicationController
     end
 
     # returns query for the campaign
-    # combining all tags and their conenctions
-    # creating array with elements at a maximum string size of 500 (twitter api limit)
+    # combining all tags and their connections
+    # creating array with elements at a maximum string size of nearly 500 (twitter api limit 500)
     # https://dev.twitter.com/rest/reference/get/search/tweets
-    def create_query(last_access)
+    def create_query
       query_array = []
-      if last_access.present?
-        all_campaign_tags = @campaign.tags.where("created_at > ?", last_access)
-      else
-        all_campaign_tags = @campaign.tags
-      end
+      all_campaign_tags = @campaign.tags
       processed_tags = [] # should always < 491 length
       all_campaign_tags.roots.each do |tag_root|
         all_tags_from_root = tag_root.subtree
@@ -113,10 +109,9 @@ class TwitterController < ApplicationController
             # mark access and recrawl with new tags
             @campaign.last_accessed = Time.now.utc
             @campaign.save
-            last_saved_tweet_id = get_twitter_data(client, create_query(last_access), true)
+            last_saved_tweet_id = get_twitter_data(client, create_query, true)
           end
         else
-          p query_array
           query_array.each do |query|
             last_saved_tweet_id = iterate_twitter_request(client, query, max_id, since_id)
           end
@@ -207,7 +202,7 @@ class TwitterController < ApplicationController
         search_results_part.each do |tweet|
           message = Message.new(campaign_id: @campaign.id)
           message = view_context.create_twitter_message(message, tweet)
-          if dismiss_accounts(tweet)
+          if valid_accounts(tweet)
             if message.save
               last_tweet_id = tweet.id
             end
@@ -220,8 +215,7 @@ class TwitterController < ApplicationController
       last_tweet_id
     end
 
-    # TODO: m_details usser url prüfen ob eins vorhanden
-    def dismiss_accounts(tweet)
+    def valid_accounts(tweet)
       if tweet.user.url.to_s.include?("trendingdeutsch")
         false
       elsif tweet.user.url.to_s.include?("trendinggermany")

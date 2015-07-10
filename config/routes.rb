@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'
   get '/tweets/:id' => 'twitter#tweets'
+  get '/instagrams/:id' => 'instagram#instagrams'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
