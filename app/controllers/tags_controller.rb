@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  before_action :set_campaign, only: [:create, :destroy]
+  before_action :set_campaign, only: [:create, :update, :destroy]
   before_action :set_tag, only: [:edit, :update, :destroy]
   respond_to :js
 
@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   def index
     @campaign = Campaign.find(params[:id])
     @tag = Tag.new
-    @tags_json = view_context.treeview_json(Tag.for_campaign(params[:id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(params[:id]).order(:t_name))
   end
 
   # POST /tags

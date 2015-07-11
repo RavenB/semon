@@ -7,4 +7,5 @@
   createTreeview(treeSelector, treeData);
   showFlashMsg('<%=j render partial: "/tags/partials/success_flash_alert",
                             locals: { msg: flash[:success] } %>');
+  $('#all-tags-count-navi').text(<%= @campaign.tags.count %>);
 <% end %>

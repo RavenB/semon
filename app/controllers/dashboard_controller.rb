@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
   before_action :set_campaign, only: [
                                        :messages_in_period,
                                        :messages_at_time,
+                                       :origin,
                                        :sentiment,
                                        :top_tags,
                                        :word_cloud,
@@ -55,6 +56,43 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.json {
         render json: { responseText: @campaign_messages.unshift(["Datum", "Anzahl"]).to_json }
+      }
+    end
+  end
+
+  # GET /dashboard/1/origin
+  def origin
+    # [["twitter", 10], ["instagram", 5]]
+    @campaign_origin = @campaign.messages.group_by{ |m| m.m_origin }.collect{ |origin, messages|
+                                          case origin
+                                            when "twitter"
+                                              ["Twitter", messages.count, "#55acee"]
+                                            when "instagram"
+                                              ["Instagram", messages.count, "#3f729b"]
+                                            when "facebook"
+                                              ["Facebook", messages.count, "#3b5998"]
+                                            when "googleplus"
+                                              ["Google+", messages.count, "#dd4b39"]
+                                            when "tumblr"
+                                              ["Tumblr", messages.count, "#2c4762"]
+                                            when "vine"
+                                              ["Vine", messages.count, "#00d9a3"]
+                                            when "youtube"
+                                              ["YouTube", messages.count, "#e52d27"]
+                                            when "semon"
+                                              ["Semon", messages.count, "#222d32"]
+                                            end
+                                          }
+    if @campaign_origin.blank?
+      # create empty dummy to prevent google charts errors
+      @campaign_origin = [["Twitter", 0, "#55acee"], ["Instagram", 0, "#3f729b"]]
+    end
+    respond_to do |format|
+      format.json {
+        render json: {
+          responseText: @campaign_origin.unshift(["Herkunft", "Anzahl", { role: "style" }])
+                                        .to_json
+        }
       }
     end
   end
@@ -113,7 +151,8 @@ class DashboardController < ApplicationController
                               }.flatten.group_by{ |word|
                                 word.downcase
                               }.collect{ |word, words|
-                                [word, words.count] if word.length > 3 # min character length
+                                # min character length 3, max character length 40
+                                [word, words.count] if word.length > 3 && word.length < 41
                               }.compact
                               .sort_by{ |a|
                                 a.last
@@ -207,11 +246,11 @@ class DashboardController < ApplicationController
       @campaign = Campaign.find(params[:id])
     end
 
-    # clean up messages to got all words without punctuation marks, hashtags, @s, ...
+    # clean up messages to got all words without punctuation marks, ...
     def clean_up_message(message)
       cleaned_message = CGI.unescape(message).gsub(". ", " ").gsub("!", " ").gsub("?", " ")
                            .gsub("_", " ").gsub("-", " ").gsub("+", " ").gsub(": ", " ")
                            .gsub(";", " ").gsub(",", " ").gsub("(", " ").gsub(")", " ")
-                           .gsub("rt ", " ").gsub("RT ", " ")
+                           .gsub("rt ", " ").gsub("RT ", " ").gsub("'", " ").gsub("\"", " ")
     end
 end

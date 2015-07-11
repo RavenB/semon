@@ -16,6 +16,9 @@
   <li class="<%= 'active' if current_page?("/campaigns/#{@campaign.id}/tags") %>">
     <%= link_to "/campaigns/#{@campaign.id}/tags" do %>
       <i class="fa fa-tags"></i> <span>Stichworte verwalten</span>
+      <small id="all-tags-count-navi" class="label pull-right bg-light-blue" title="Stichworte">
+        <%= @campaign.tags.count %>
+      </small>
     <% end %>
   </li>
   <li>

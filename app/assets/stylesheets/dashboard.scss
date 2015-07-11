@@ -24,3 +24,16 @@
 
   i { color: #fff; }
 }
+
+div[id^=google-visualization-errors] > span {
+  padding: 20px !important;
+  background: #fff !important;
+  font-size: 14px !important;
+  color: $red !important;
+  display: block !important;
+}
+
+.word-picker {
+  width: auto;
+  margin-left: 10px;
+}

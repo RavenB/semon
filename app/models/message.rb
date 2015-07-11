@@ -37,7 +37,8 @@ class Message < ActiveRecord::Base
     CGI.unescape(message.downcase).gsub("#", " ").gsub("@", " ").gsub(".", " ").gsub("!", " ")
                                   .gsub("?", " ").gsub("-", " ").gsub("+", " ").gsub(":", " ")
                                   .gsub(",", " ").gsub(";", " ").gsub("(", "").gsub(")", "")
-                                  .gsub("http", "").gsub("//t", "").gsub("rt ", "")
+                                  .gsub("http", "").gsub("//t", "").gsub("rt ", "").gsub("'", " ")
+                                  .gsub("\"", " ")
   end
 
   private

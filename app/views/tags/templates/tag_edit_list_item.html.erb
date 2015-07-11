@@ -22,10 +22,10 @@
           <%= f.hidden_field :campaign_id, value: @campaign_id %>
           <% if @current_tag.t_connection.present? %>
             <% submit_value = nil %>
-            <% submit_text = "von #{@current_tag.parent.t_name} lösen" %>
+            <% submit_text = "#{@current_tag.t_name} von #{@current_tag.parent.t_name} lösen" %>
           <% else %>
             <% submit_value = @current_tag.parent.id.to_s %>
-            <% submit_text = "mit #{@current_tag.parent.t_name} verknüpfen" %>
+            <% submit_text = "#{@current_tag.t_name} mit #{@current_tag.parent.t_name} verknüpfen" %>
           <% end %>
           <%= f.hidden_field :t_connection, value: submit_value %>
           <%= f.submit submit_text, class: "btn btn-default pull-left" %>
@@ -33,7 +33,8 @@
       <% end %>
 
       <% unless @current_tag.has_children? %>
-        <%= form_for(@current_tag, method: :delete, remote: true, html: { role: "form" }) do |f| %>
+        <%= form_for(@current_tag, method: :delete, remote: true, html: {
+            id: "delete_tag_#{@current_tag.id}", class: "delete_tag", role: "form" }) do |f| %>
           <%= f.hidden_field :id, value: @current_tag.id %>
           <%= f.hidden_field :campaign_id, value: @campaign_id %>
           <%= f.submit "Stichwort löschen", class: "btn btn-danger pull-right",

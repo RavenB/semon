@@ -4,10 +4,7 @@ class TwitterController < ApplicationController
 
   # get tweets for a campaign
   def tweets
-    @last_saved_tweet_id = 0
-    if @campaign.c_status == 1
-      @last_saved_tweet_id = get_twitter_data(@client, create_query, false)
-    end
+    @last_saved_tweet_id = get_twitter_data(@client, create_query, false)
     respond_to do |format|
       format.json
     end

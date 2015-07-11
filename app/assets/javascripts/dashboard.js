@@ -1,8 +1,9 @@
 var secondTabOpended, thirdTabOpended = 0;
 
-function drawChartsAfterRequest() {
+function drawDashboardCharts() {
   messagesInPeriod();
   messagesAtTime();
+  origin();
   sentiment();
 
   $('a[data-toggle=tab]').on('shown.bs.tab', function (e) {

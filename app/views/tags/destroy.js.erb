@@ -11,4 +11,5 @@
     // reload page for hiding campaign de-/activation button in the navigation
     location.reload();
   }
+  $('#all-tags-count-navi').text(<%= @campaign.tags.count %>);
 <% end %>

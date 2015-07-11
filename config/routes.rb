@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   scope '/dashboard' do
     get '/:id/messages_in_period' => 'dashboard#messages_in_period'
     get '/:id/messages_at_time' => 'dashboard#messages_at_time'
+    get '/:id/origin' => 'dashboard#origin'
     get '/:id/sentiment' => 'dashboard#sentiment'
     get '/:id/top_tags' => 'dashboard#top_tags'
     get '/:id/word_cloud' => 'dashboard#word_cloud'

@@ -1,5 +1,6 @@
 {
   "lastResponse": "<%= Time.now.strftime('%d.%m.%y %H:%M') %>",
   "lastSavedInstagramId": "<%= @last_saved_instagram_id %>",
+  "campaignInstagramCount": <%= @campaign.messages.instagram.count %>,
   "campaignMessageCount": <%= @campaign.messages.count %>
 }

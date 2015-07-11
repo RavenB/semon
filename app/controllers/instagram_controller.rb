@@ -4,10 +4,7 @@ class InstagramController < ApplicationController
 
   # get instagrams for a campaign
   def instagrams
-    @last_saved_instagram_id = 0
-    if @campaign.c_status == 1
-      @last_saved_instagram_id = get_instagram_data(@client, create_query, nil)
-    end
+    @last_saved_instagram_id = get_instagram_data(@client, create_query, nil)
     respond_to do |format|
       format.json
     end
