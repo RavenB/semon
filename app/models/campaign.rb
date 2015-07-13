@@ -20,13 +20,7 @@ class Campaign < ActiveRecord::Base
   validates :c_name, uniqueness: true
   validates :c_name, :c_start, :c_end, presence: true
 
-  before_save :set_end_date_minutes
-
   scope :active, -> { where(c_status: 1) }
   scope :inactive, -> { where(c_status: 0) }
 
-  private
-    def set_end_date_minutes
-      self.c_end = self.c_end + 23.hours + 59.minutes + 59.seconds
-    end
 end

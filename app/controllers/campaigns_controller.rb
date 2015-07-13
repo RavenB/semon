@@ -22,6 +22,7 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   def create
     @campaign = Campaign.new(campaign_params)
+    @campaign.c_end = set_end_date_minutes(@campaign.c_end)
     respond_to do |format|
       if @campaign.save
         format.html { redirect_to campaign_path(@campaign) }
@@ -39,8 +40,10 @@ class CampaignsController < ApplicationController
         format.html { redirect_to campaign_path(@campaign) }
       end
     else
+      cloned_campaign_params = campaign_params.clone
+      cloned_campaign_params[:c_end] = set_end_date_minutes(campaign_params[:c_end])
       respond_to do |format|
-        if @campaign.update(campaign_params)
+        if @campaign.update_attributes(cloned_campaign_params)
           format.html { redirect_to campaign_path(@campaign) }
         else
           format.html { render "edit" }
@@ -70,5 +73,10 @@ class CampaignsController < ApplicationController
     def campaign_params
       params.require(:campaign).permit(:c_name, :c_description, :c_start, :c_end, :c_status,
                                        :last_accessed)
+    end
+
+    # set time of end date to 23:59:59
+    def set_end_date_minutes(c_end)
+      "#{c_end} 23:59:59"
     end
 end

@@ -13,6 +13,10 @@
         this.setInterval(this.requestNewTwitterData, FIVE_MINUTES);
       },
       requestNewTwitterData: function() {
+        // reset opened tabs reminder
+        firstTabOpened = 0;
+        secondTabOpened = 0;
+        thirdTabOpened = 0;
         // show loading spinner on process start
         $('#loading-spinner').removeClass('hidden');
         var ajax_options = {
@@ -26,7 +30,7 @@
           console.log(data);
           // update messages count in timeline link box
           $('#all-messages-count, #all-messages-count-navi').text(data.campaignMessageCount);
-          // draw charts with new data
+          // draw charts when selecting tab
           drawDashboardCharts();
         });
       }
