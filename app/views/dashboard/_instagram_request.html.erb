@@ -10,7 +10,7 @@
       componentDidMount: function() {
         this.requestNewInstagramData();
         // call a method on the mixin to update the chart after given time
-        this.setInterval(this.requestNewInstagramData, ONE_MINUTE);
+        this.setInterval(this.requestNewInstagramData, FIVE_MINUTES);
       },
       requestNewInstagramData: function() {
         // reset opened tabs reminder
