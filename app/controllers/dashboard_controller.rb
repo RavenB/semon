@@ -64,7 +64,7 @@ class DashboardController < ApplicationController
   def origin
     # [["twitter", 10], ["instagram", 5]]
     @campaign_origin = @campaign.messages.group_by{ |m| m.m_origin }.collect{ |origin, messages|
-                                          case origin
+                                            case origin
                                             when "twitter"
                                               ["Twitter", messages.count, "#55acee"]
                                             when "instagram"
@@ -79,7 +79,7 @@ class DashboardController < ApplicationController
                                               ["Vine", messages.count, "#00d9a3"]
                                             when "youtube"
                                               ["YouTube", messages.count, "#e52d27"]
-                                            when "semon"
+                                            else
                                               ["Semon", messages.count, "#222d32"]
                                             end
                                           }
@@ -132,9 +132,9 @@ class DashboardController < ApplicationController
     if params[:top_tags_count].present?
       top_tags_count = params[:top_tags_count]
     end
-    @campaign_tags = @campaign.tags.group_by{ |t| t.t_name }.collect{ |t|
-      [t.first, t.last.map{ |t| t.t_count }.inject(:+)]
-    }.sort_by{ |t| t.last }.reverse.take(top_tags_count.to_i)
+    @campaign_tags = @campaign.tags.group_by{ |t1| t1.t_name }.collect{ |t2|
+      [t2.first, t2.last.map{ |t3| t3.t_count }.inject(:+)]
+    }.sort_by{ |t4| t4.last }.reverse.take(top_tags_count.to_i)
     respond_to do |format|
       format.json {
         render json: { responseText: @campaign_tags.unshift(["Stichwort", "Anzahl"]).to_json }
@@ -248,9 +248,9 @@ class DashboardController < ApplicationController
 
     # clean up messages to got all words without punctuation marks, ...
     def clean_up_message(message)
-      cleaned_message = CGI.unescape(message).gsub(". ", " ").gsub("!", " ").gsub("?", " ")
-                           .gsub("_", " ").gsub("-", " ").gsub("+", " ").gsub(": ", " ")
-                           .gsub(";", " ").gsub(",", " ").gsub("(", " ").gsub(")", " ")
-                           .gsub("rt ", " ").gsub("RT ", " ").gsub("'", " ").gsub("\"", " ")
+      CGI.unescape(message).gsub(". ", " ").gsub("!", " ").gsub("?", " ").gsub("_", " ")
+                           .gsub("-", " ").gsub("+", " ").gsub(": ", " ").gsub(";", " ")
+                           .gsub(",", " ").gsub("(", " ").gsub(")", " ").gsub("rt ", " ")
+                           .gsub("RT ", " ").gsub("'", " ").gsub("\"", " ")
     end
 end

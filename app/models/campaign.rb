@@ -22,5 +22,4 @@ class Campaign < ActiveRecord::Base
 
   scope :active, -> { where(c_status: 1) }
   scope :inactive, -> { where(c_status: 0) }
-
 end
