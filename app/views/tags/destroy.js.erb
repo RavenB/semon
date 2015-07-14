@@ -7,9 +7,9 @@
   createTreeview(treeSelector, treeData);
   showFlashMsg('<%=j render partial: "/tags/partials/success_flash_alert",
                             locals: { msg: flash[:success] } %>');
-  if(<%= @campaign.tags.count %> == 0) {
+  if(<%= @campaign_tags_count %> == 0) {
     // reload page for hiding campaign de-/activation button in the navigation
     location.reload();
   }
-  $('#all-tags-count-navi').text(<%= @campaign.tags.count %>);
+  $('#all-tags-count-navi').text(<%= @campaign_tags_count %>);
 <% end %>

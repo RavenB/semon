@@ -36,7 +36,7 @@
   </div>
 
   <%# show create button under the campaigns list if there are a few more of them %>
-  <% if @campaigns.count > 12 %>
+  <% if @campaigns.to_a.count > 12 %>
     <div class="row">
       <div class="col-md-12">
         <%= link_to "Kampagne erstellen", new_campaign_path, class: "btn btn-success" %>

@@ -47,11 +47,12 @@ server '5.57.41.17:65422', user: 'u10_semon', roles: %w{web app}, my_property: :
 #
 # Global options
 # --------------
-#  set :ssh_options, {
-#    keys: %w(/home/rlisowski/.ssh/id_rsa),
-#    forward_agent: false,
-#    auth_methods: %w(password)
-#  }
+# set :ssh_options, {
+   # keys: %w(/home/rlisowski/.ssh/id_rsa),
+   # forward_agent: false,
+   # auth_methods: %w(password)
+   # verbose: :debug
+# }
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------

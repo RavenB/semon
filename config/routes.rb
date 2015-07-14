@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     get '/:id/author_genders' => 'dashboard#author_genders'
   end
 
-  get '/template/tag_edit_list_item' => 'tags#tag_edit_list_item'
   get '/tweets/:id' => 'twitter#tweets'
   get '/instagrams/:id' => 'instagram#instagrams'
 

@@ -10,42 +10,46 @@ class TagsController < ApplicationController
     @tags_json = view_context.treeview_json(Tag.for_campaign(params[:id]).order(:t_name))
   end
 
+  # GET /tags/1/edit
+  def edit
+    @new_tag = Tag.new
+    @campaign_id = params[:campaign_id]
+    @current_tag = Tag.find_by_id(params[:current_tag_id])
+    @tag_ancestry = params[:ancestry]
+    respond_to do |format|
+      format.html { render layout: false }
+    end
+  end
+
   # POST /tags
   def create
     @tag = Tag.new(tag_params)
-    @tag.t_name = @tag.t_name.delete(" ")
+    @tag.t_name = @tag.t_name.strip.delete(" ") # clear all white spaces
     @tag.save
-    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id])
+                                               .order(:t_name))
     flash[:success] = "Erfolgreich aktualisiert!"
   end
 
   # PATCH/PUT /tags/1
   def update
     @tag.update_attributes(tag_params)
-    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
+    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id])
+                                               .order(:t_name))
     flash[:success] = "Erfolgreich aktualisiert!"
   end
 
   # DELETE /tags/1
   def destroy
     @tag.destroy
-    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id]))
-    if @campaign.tags.count == 0
+    @tags_json = view_context.treeview_json(Tag.for_campaign(tag_params[:campaign_id])
+                                               .order(:t_name))
+    @campaign_tags_count = @campaign.tags.count
+    if @campaign_tags_count == 0
       # deactivate campaign when all tags deleted
       @campaign.update_attributes(c_status: "0")
     end
     flash[:success] = "Erfolgreich aktualisiert!"
-  end
-
-  # returns the html template in views/tags/templates
-  def tag_edit_list_item
-    @new_tag = Tag.new
-    @campaign_id = params[:campaign_id]
-    @current_tag = Tag.find_by_id(params[:current_tag_id])
-    @tag_ancestry = params[:ancestry]
-    respond_to do |format|
-      format.html { render "tags/templates/tag_edit_list_item", layout: false }
-    end
   end
 
   private

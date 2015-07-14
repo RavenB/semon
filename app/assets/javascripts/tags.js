@@ -24,7 +24,7 @@ function tagEditListItem(treeSelector, node) {
   var tag_ancestry = getParentAncestry(treeSelector, node) + node.tags[0];
 
   $.ajax({
-    url: '/template/tag_edit_list_item',
+    url: '/tags/' + node.tags[0] + '/edit',
     data: {
       campaign_id: $('#tag_campaign_id').val(),
       current_tag_id: node.tags[0],
