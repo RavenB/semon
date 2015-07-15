@@ -38,7 +38,7 @@
         that.setInterval(function () {
           var ajax_options = {
             dataType: 'json',
-            url: '/dashboard/<%= @campaign.id %>/word_cloud',
+            url: '/dashboard/<%= @campaign.id %>/word_cloud'
           };
           $.ajax(ajax_options).done(function (data) {
             that.setState({ data: data.responseText });

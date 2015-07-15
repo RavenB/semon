@@ -42,7 +42,7 @@
 
         var ajax_options = {
           dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/messages_at_time',
+          url: '/dashboard/<%= @campaign.id %>/messages_at_time'
         };
         $.ajax(ajax_options).done(function (data) {
           var data_array = $.parseJSON(data.responseText);

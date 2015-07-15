@@ -177,7 +177,7 @@ class DashboardController < ApplicationController
   def word_tree
     # [["text1"], ["text2"]]
     @campaign_texts = @campaign.messages.map{ |message|
-                                          clean_up_message(message.m_text)
+                                          clean_up_message(message.m_text).gsub("#", "").gsub("@", "")
                                         }.collect{ |text| [text] }
     respond_to do |format|
       format.json {

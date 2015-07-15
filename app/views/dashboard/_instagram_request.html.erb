@@ -21,7 +21,7 @@
         $('#loading-spinner').removeClass('hidden');
         var ajax_options = {
           dataType: 'json',
-          url: '/instagrams/<%= @campaign.id %>',
+          url: '/instagrams/<%= @campaign.id %>'
         };
         $.ajax(ajax_options).error(function (data, error) {
           console.error(data);

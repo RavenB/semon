@@ -32,7 +32,7 @@
 
         var ajax_options = {
           dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/sentiment',
+          url: '/dashboard/<%= @campaign.id %>/sentiment'
         };
         $.ajax(ajax_options).done(function (data) {
           var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));

@@ -27,7 +27,7 @@
 
         var ajax_options = {
           dataType: 'json',
-          url: '/dashboard/<%= @campaign.id %>/author_genders',
+          url: '/dashboard/<%= @campaign.id %>/author_genders'
         };
         $.ajax(ajax_options).done(function (data) {
           var data = google.visualization.arrayToDataTable($.parseJSON(data.responseText));
