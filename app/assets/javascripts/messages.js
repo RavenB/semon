@@ -16,9 +16,10 @@ $(function () {
       $(this).next().iCheck('check');
     });
 
-    $('.message-origin .btn, .message-origin .iradio_square-blue checked').click(function () {
+    $('.message-origin input').on('ifChecked', function () {
       // open details form elements for clicked social media platform
-      var choosenPlatform = $(this).parent().find('input').val();
+      var choosenPlatform = $(this).val();
+      console.log(choosenPlatform);
       $('.message-details ').hide();
       $('.' + choosenPlatform + '-details').slideDown();
     });
@@ -30,7 +31,7 @@ $(function () {
 
   if($('.message-sentiment').length) {
     $('.message-sentiment .btn').click(function () {
-      // check radio button below social brand icon
+      // check radio button below sentiment icon
       $(this).next().iCheck('check');
     });
   }
