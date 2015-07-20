@@ -14,11 +14,12 @@
     <i class="fa fa-<%= timeline_icon(message.m_origin) %> bg-<%= message.m_origin %>">
       <%= timeline_icon_semon(message.m_origin) %>
     </i>
-    <div class="timeline-item">
+    <div class="timeline-item <%= message_rating_class(message.m_rating) %>">
       <span class="time"><i class="fa fa-clock-o"></i> <%= message_time(message.m_moment) %></span>
 
       <h3 class="timeline-header">
-        <%= link_to message_user_url(message.m_details), target: "_blank" do %>
+        <%= link_to message_user_url(message.m_details),
+            target: "#{ message.m_origin == 'semon' ? '_self' : '_blank'}" do %>
           <%= message_user_image(message.m_details) %>
           <%= unescape_text_characters(message.m_author) %>
         <% end %>
@@ -31,7 +32,8 @@
       <div class="timeline-footer">
         <div class="row">
           <div class="col-xs-12 col-sm-11">
-            <%= link_to message_url(message), title: message_url(message), target: "_blank" do %>
+            <%= link_to message_url(message), title: message_url(message),
+                target: "#{ message.m_origin == 'semon' ? '_self' : '_blank'}" do %>
               <i class="fa fa-link"></i>
             <% end %>
             <i class="fa fa-tags"></i>

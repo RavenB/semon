@@ -8,5 +8,6 @@ $('.timeline').append(
 <% if @messages.last_page? %>
   $('.pagination').html('');
 <% else %>
-  $('.pagination').html('<%=j link_to_next_page(@messages, "Bitte warten...", remote: true) %>');
+  $('.pagination').html('<%=j link_to_next_page(@messages, "Bitte warten...",
+                                                params: @params, remote: true) %>');
 <% end %>

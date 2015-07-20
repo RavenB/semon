@@ -5,6 +5,18 @@ class MessagesController < ApplicationController
   # GET /messages
   def index
     sorted_campaign_messages = @campaign.messages.order(m_moment: :desc)
+    @params = params
+    if params.present? && params[:search].present?
+      if params[:search][:tag_id].present?
+        tag_id = params[:search][:tag_id]
+        sorted_campaign_messages = sorted_campaign_messages.where("tags.id = ?", tag_id)
+                                                           .joins(:tags)
+      end
+      if params[:search][:category_id].present?
+        category_id = params[:search][:category_id]
+        sorted_campaign_messages = sorted_campaign_messages.where("category_id = ?", category_id)
+      end
+    end
     if sorted_campaign_messages.present?
       page_before = params[:page].to_i - 1
       last_message_before = sorted_campaign_messages.page(page_before).per(20).last

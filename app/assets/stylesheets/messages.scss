@@ -93,7 +93,12 @@
 
   > li {
     margin-right: 0;
-    .timeline-item { margin-right: 0; }
+    .timeline-item {
+      margin-right: 0;
+
+      &.rating-1 { border: 1px solid $light-blue; }
+      // &.rating-2 { border: 1px solid $light-blue; }
+    }
 
     > .bg-twitter, > .bg-instagram, > .bg-facebook, > .bg-googleplus, > .bg-tumblr, > .bg-youtube,
     > .bg-vine {

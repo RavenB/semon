@@ -12,6 +12,9 @@
 
 <section class="content">
   <div class="row">
+    <%= render partial: "/messages/partials/timeline_filter" %>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <% if @messages.present? %>
         <ul class="timeline">
@@ -19,7 +22,7 @@
                      locals: { messages: @messages, prev_message_date: "" } %>
         </ul>
         <div class="pagination">
-          <%= link_to_next_page(@messages, "Bitte warten...", remote: true) %>
+          <%= link_to_next_page(@messages, "Bitte warten...", params: @params, remote: true) %>
         </div>
       <% end %>
     </div>

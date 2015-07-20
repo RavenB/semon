@@ -45,6 +45,22 @@ module MessagesHelper
     message_details_json = JSON.parse(message_details)
     if message_details_json["user"]["url"].present?
       message_details_json["user"]["url"]
+    else
+      "#"
+    end
+  end
+
+  # returns color class for given rating
+  def message_rating_class(message_rating)
+    case message_rating
+    when 1
+      "rating-1"
+    when 2
+      "rating-2"
+    when 3
+      "rating-3"
+    else
+      ""
     end
   end
 
@@ -58,6 +74,8 @@ module MessagesHelper
       "#{message_details_json["user"]["url"]}/status/#{message_details_json["id"]}"
     elsif "instagram" == message.m_origin && message_details_json["link"].present?
       message_details_json["link"]
+    else
+      "#"
     end
   end
 
