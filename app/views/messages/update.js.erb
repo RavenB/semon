@@ -1,0 +1,34 @@
+var $timelineItem = $('.timeline li[data-msg-id=<%= @message.id %>]');
+
+$timelineItem.fadeOut(function() {
+  <% if @rating.present? %>
+    <% if @rating == 1 %>
+      $timelineItem.find('.m-rating').attr('href', 'messages/<%= @message.id %>?m_rating=2');
+      $timelineItem.find('.fa-star').toggleClass('fa-star').toggleClass('fa-star-o');
+    <% elsif @rating == 2 %>
+      $timelineItem.find('.m-rating').attr('href', 'messages/<%= @message.id %>?m_rating=1');
+      $timelineItem.find('.fa-star-o').toggleClass('fa-star-o').toggleClass('fa-star');
+    <% end %>
+    $timelineItem.find('.timeline-item').toggleClass('rating-1');
+  <% end %>
+
+  <% if @sentiment.present? %>
+    <% if @sentiment == 1 %>
+      var $badMood = $timelineItem.find('.fa-sentiment-3');
+      if ($badMood.length) {
+        $badMood.toggleClass('fa-sentiment-3 fa-frown-o').toggleClass('fa-sentiment-1 fa-smile-o');
+      } else {
+        $timelineItem.find('> i.fa').after('<i class="fa fa-sentiment-1 fa-smile-o"></i>');
+      }
+    <% elsif @sentiment == 2 %>
+      $timelineItem.find('.fa-sentiment-1, .fa-sentiment-3').remove();
+    <% elsif @sentiment == 3 %>
+      var $goodMood = $timelineItem.find('.fa-sentiment-1');
+      if ($goodMood.length) {
+        $goodMood.toggleClass('fa-sentiment-1 fa-smile-o').toggleClass('fa-sentiment-3 fa-frown-o');
+      } else {
+        $timelineItem.find('> i.fa').after('<i class="fa fa-sentiment-3 fa-frown-o"></i>');
+      }
+    <% end %>
+  <% end %>
+}).fadeIn();

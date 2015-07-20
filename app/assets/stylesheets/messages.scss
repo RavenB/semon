@@ -85,6 +85,10 @@
   }
 }
 
+.search-form-timeline {
+
+}
+
 .timeline {
   > li.time-label > span {
     background-color: #ddd;
@@ -124,14 +128,30 @@
       font-size: 0.8em;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
+
+    > .fa-sentiment-1,
+    > .fa-sentiment-3 {
+      top: 43px;
+      color: #fff;
+    }
+
+    > .fa-sentiment-1 { background-color: $green; }
+    > .fa-sentiment-3 { background-color: $red; }
   }
 
   .timeline-header img { height: 50px; }
 
-  .timeline-footer .fa-link {
-    color: #333;
-    margin-right: 10px;
+  .timeline-footer {
+    border-top: 1px solid #f4f4f4;
 
-    &:hover { color: #999; }
+    .fa-link {
+      color: #333;
+      margin-right: 10px;
+
+      &:hover { color: #999; }
+    }
+
+    .m-sentiment i { margin-right: 10px; }
+    .m-rating i { margin-right: 20px; }
   }
 }

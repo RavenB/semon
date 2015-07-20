@@ -32,6 +32,8 @@ class Message < ActiveRecord::Base
   scope :twitter, -> { where(m_origin: "twitter") }
   scope :instagram, -> { where(m_origin: "instagram") }
 
+  ORIGINS = ["Twitter", "Instagram", "Facebook", "Google+", "Tumblr", "Vine", "YouTube", "Semon"]
+
   # clean up messages to got all words without punctuation marks, hashtags, @s, ...
   def clean_up_message(message)
     CGI.unescape(message.downcase).gsub("#", " ").gsub("@", " ").gsub(".", " ").gsub("!", " ")

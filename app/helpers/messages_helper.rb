@@ -18,6 +18,18 @@ module MessagesHelper
     end
   end
 
+  # returns the id and icon name for sentiment
+  def timeline_icon_sentiment(message_sentiment)
+    case message_sentiment
+    when 1
+      "sentiment-1 fa-smile-o"
+    when 3
+      "sentiment-3 fa-frown-o"
+    else
+      ""
+    end
+  end
+
   # returns a formatted message date in format '10.06.2015'
   def message_date(message_datetime)
     message_datetime.localtime.strftime("%d.%m.%Y")

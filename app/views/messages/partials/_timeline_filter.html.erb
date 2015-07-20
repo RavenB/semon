@@ -1,6 +1,6 @@
-<%= form_tag messages_path, { method: "GET", class: "search-form" } do  %>
+<%= form_tag messages_path, { method: "GET", class: "search-form-timeline" } do  %>
   <% params[:search] ||= {} %>
-  <div class="col-md-3">
+  <div class="col-sm-4 col-md-3">
     <div class="form-group">
       <%= label_tag "search[tag_id]", "Stichwort filtern" %>
       <% tag_select = @campaign.tags.order(:t_name).map{ |t| [t.t_name, t.id] } %>
@@ -11,7 +11,7 @@
                      "data-live-search" => "true", "data-size" => "auto" %>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-sm-4 col-md-3">
     <div class="form-group">
       <%= label_tag "search[category_id]", "Kategorie filtern" %>
       <% category_select = Category.all.order(:cat_name).map{ |c| [c.cat_name, c.id] } %>
@@ -22,12 +22,34 @@
                      "data-live-search" => "true", "data-size" => "auto" %>
     </div>
   </div>
+  <div class="col-sm-4 col-md-3">
+    <div class="form-group">
+      <%= label_tag "search[sentiment_id]", "Sentiment filtern" %>
+      <% sentiment_select = Sentiment.all.map{ |s| [s.s_name, s.id] } %>
+      <%= select_tag "search[sentiment_id]",
+                     options_from_collection_for_select(sentiment_select, :last, :first,
+                                                        params[:search][:sentiment_id]),
+                     include_blank: true,  class: "form-control selectpicker show-tick",
+                     "data-live-search" => "true", "data-size" => "auto" %>
+    </div>
+  </div>
+  <div class="col-sm-4 col-md-3">
+    <div class="form-group">
+      <%= label_tag "search[origin]", "Herkunft filtern" %>
+      <% origin_select = Message::ORIGINS.map{ |o| [o, o.downcase] } %>
+      <%= select_tag "search[origin]",
+                     options_from_collection_for_select(origin_select, :last, :first,
+                                                        params[:search][:origin]),
+                     include_blank: true,  class: "form-control selectpicker show-tick",
+                     "data-live-search" => "true", "data-size" => "auto" %>
+    </div>
+  </div>
 <% end %>
 
 <% content_for :page_script do %>
   <script type="text/javascript">
     $(function() {
-      $('.search-form').on('change', function () {
+      $('.search-form-timeline').on('change', function () {
         $(this).submit();
       });
     });

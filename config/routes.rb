@@ -12,8 +12,6 @@ Rails.application.routes.draw do
     resources :messages, path: '/:id/messages'
   end
 
-  delete '/messages/:id' => 'messages#destroy'
-
   scope '/dashboard' do
     get '/:id/messages_in_period' => 'dashboard#messages_in_period'
     get '/:id/messages_at_time' => 'dashboard#messages_at_time'

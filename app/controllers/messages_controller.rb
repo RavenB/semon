@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_campaign, only: [:index, :new, :create]
-  before_action :set_message, only: [:destroy]
+  before_action :set_message, only: [:update, :destroy]
 
   # GET /messages
   def index
@@ -15,6 +15,14 @@ class MessagesController < ApplicationController
       if params[:search][:category_id].present?
         category_id = params[:search][:category_id]
         sorted_campaign_messages = sorted_campaign_messages.where("category_id = ?", category_id)
+      end
+      if params[:search][:sentiment_id].present?
+        sentiment_id = params[:search][:sentiment_id]
+        sorted_campaign_messages = sorted_campaign_messages.where("sentiment_id = ?", sentiment_id)
+      end
+      if params[:search][:origin].present?
+        origin = params[:search][:origin]
+        sorted_campaign_messages = sorted_campaign_messages.where("m_origin = ?", origin)
       end
     end
     if sorted_campaign_messages.present?
@@ -52,14 +60,36 @@ class MessagesController < ApplicationController
 
   # PATCH/PUT /messages/1
   def update
+    if params.present?
+      @message.update_attributes(params.permit(:m_rating, :sentiment_id))
+      if params[:m_rating].present?
+        m_rating = params[:m_rating].to_i
+        case m_rating
+        when 1
+          @rating = 1
+        when 2
+          @rating = 2
+        else
+          @rating = 0
+        end
+      end
+      if params[:sentiment_id].present?
+        @sentiment = params[:sentiment_id].to_i
+      end
+    end
   end
 
   # DELETE /messages/1
   def destroy
-    @message.destroy
-    @messages_count = @message.campaign.messages.count
-    respond_to do |format|
-      format.js
+    message_tags = @message.tags
+    if @message.destroy
+      message_tags.each do |t|
+        t.decrement!(:t_count)
+      end
+      @messages_count = @message.campaign.messages.count
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
