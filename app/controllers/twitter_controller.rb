@@ -34,7 +34,8 @@ class TwitterController < ApplicationController
       query_array = []
       all_campaign_tags = @campaign.tags
       campaign_tags_roots = all_campaign_tags.roots
-      processed_tags = campaign_tags_roots.map(&:t_name) # should always < 471 length
+      query_array << build_query_with_dates(campaign_tags_roots.map(&:t_name))
+      processed_tags = [] # should always < 471 length
       campaign_tags_roots.each do |tag_root|
         all_tags_from_root = tag_root.descendants
         all_tags_from_root.each do |tag|
