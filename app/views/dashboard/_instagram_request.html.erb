@@ -28,10 +28,12 @@
           console.error(error);
         }).success(function (data) {
           console.log(data);
-          // update messages count in timeline link box
-          $('#all-messages-count, #all-messages-count-navi').text(data.campaignMessageCount);
-          // draw charts when selecting tab
-          drawDashboardCharts();
+          if (data.newlySavedInstagrams.length) {
+            // update messages count in timeline link box
+            $('#all-messages-count, #all-messages-count-navi').text(data.campaignMessageCount);
+            // draw charts when selecting tab
+            drawDashboardCharts();
+          }
         });
       }
     });

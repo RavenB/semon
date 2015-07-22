@@ -94,10 +94,18 @@ class TwitterController < ApplicationController
     # returns up to 500 tweets
     def send_request(client, query, since_id)
       begin
+        logger.debug " "
+        logger.debug "query: "
+        logger.debug " "
+        logger.debug query
         client.search(query, {
           result_type: "recent", lang: "de", since_id: since_id, count: 100
         }).take(500)
-      rescue
+      rescue => e
+        logger.error " "
+        logger.error "Error:"
+        logger.error " "
+        logger.error e.message
         []
       end
     end

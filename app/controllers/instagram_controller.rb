@@ -60,8 +60,16 @@ class InstagramController < ApplicationController
     # send request to instagram api
     def send_request(client, query, options)
       begin
+        logger.debug " "
+        logger.debug "query: "
+        logger.debug " "
+        logger.debug query
         client.tag_recent_media(query, options)
-      rescue
+      rescue => e
+        logger.error " "
+        logger.error "Error:"
+        logger.error " "
+        logger.error e.message
         []
       end
     end
