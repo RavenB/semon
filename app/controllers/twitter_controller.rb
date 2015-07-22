@@ -35,7 +35,8 @@ class TwitterController < ApplicationController
       all_campaign_tags = @campaign.tags
       processed_tags = [] # should always < 471 length
       all_campaign_tags.roots.each do |tag_root|
-        all_tags_from_root = tag_root.subtree
+        processed_tags << tag_root.t_name
+        all_tags_from_root = tag_root.descendants
         all_tags_from_root.each do |tag|
           if tag.t_connection.present?
             connected_tag = Tag.find(tag.t_connection)
