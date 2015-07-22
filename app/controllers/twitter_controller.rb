@@ -93,9 +93,13 @@ class TwitterController < ApplicationController
     # send request to twitter search api
     # returns up to 500 tweets
     def send_request(client, query, since_id)
-      client.search(query, {
-        result_type: "recent", lang: "de", since_id: since_id, count: 100
-      }).take(500)
+      begin
+        client.search(query, {
+          result_type: "recent", lang: "de", since_id: since_id, count: 100
+        }).take(500)
+      rescue
+        []
+      end
     end
 
     # read for info about max_id/since_id: https://dev.twitter.com/rest/public/timelines

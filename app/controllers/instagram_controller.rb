@@ -59,7 +59,11 @@ class InstagramController < ApplicationController
 
     # send request to instagram api
     def send_request(client, query, options)
-      client.tag_recent_media(query, options)
+      begin
+        client.tag_recent_media(query, options)
+      rescue
+        []
+      end
     end
 
     def get_instagram_data(client, query_array, max_id)
