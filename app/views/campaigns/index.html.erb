@@ -54,15 +54,24 @@
       render: function() {
         return (
           <div className="comment">
-            <p>Hier folgt der Hilfetext für die Übersicht aller Kampagnen.</p>
-            <p>{this.props.parame}</p>
+            <p>Dies ist die Startseite der Anwendung.</p>
+            <p>
+              Es werden alle Kampagnen des Systems gelistet. Vergangene Kampagnen werden in grauen
+              Kästen und aktive Kampagnen in grünen Kästen dargestellt.
+            </p>
+            <p>Per Klick auf ein Element gelangst Du zum jeweiligen Kampagnendashboard.</p>
+            <p>
+              Um eine neue Kampagne zu erstellen, kann der Button
+              <a href="#" className="btn btn-success">Kampagne erstellen</a><br/>
+              gewählt werden.
+            </p>
           </div>
         );
       }
     });
 
     React.render(
-      <HelpRenderer parame="übergebener Parameter"/>,
+      <HelpRenderer/>,
       document.getElementById('help-container')
     );
   </script>

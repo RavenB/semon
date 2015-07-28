@@ -22,7 +22,7 @@
     <% end %>
   </li>
   <li>
-    <% if @campaign.tags.present? %>
+    <% if @campaign.tags.present? && @campaign.c_end >= Time.now %>
       <% if @campaign.c_status == 0 %>
         <%= link_to campaign_path(@campaign, {
             campaign: { c_status: "1", last_accessed: nil } }), method: :put do %>

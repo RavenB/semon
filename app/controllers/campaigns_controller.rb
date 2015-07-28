@@ -3,6 +3,10 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/1
   def show
+    # deactivate past campaign
+    if @campaign.c_end < Time.now
+      @campaign.update_attributes(c_status: 0)
+    end
   end
 
   # GET /campaigns
