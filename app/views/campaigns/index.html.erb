@@ -17,7 +17,7 @@
 
   <div class="row">
     <%# create a box element for every campaign containing its name and date range %>
-    <% @campaigns.each do |campaign| %>
+    <% active_campaigns_first.each do |campaign| %>
       <div class="col-xs-12 col-sm-6 col-lg-4">
         <%= link_to campaign_path(campaign), title: campaign_name(campaign) do %>
           <div class="small-box <%= campaign.c_status == 1 ? 'bg-light-blue' : 'bg-gray' %>">

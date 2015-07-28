@@ -19,4 +19,10 @@ module CampaignsHelper
   def campaign_name(campaign)
     campaign.c_name
   end
+
+  # returns sorted campaigns, active and current first
+  def active_campaigns_first
+    return [] if @campaigns.blank?
+    @campaigns.order(:c_start).order(:c_status).reverse
+  end
 end
