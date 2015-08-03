@@ -16,3 +16,40 @@
     </div>
   </div>
 </section>
+
+<% content_for :page_script do %>
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="help-comment">
+            <p>
+              Hier kann ein Beitrag einer der aufgeführten Social Media Plattformen manuell angelegt
+              werden. Mögliche Plattformen sind aktuell Twitter, Instagram, Facebook, Google+,
+              Tumblr, Vine und YouTube. Wenn ein persönliches Gespräch erfasst werden soll, kann
+              als Plattform Semon selbst gewählt werden.
+            </p>
+            <p>
+              Beim Klick auf eine gewünschte Plattform können aktuell für Twitter, Instagram und
+              Facebook zusätzliche Details wie z.B. Links und Bildadressen hinterlegt werden.
+            </p>
+            <p>
+              Wähle <a href="#" className="btn btn-success">Speichern</a><br/>
+              um den Vorgang abzuschließen, oder &nbsp;
+              <a href="#" className="btn btn-default">Zurück</a><br/>
+              um zur vorherigen Ansicht zurückzukehren.
+            </p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer/>,
+      document.getElementById('help-container')
+    );
+  </script>
+<% end %>

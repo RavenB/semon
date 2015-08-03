@@ -48,4 +48,45 @@
     createTreeview(treeSelector, treeData);
     $('#tag_t_name').focus();
   </script>
+
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="help-comment">
+            <p>
+              Für das Anlegen von Stichworten trage den gewünschten Begriff in das Stichwort-Feld
+              ein und wähle <a href="#" className="btn btn-success">Hinzufügen</a> oder bestätige
+              die Eingabe per Enter.<br/>
+            </p>
+            <p>
+              Beim Klick auf ein Stichwort können diesem Untergeordnete Stichworte hinzugefügt
+              werden. Weiterhin kannst Du hier das &nbsp;
+              <a href="#" className="btn btn-danger">Stichwort löschen</a>
+            </p>
+            <p>
+              Untergeordnete Stichworte kannst Du mit dem Elternelement &nbsp;
+              <a href="#" className="btn btn-default">verknüpfen</a><br/>
+              Ein <i className="fa fa-lock"></i>-Stichwort ist dann nur im Zusammenhang mit seinem
+              Elternelement aktiv. Das reine Unterordnen ohne Verknüpfung hat keine Auswirkung auf
+              die Suche, sondern dient der Übersichtlichkeit.
+            </p>
+            <p>
+              Per <span className="icon expand-icon glyphicon glyphicon-plus"></span> und &nbsp;
+              <span className="icon expand-icon glyphicon glyphicon-minus"></span> kann durch den
+              Stichwortbaum navigiert werden und Elemente auf- bzw. zugeklappt werden.
+            </p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer/>,
+      document.getElementById('help-container')
+    );
+  </script>
 <% end %>

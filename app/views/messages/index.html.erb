@@ -35,4 +35,45 @@
       $('body').infinitePages();
     });
   </script>
+
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="help-comment">
+            <p>
+              Hier können alle gesammelten Beiträge der Kampagne einzeln eingesehen werden. Die
+              Beiträge sind chronologisch sortiert und können in die Vergangenheit gescrollt werden.
+            </p>
+            <p>
+              Die Auswahlboxen oberhalb der Timeline ermöglichen die Filterung der Beitragsliste.
+            </p>
+            <p>
+              In jedem Beitrag selbst kann per <i className="fa fa-link"></i> zum originalen Beitrag
+              in entsprechender Social Media Plattform gelangt werden. &nbsp;
+              <i className="fa fa-tags"></i> deutet auf die verknüpften Stichworte hin, wegen denen
+              der Beitrag gefunden wurde.
+            </p>
+            <p>
+              Um das Sentiment eines Beitrags nachträglich anzupassen, können &nbsp;
+              <i className="fa fa-smile-o text-success"></i>, &nbsp;
+              <i className="fa fa-meh-o text-warning"></i> oder &nbsp;
+              <i className="fa fa-frown-o text-danger"></i> gewählt werden.<br/>
+              <i className="fa fa-star-o text-lightblue"></i> markiert einen Beitrag als wichtig.
+              Mit <i className="fa fa-trash-o text-danger"></i> kannst Du einen Beitrag entfernen.
+            </p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer/>,
+      document.getElementById('help-container')
+    );
+  </script>
 <% end %>
+

@@ -155,4 +155,39 @@
   <%= render "/dashboard/author_genders" %>
   <%= render "/dashboard/twitter_request" %>
   <%= render "/dashboard/instagram_request" %>
+
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="help-comment">
+            <p>
+              Willkommen im Dashboard Deiner Kampagne. Hier erhältst Du alle gesammelten Daten
+              in aufbereiteter Form auf einem Blick.
+            </p>
+            <p>
+              Mithilfe des Reitersystems kann zwischen den drei Chart-Übersichten zu Beiträgen
+              allgemein, zu Stichworten und zu den Autoren der Beiträge gewechselt werden.
+            </p>
+            <p>
+              Alle fünf Minuten wird auf aktualisierte Daten geprüft, wenn das Dashboard geöffnet
+              bleibt.
+            </p>
+            <p>
+              Die "TIMELINE ALLER BEITRÄGE" führt zur Auflistung aller gesammelten Beiträge der
+              Kampagne.
+            </p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer/>,
+      document.getElementById('help-container')
+    );
+  </script>
 <% end %>

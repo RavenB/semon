@@ -19,3 +19,34 @@
     </div>
   </div>
 </section>
+
+<% content_for :page_script do %>
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="help-comment">
+            <p>
+              Gib einen Namen an, um eine Kategorie zu erstellen. Bei Bedarf kann eine zusätzliche
+              Beschreibung hinzugefügt werden.
+            </p>
+            <p>
+              Wähle <a href="#" className="btn btn-success">Speichern</a><br/>
+              um den Vorgang abzuschließen, oder &nbsp;
+              <a href="#" className="btn btn-default">Zurück</a><br/>
+              um zur Übersicht zurückzukehren.
+            </p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer/>,
+      document.getElementById('help-container')
+    );
+  </script>
+<% end %>

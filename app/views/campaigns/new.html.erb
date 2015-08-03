@@ -15,3 +15,35 @@
     </div>
   </div>
 </section>
+
+<% content_for :page_script do %>
+  <script type="text/jsx">
+    // react code goes here
+    /** @jsx React.DOM */
+    var HelpRenderer = React.createClass({
+      displayName: 'HelpRenderer',
+      render: function() {
+        return (
+          <div className="help-comment">
+            <p>
+              Um eine Kampagne zu erstellen, muss ein systemweit eindeutiger Name gewählt werden.
+              Der zeitliche Rahmen wird mit dem Beginn und dem Ende der Kampagne gesetzt. Bei
+              Bedarf kann eine kurze Beschreibung zur Kampagne hinzugefügt werden.
+            </p>
+            <p>
+              Wähle <a href="#" className="btn btn-success">Speichern</a><br/>
+              um den Vorgang abzuschließen, oder &nbsp;
+              <a href="#" className="btn btn-default">Zurück</a><br/>
+              um zur Übersicht zurückzukehren.
+            </p>
+          </div>
+        );
+      }
+    });
+
+    React.render(
+      <HelpRenderer/>,
+      document.getElementById('help-container')
+    );
+  </script>
+<% end %>

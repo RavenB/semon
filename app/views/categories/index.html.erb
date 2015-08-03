@@ -61,16 +61,29 @@
       displayName: 'HelpRenderer',
       render: function() {
         return (
-          <div className="comment">
-            <p>Hier folgt der Hilfetext für die Kategorien.</p>
-            <p>{this.props.parame}</p>
+          <div className="help-comment">
+            <p>Dies ist die Übersicht aller Kategorien.</p>
+            <p>
+              Die hier aufgeführten Kategorien können zur Einordnung von erfassten Beiträgen
+              genutzt werden. Beim manuellen Anlegen von Beiträgen kann direkt eine Kategorie
+              zugeordnet werden.
+            </p>
+            <p>
+              Per Klick auf <i className="fa fa-pencil"></i> kann eine Kategorie bearbeitet werden.
+              Mit <i className="fa fa-trash-o text-danger"></i> kannst Du eine Kategorie entfernen.
+            </p>
+            <p>
+              Um eine neue Kategorie zu erstellen, kann der Button
+              <a href="#" className="btn btn-success">Kategorie erstellen</a><br/>
+              gewählt werden.
+            </p>
           </div>
         );
       }
     });
 
     React.render(
-      <HelpRenderer parame="übergebener Parameter"/>,
+      <HelpRenderer/>,
       document.getElementById('help-container')
     );
   </script>
