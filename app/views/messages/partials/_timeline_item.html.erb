@@ -36,11 +36,21 @@
       <div class="timeline-footer">
         <div class="row">
           <div class="col-xs-12 col-sm-9">
-            <%= link_to message_url(message), title: message_url(message),
+            <%= link_to message_url(message), title: message_url(message), class: "link-origin",
                 target: "#{ message.m_origin == 'semon' ? '_self' : '_blank'}" do %>
               <i class="fa fa-link"></i>
             <% end %>
-            <i class="fa fa-tags"></i>
+            <%= link_to "#", title: "Kategorie des Beitrags", class: "set-category" do %>
+              <% message_category_id = message.category.present? ? message.category.id : 0 %>
+              <div class="hidden category-id"><%= message_category_id %></div>
+              <i class="fa fa-folder-o" title="Kategorie des Beitrags"></i>
+            <% end %>
+            <% if message.category.present? %>
+              <button class="btn btn-default btn-xs disabled">
+                <%= message.category.cat_name %>
+              </button>
+            <% end %>
+            <i class="fa fa-tags" title="Stichworte des Beitrags"></i>
             <% message.tags.each do |tag| %>
               <button class="btn btn-default btn-xs disabled"><%= tag.t_name %></button>
             <% end %>

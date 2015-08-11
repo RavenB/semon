@@ -90,7 +90,7 @@ class InstagramController < ApplicationController
         end
       end
       # update campaigns last access
-      @campaign.last_accessed = Time.now.utc
+      @campaign.last_accessed = Time.now
       @campaign.save
     end
 

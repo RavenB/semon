@@ -31,4 +31,15 @@ $timelineItem.fadeOut(function() {
       }
     <% end %>
   <% end %>
+
+  <% if @category.present? %>
+    $('.category-modal-sm').modal('hide');
+    $timelineItem.find('.set-category').next('button').remove();
+    $timelineItem.find('.set-category .category-id').text('<%= @category_id %>');
+    <% if @category != "nil" %>
+      var catButton = '<button class="btn btn-default btn-xs disabled"><%= @category %></button>';
+      $timelineItem.find('.set-category').after(catButton);
+    <% end %>
+    initCategoryChoose();
+  <% end %>
 }).fadeIn();

@@ -61,7 +61,7 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1
   def update
     if params.present?
-      @message.update_attributes(params.permit(:m_rating, :sentiment_id))
+      @message.update_attributes(params.permit(:m_rating, :sentiment_id, :category_id))
       if params[:m_rating].present?
         m_rating = params[:m_rating].to_i
         case m_rating
@@ -75,6 +75,12 @@ class MessagesController < ApplicationController
       end
       if params[:sentiment_id].present?
         @sentiment = params[:sentiment_id].to_i
+      end
+      @category = "nil";
+      @category_id = 0;
+      if params[:category_id].present?
+        @category = Category.find(params[:category_id].to_i).cat_name
+        @category_id = params[:category_id].to_i
       end
     end
   end

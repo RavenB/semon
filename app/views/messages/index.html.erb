@@ -29,11 +29,45 @@
   </div>
 </section>
 
+<div class="modal fade category-modal-sm" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <%= form_tag "messages/", { method: "PUT", remote: true,
+          class: "category-form-timeline" } do %>
+        <% category_select = Category.all.order(:cat_name).map{ |c| [c.cat_name, c.id] } %>
+        <%= select_tag "category_id",
+           options_from_collection_for_select(category_select, :last, :first, params[:category_id]),
+           include_blank: true,  class: "form-control selectpicker show-tick",
+           "data-live-search" => "true", "data-size" => "auto" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <% content_for :page_script do %>
   <script type="text/javascript">
     $(function() {
       $('body').infinitePages();
+
+      initCategoryChoose();
+
+      $('.category-form-timeline').on('change', function () {
+        $(this).submit();
+      });
     });
+
+    function initCategoryChoose() {
+      $('.set-category').off('click').click(function (e) {
+        e.preventDefault();
+        var $el = $(this);
+        var catId = $el.find('.category-id').text();
+        $('.modal-dialog .selectpicker').val(catId);
+        $('.modal-dialog .selectpicker').selectpicker('render');
+        var msgId = $el.parents('li[data-msg-id]').data('msg-id');
+        $('.category-form-timeline').attr('action', 'messages/' + msgId);
+        $('.category-modal-sm').modal();
+      });
+    }
   </script>
 
   <script type="text/jsx">
@@ -76,4 +110,3 @@
     );
   </script>
 <% end %>
-

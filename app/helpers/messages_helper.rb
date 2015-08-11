@@ -32,12 +32,12 @@ module MessagesHelper
 
   # returns a formatted message date in format '10.06.2015'
   def message_date(message_datetime)
-    message_datetime.localtime.strftime("%d.%m.%Y")
+    message_datetime.strftime("%d.%m.%Y")
   end
 
   # returns a formatted message date in format '10.06.2015'
   def message_time(message_datetime)
-    message_datetime.localtime.strftime("%H:%M")
+    message_datetime.strftime("%H:%M")
   end
 
   # returns the message text with detected links formatted to html links
