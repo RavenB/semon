@@ -34,17 +34,19 @@
           that.setState({ data: data.responseText });
           that.drawCloud();
         });
-        // call a method on the mixin to update the cloud after given time
-        that.setInterval(function () {
-          var ajax_options = {
-            dataType: 'json',
-            url: '/dashboard/<%= @campaign.id %>/word_cloud'
-          };
-          $.ajax(ajax_options).done(function (data) {
-            that.setState({ data: data.responseText });
-            that.drawCloud();
-          });
-        }, FIVE_MINUTES);
+        <% if @campaign.c_status == 1 %>
+          // call a method on the mixin to update the cloud after given time
+          that.setInterval(function () {
+            var ajax_options = {
+              dataType: 'json',
+              url: '/dashboard/<%= @campaign.id %>/word_cloud'
+            };
+            $.ajax(ajax_options).done(function (data) {
+              that.setState({ data: data.responseText });
+              that.drawCloud();
+            });
+          }, FIVE_MINUTES);
+        <% end %>
       },
       drawCloud: function() {
         $('#word-cloud > div').awesomeCloud({

@@ -11,8 +11,10 @@
       },
       componentDidMount: function() {
         this.drawCharts();
-        // call a method on the mixin to update the chart after given time
-        this.setInterval(this.drawCharts, FIVE_MINUTES);
+        <% if @campaign.c_status == 1 %>
+          // call a method on the mixin to update the chart after given time
+          this.setInterval(this.drawCharts, FIVE_MINUTES);
+        <% end %>
       },
       drawCharts: function() {
         // show loading spinner on process start
