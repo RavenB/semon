@@ -52,7 +52,7 @@ group :development, :test do
   gem 'airbrussh', :require => false
 end
 
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.20'
 gem 'coffee-script-source', '1.8.0'
 
 gem 'httparty' # https://github.com/jnunemaker/httparty
