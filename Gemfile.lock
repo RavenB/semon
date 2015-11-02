@@ -141,8 +141,8 @@ GEM
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.4.1)
-    mysql2 (0.4.1-x86-mingw32)
+    mysql2 (0.3.20)
+    mysql2 (0.3.20-x86-mingw32)
     naught (1.1.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -257,7 +257,7 @@ DEPENDENCIES
   kaminari
   libv8
   momentjs-rails (>= 2.9.0)
-  mysql2
+  mysql2 (~> 0.3.20)
   rails (= 4.1.11)
   rinku
   sass-rails (~> 4.0.3)
