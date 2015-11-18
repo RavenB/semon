@@ -112,7 +112,8 @@
             <% if @campaign.c_status == 1 %>
               // request data and call all charts renderer on success callback if campaign active
               twitterRequest();
-              instagramRequest();
+              // do not request instagram anymore because of copyright and legal issues
+              // instagramRequest();
             <% else %>
               // draw charts with old data
               drawDashboardCharts();
