@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.8'
+gem 'rails', '4.1.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -52,7 +52,7 @@ group :development, :test do
   gem 'airbrussh', :require => false
 end
 
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.20'
 gem 'coffee-script-source', '1.8.0'
 
 gem 'httparty' # https://github.com/jnunemaker/httparty
